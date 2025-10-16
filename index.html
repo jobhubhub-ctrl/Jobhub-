@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOBHUB Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* --- GLOBAL STYLES --- */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #333;
+            min-height: 100vh;
+            overflow-y: auto; 
+            overflow-x: hidden; 
+        }
+
+        .container {
+            padding: 0 15px; 
+        }
+        
+        /* --- SCREEN HIDING STYLES --- */
+        #registration-screen {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #7fcdf4, #2779a5);
+            color: #333;
+            padding-top: 50px;
+        }
+        
+        #dashboard-container {
+            display: none; /* Initially hide the dashboard */
+            padding-bottom: 60px; /* Space for bottom nav */
+            position: relative; /* Added for z-index context to popup */
+        }
+        
+        /* --- REGISTRATION STYLES (from index.html) --- */
+        .reg-container {
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            margin: 15px auto;
+            border-radius: 50%;
+            background-color: #5bb9ef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sign-up-text {
+            color: white;
+            font-size: 28px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px 0;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+            background: transparent;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .country-code {
+            padding-right: 10px;
+            color: white;
+            font-size: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+            height: 40px;
+            line-height: 40px;
+        }
+        
+        .phone-input-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .verification-group {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .verification-input {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .send-button {
+            padding: 8px 15px;
+            background-color: #3b90d3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            height: 38px;
+        }
+
+        .password-input-group {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .password-input-group .input-field {
+            padding-right: 40px;
+        }
+
+        .toggle-icon {
+            position: absolute;
+            right: 0;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.7);
+            bottom: 10px;
+        }
+
+        .register-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #5bb9ef;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        
+        /* --- DASHBOARD STYLES (from dashboard.html) --- */
+        .top-nav {
+            background-color: white;
+            padding: 10px 15px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .main-card { background-color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-top: 15px; padding-bottom: 10px; }
+        
+        /* --- SLIDER STYLES (NEW) --- */
+        .slider-wrapper {
+            position: relative;
+            overflow: hidden; /* Important to hide extra slides */
+            height: 200px; /* Fixed height for the slider area */
+            border-top-left-radius: 10px; 
+            border-top-right-radius: 10px;
+        }
+        
+        .slides-container {
+            display: flex;
+            height: 100%;
+            width: 300%; /* 3 slides * 100% width each */
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .slide {
+            width: calc(100% / 3); /* Each slide takes 1/3 of the container width */
+            flex-shrink: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the slide area */
+            display: block;
+        }
+        
+        /* Removed .illustration-area styles as it's replaced by slider-wrapper/slide */
+        /* .illustration-area { height: 200px; background: linear-gradient(135deg, #7fcdf4, #2779a5); border-top-left-radius: 10px; border-top-right-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 18px; color: white; text-align: center; padding: 10px; background-size: cover; background-position: center; }
+        .illustration-area::after { content: 'BANK ILLUSTRATION PLACEHOLDER'; color: rgba(255, 255, 255, 0.7); font-size: 14px; position: absolute; } */
+        
+        .slider-dots { text-align: center; padding: 5px 0; }
+        .dot { height: 8px; width: 8px; background-color: #bbb; border-radius: 50%; display: inline-block; margin: 0 4px; transition: background-color 0.3s; }
+        .dot.active { background-color: #4a90e2; }
+        
+        /* --- END SLIDER STYLES --- */
+        
+        .action-buttons { display: flex; justify-content: space-around; padding: 10px 0; margin-top: -10px; }
+        .action-btn { flex: 1; margin: 0 5px; padding: 10px 0; background-color: white; border-radius: 8px; text-align: center; font-size: 16px; font-weight: 500; color: #333; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-decoration: none; display: flex; align-items: center; justify-content: center; }
+        .action-btn i { margin-right: 8px; font-size: 18px; color: #4a90e2; }
+        .balance-card { background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-top: 15px; display: flex; justify-content: space-between; align-items: flex-start; }
+        .balance-card h4 { margin: 0 0 5px 0; font-weight: 500; color: #666; }
+        .balance-details .main { font-size: 24px; font-weight: 700; color: #333; margin: 5px 0; }
+        .balance-details .sub { font-size: 12px; color: #999; }
+        .balance-section .total { font-size: 24px; font-weight: 700; color: #333; }
+        .freeze-info { font-size: 12px; color: #e74c3c; margin-top: 5px; }
+        .partner-logo-container { background-color: white; border-radius: 8px; padding: 10px; margin-top: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-around; overflow-x: auto; white-space: nowrap; }
+        .partner-section h3 { margin: 20px 0 10px 0; font-size: 16px; font-weight: 500; }
+        .partner-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .bank-logo { background-color: white; border-radius: 8px; height: 80px; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-size: 10px; font-weight: 700; color: #4a90e2; }
+
+        /* --- NEW INVITE FRIEND STYLES --- */
+        .invite-friend-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            margin-top: 20px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .invite-header {
+            font-size: 18px;
+            font-weight: 700;
+            color: #d35400; /* Orange/Gold for focus */
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .invite-header i {
+            margin-right: 10px;
+            font-size: 24px;
+            color: #f39c12;
+        }
+
+        .share-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #38c172; /* Green for action */
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+
+        .share-button:hover {
+            background-color: #31a364;
+        }
+
+        .social-share-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+
+        .social-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 30px;
+            padding: 5px;
+            color: #333; /* Default */
+        }
+        
+        .social-btn.whatsapp i { color: #25d366; }
+        .social-btn.facebook i { color: #1877f2; }
+        .social-btn.telegram i { color: #0088cc; }
+        .social-btn.twitter i { color: #1da1f2; }
+        /* --- END NEW INVITE FRIEND STYLES --- */
+
+        /* --- SUB-SCREEN STYLES --- */
+        #security-deposit-screen, #account-detail-screen, #order-grab-screen { 
+            display: none; 
+            position: relative; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: calc(100vh - 60px);
+            background-color: #f0f2f5; 
+            z-index: 999; 
+            overflow-y: visible;
+        }
+        
+        .active-screen {
+            display: block !important;
+        }
+
+        /* Account Detail Styles (Partial) */
+        .ad-top-nav, .og-top-nav { background-color: white; padding: 15px 15px; text-align: center; font-size: 16px; font-weight: 500; color: #333; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 10px; position: sticky; top: 0; z-index: 10; }
+        .ad-container, .og-container { padding: 0 15px; } 
+        .profile-header { background-color: white; padding: 15px; display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+        /* (Remaining AD/OG styles omitted for brevity, keeping only essential parts) */
+        .profile-info { display: flex; align-items: center; }
+        .profile-avatar { width: 50px; height: 50px; border-radius: 50%; background-color: #5bb9ef; display: flex; justify-content: center; align-items: center; margin-right: 15px; }
+        .profile-text h4 { margin: 0; font-size: 16px; font-weight: 500; color: #333; }
+        .profile-text p { margin: 3px 0 0 0; font-size: 12px; color: #666; }
+        .copy-link-btn { background-color: #f0f0f0; color: #4a90e2; border: 1px solid #ddd; padding: 5px 10px; border-radius: 5px; font-size: 12px; cursor: pointer; white-space: nowrap; }
+        .balance-section-ad { background-color: white; padding: 15px; margin-bottom: 10px; }
+        .balance-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .main-balance { font-size: 28px; font-weight: 700; color: #333; }
+        .balance-label { font-size: 14px; color: #666; }
+        .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; border-top: 1px solid #f0f0f0; padding-top: 10px; }
+        .summary-item { display: flex; flex-direction: column; align-items: center; padding: 5px 0; }
+        .summary-item i { font-size: 20px; color: #999; margin-bottom: 5px; }
+        .summary-item span { font-size: 14px; color: #333; }
+        .menu-list { background-color: white; margin-top: 10px; }
+        .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid #f0f0f0; cursor: pointer; text-decoration: none; color: #333; }
+        .menu-icon-text { display: flex; align-items: center; }
+        .menu-icon-text i { font-size: 18px; color: #4a90e2; width: 30px; text-align: center; }
+        .menu-text { font-size: 15px; margin-left: 15px; }
+        .arrow-icon { color: #ccc; font-size: 14px; }
+        
+        /* Order Grab Styles (Partial) */
+        .amazon-card { background-color: white; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 15px; }
+        .flagship-header { display: flex; align-items: center; margin-bottom: 15px; }
+        .flagship-header i { font-size: 20px; color: #3b90d3; margin-right: 10px; }
+        .flagship-text { font-size: 16px; font-weight: 500; color: #333; }
+        .commission-text { font-size: 12px; color: #999; margin-left: 5px; }
+        .balance-info { display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 1px dashed #eee; }
+        .current-balance { font-size: 24px; font-weight: 700; color: #333; }
+        .add-button { background-color: #3b90d3; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 24px; line-height: 1; cursor: pointer; }
+        .income-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding-top: 15px; }
+        .income-item { display: flex; justify-content: space-between; font-size: 14px; }
+        .income-label { color: #666; }
+        .income-value { font-weight: 500; }
+        .auto-grab-btn { width: 100%; padding: 15px; background-color: #3b90d3; color: white; border: none; border-radius: 30px; font-size: 18px; font-weight: 500; margin-top: 30px; cursor: pointer; }
+        .notes-section { padding: 15px; margin-top: 25px; font-size: 13px; line-height: 1.6; color: #666; margin-bottom: 60px; }
+
+        /* Security Deposit Styles (Partial) */
+        .sd-top-nav, .top-nav-payment { background-color: #38c172; padding: 15px 15px; text-align: center; font-size: 18px; font-weight: 500; color: white; position: sticky; top: 0; z-index: 100; }
+        .sd-container, .payment-container { padding: 15px; }
+        .balance-display { padding: 15px 0; margin-bottom: 20px; border-bottom: 1px solid #ddd; }
+        .sd-container .balance-amount, .payment-container .balance-amount { font-size: 32px; font-weight: 700; color: #333; margin-bottom: 5px; }
+        .input-group { margin-bottom: 30px; }
+        .input-label { font-size: 16px; font-weight: 500; margin-bottom: 10px; display: block; }
+        .input-wrapper { display: flex; align-items: center; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+        .input-currency { font-size: 20px; margin-right: 5px; color: #333; }
+        .amount-input { flex-grow: 1; border: none; padding: 5px 0; font-size: 20px; outline: none; }
+        .confirm-button { background-color: #38c172; color: white; padding: 8px 15px; border: none; border-radius: 5px; font-size: 14px; font-weight: 500; cursor: pointer; margin-left: 10px; }
+        .min-amount-tip { font-size: 12px; color: #999; margin-top: 10px; }
+        .quick-select-header { font-size: 16px; font-weight: 500; margin-bottom: 15px; }
+        .quick-select-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .quick-select-btn { background-color: white; color: #4a90e2; padding: 15px 5px; border: 1px solid #4a90e2; border-radius: 5px; font-size: 16px; font-weight: 500; cursor: pointer; text-align: center; transition: background-color 0.2s, color 0.2s; }
+        .quick-select-btn:active, .quick-select-btn.active { background-color: #4a90e2; color: white; }
+        #payment-section { background-color: #ffffff; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin-top: 30px; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; }
+        .payment-header { font-size: 20px; font-weight: 700; color: #38c172; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        #payment-timer { font-size: 18px; font-weight: 700; color: #dc3545; padding: 5px 10px; border: 2px solid #dc3545; border-radius: 5px; }
+        #display-pay-amount { font-size: 28px; font-weight: 700; color: #333; margin-bottom: 20px; }
+        .qr-image-container { display: inline-block; margin-bottom: 20px; padding: 10px; border: 2px solid #38c172; border-radius: 8px; }
+        .qr-image-container img { max-width: 200px; height: auto; display: block; }
+        .app-buttons { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        .app-button { display: block; padding: 12px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 15px; color: white; display: flex; align-items: center; justify-content: center; }
+        .app-icon { width: 24px; height: 24px; margin-right: 10px; background-size: contain; background-repeat: no-repeat; }
+        #gpay-btn { background-color: #4285F4; }
+        .gpay-icon { background-image: url('https://img.icons8.com/color/48/000000/google-pay.png'); }
+        #phonepe-btn { background-color: #5a3195; }
+        .phonepe-icon { background-image: url('https://img.icons8.com/color/48/000000/phone-pe.png'); }
+        #paytm-btn { background-color: #00b9f1; }
+        .paytm-icon { background-image: url('https://img.icons8.com/color/48/000000/paytm.png'); }
+        .footer-tip { margin-top: 40px; padding: 15px; background-color: #fff8e1; border: 1px solid #ffecb3; border-radius: 5px; font-size: 13px; line-height: 1.4; color: #795548; margin-bottom: 60px; }
+
+        /* --- BOTTOM NAVIGATION STYLES --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 5px 0;
+            height: 60px;
+            z-index: 1000;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #999;
+            font-size: 12px;
+            flex: 1;
+        }
+        .nav-item.active { color: #4a90e2; }
+        .nav-icon { font-size: 20px; margin-bottom: 3px; }
+        .nav-center-icon {
+            background-color: #4a90e2;
+            color: white;
+            border-radius: 50%;
+            padding: 10px;
+            margin-top: -15px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            font-size: 24px;
+            height: 40px;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        } 
+        
+        /* Popup Modal CSS (Withdrawal) */
+        .custom-popup {
+          display: none;
+          position: fixed;
+          top: 0; left: 0;
+          width: 100%; height: 100%;
+          background-color: rgba(0,0,0,0.5);
+          justify-content: center;
+          align-items: center;
+          z-index: 2000;
+        }
+
+        .popup-box {
+          background: #fff;
+          border-radius: 10px;
+          width: 85%;
+          max-width: 350px;
+          text-align: center;
+          padding: 25px 20px;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .popup-box h3 {
+          color: #e67e22;
+          margin-bottom: 10px;
+        }
+
+        .popup-box p {
+          font-size: 15px;
+          color: #333;
+          margin-bottom: 20px;
+        }
+
+        .popup-btn {
+          background: #4a90e2;
+          color: white;
+          border: none;
+          padding: 10px 25px;
+          border-radius: 5px;
+          font-size: 15px;
+          cursor: pointer;
+        }
+        
+        /* --- UPDATED BONUS POPUP STYLES (MATCHING 1000066681.png) --- */
+        #bonusPopup {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            /* Make background blurry for dashboard effect */
+            background-color: rgba(0,0,0,0.4); 
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            z-index: 3000; 
+        }
+        
+        .bonus-box {
+            /* Matches the yellow/orange background of 1000066681.png */
+            background: linear-gradient(145deg, #ffc94b, #ffa500);
+            border-radius: 15px;
+            width: 85%;
+            max-width: 300px;
+            text-align: center;
+            padding: 30px 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease-out;
+            /* No border for this style, relying on shadow */
+        }
+
+        .bonus-box .icon {
+            font-size: 50px;
+            color: #d35400; 
+            margin-bottom: 15px;
+            animation: bounce 1s infinite alternate;
+        }
+        
+        .bonus-box h3 {
+            color: #d35400; /* Darker orange/red for contrast */
+            margin-bottom: 10px;
+            font-size: 22px;
+            font-weight: 700;
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+        }
+
+        .bonus-box p {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .bonus-ok-btn {
+            /* Matches the button color in 1000066681.png */
+            background: #e67e22; 
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px; /* More rounded */
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: background 0.3s;
+            text-transform: uppercase; /* Makes "OK" look better */
+        }
+        
+        .bonus-ok-btn:hover {
+            background: #d35400;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="bonusPopup">
+        <div class="bonus-box">
+            <div class="icon"><i class="fas fa-gift"></i></div>
+            <h3>Congratulations!</h3>
+            <p>Congratulations! You have received a ₹1200 new user bonus.</p>
+            <button class="bonus-ok-btn" onclick="closeBonusPopup()">OK</button>
+        </div>
+    </div>
+    
+    <div id="registration-screen">
+        <div class="reg-container">
+            <div class="header">
+                <div class="sign-up-text">Sign up</div>
+                <div class="avatar">
+                    <i class="fas fa-user" style="font-size: 40px; color: white;"></i>
+                </div>
+            </div>
+
+            <form id="registration-form">
+                <div class="form-group">
+                    <input type="text" id="username" class="input-field" placeholder="Please enter the user name" required>
+                </div>
+
+                <div class="form-group">
+                    <div class="phone-input-group">
+                        <span class="country-code">91</span>
+                        <input type="tel" id="phone" class="input-field phone-input" placeholder="Please enter the phone number" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="password-input-group">
+                        <input type="password" id="password" class="input-field" placeholder="Enter password" required>
+                        <i class="toggle-icon fas fa-eye-slash" onclick="togglePassword('password', this)"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="password-input-group">
+                        <input type="password" id="payment_password" class="input-field" placeholder="Set 6-digit payment password" required>
+                        <i class="toggle-icon fas fa-eye-slash" onclick="togglePassword('payment_password', this)"></i>
+                    </div>
+                </div>
+
+                <div class="form-group invite-group">
+                    <input type="text" id="invite" class="input-field" value="246915" placeholder="Invite" readonly> 
+                </div>
+
+                <button type="submit" class="register-button">Register Now</button>
+
+                <button type="button" class="login-button" onclick="alert('Going to Login Page...');">Already have an account?</button>
+
+            </form>
+        </div>
+    </div>
+    
+    <div id="dashboard-container">
+        
+        <div id="dashboard-screen" class="active-screen">
+            <div class="top-nav">
+                JOBHUB 
+            </div>
+
+            <div class="container">
+                <div class="main-card">
+                    <div class="slider-wrapper">
+                        <div class="slides-container" id="slides-container">
+                            <div class="slide">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiRns9BIy2rofE1gxIdzqJ9717tqQryX7DFMbeOdsL-cEm8lw5BGEQ77gN3b36Wdi5e6-CVh1THRgKIG3maVjF-tEXxIH0jufwaaJMgklj09aHk7tKrtKtH_zOmH9q6cAS7VFUdwi6juj1SqhPvCcZ5rppKgUMGiVx-FHMDqPxCtsVPq60ay-lRT_4rc_8I/s1600/1000066688.jpg" alt="Slide 1: Bank Illustration">
+                            </div>
+                            <div class="slide">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkjVdmXB1Ad32GeAbO1lD5_I6RxiJM6QN9hXD_skG9SW4zyVIZaRdDzxLq2EiOuSmtror4uVGBbztPFlhMT6dsHpjbQ7H6kNnZUjgftYJG-FKH3BlHdDix7jxcWXsEhYVHezMMi8kjCd0VeK5dj7m6wPFcFcksQasC-zPNAfbqezPCQjF3aDROSfpt6ruF/s1600/1000066689.png" alt="Slide 2: Bank Illustration">
+                            </div>
+                            <div class="slide">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi7neeYzYvUvMSxC8caEiZZkDhXkUKIE9H9Gz9QWLF9sGQu9FK5a_Dp0G2c4P_5XU-VSBAMFf1bEiSrgk9S69AkClrFdaJrj-o3yq8Z0D6FOTH1KENLIZOPh2sJI-xVE8zr5C_x0b2DiQTUG68YQvK9B9RmzHlPaA_qPpPCwLyEKQYxPwh0z7gNK2AhW80e/s1600/1000066690.png" alt="Slide 3: Bank Illustration">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="slider-dots" id="slider-dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <a href="#" class="action-btn" onclick="showSecurityDeposit(event)">
+                        <i class="fas fa-shield-alt"></i> Security Deposit
+                    </a>
+                    <a href="#" class="action-btn" onclick="handleWithdrawal(event)">
+                        <i class="fas fa-exchange-alt"></i> Withdrawal
+                    </a>
+                </div>
+                
+                <div class="balance-card">
+                    <div class="balance-details">
+                        <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                            <h4 style="margin: 0; margin-right: 10px;" id="dashboard-username">user</h4>
+                            <span style="font-size: 14px; color: #666;"><i class="fas fa-qrcode"></i></span>
+                        </div>
+                        <div class="main">₹1,200.00</div>
+                        <div class="sub">
+                            Today: <span style="color: #38c172;">₹0.00</span> | Yesterday's earnings: ₹0.00
+                        </div>
+                    </div>
+                    
+                    <div class="balance-section">
+                        <div style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 5px;">
+                            <span style="font-size: 14px; color: #666; margin-right: 10px;" id="dashboard-invitecode">f3af42<i class="far fa-copy"></i></span>
+                        </div>
+                        <div class="total">Total ₹1,200.00</div>
+                        <div class="freeze-info" id="dashboard-freeze-info">
+                            Freeze: ₹0.00 | Yesterday's withdrawal: ₹0.00
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="partner-logo-container">
+                    <div class="ecommerce-logo-item"><i class="fas fa-star" style="color: gold; font-size: 16px;"></i><div class="ecommerce-logo-text logo-flipkart">Flipkart</div></div>
+                    <div class="ecommerce-logo-item"><i class="fab fa-amazon" style="color: #FF9900; font-size: 16px;"></i><div class="ecommerce-logo-text logo-amazon">Amazon</div></div>
+                    <div class="ecommerce-logo-item"><i class="fas fa-shopping-bag" style="color: #f54e60; font-size: 16px;"></i><div class="ecommerce-logo-text logo-meesho">Meesho</div></div>
+                    <div class="ecommerce-logo-item"><i class="fas fa-tshirt" style="color: #ff3e6c; font-size: 16px;"></i><div class="ecommerce-logo-text logo-myntra">Myntra</div></div>
+                </div>
+
+                  <div class="partner-section">
+    <h3>Partner</h3>
+    <div style="text-align: center; margin-top: 10px; margin-bottom: 20px;">
+        <img alt="Partner Banks Logos" 
+             src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg6TIgr8vTXgmOV3-Rh11nisQbH7Jgv2jkFXOOqbjQRMqNdDSKhSuKhuc311Cxkl0C0f56dGg9o4W9G-lpkzMsbTqDOAqpK-NwJBISxtkks6XYzD385WM_EHCtRdiSMw9e32eWxpB35ON5qxhU6nUJpealTglHM_1N6eija-CFgkp4G9nlRHWyHihc7QHnO/s1600/1000066695.png"
+             style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
+        />
+    </div>
+</div>
+                
+                <div class="invite-friend-card">
+                    <div class="invite-header">
+                        <i class="fas fa-users"></i> 
+                        Invite Friend to Earn ₹300
+                    </div>
+                    
+                    <button class="share-button" onclick="shareInviteLink()">
+                        <i class="fas fa-share-alt" style="margin-right: 10px;"></i> Share Invite Link
+                    </button>
+                    
+                    <div class="social-share-buttons" id="social-share-buttons">
+                        </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <div id="order-grab-screen">
+            <div class="og-top-nav">
+                Grab
+            </div>
+
+            <div class="og-container">
+                <div class="amazon-card">
+                    <div class="flagship-header">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="flagship-text">AMAZON Flagship store</span>
+                        <span class="commission-text">Commission 10.00%</span>
+                    </div>
+
+                    <div class="balance-info">
+                        <div>
+                            <div class="current-balance" id="og-current-balance">₹1,200.00</div>
+                            <div class="balance-label">Current balance</div>
+                        </div>
+                        <button class="add-button" onclick="addBalance()">+</button>
+                    </div>
+                    
+                    <div class="income-grid">
+                        <div class="income-item">
+                            <span class="income-label" id="og-today-income-label">₹1,200.00</span>
+                            <span class="income-value">Today Income</span>
+                        </div>
+                        <div class="income-item">
+                            <span class="income-label">₹0.00</span>
+                            <span class="income-value">Personal earnings</span>
+                        </div>
+                        <div class="income-item">
+                            <span class="income-label">0</span>
+                            <span class="income-value">Locked orders</span>
+                        </div>
+                        <div class="income-item">
+                            <span class="income-label" id="og-frozen-amount-label">₹0.00</span>
+                            <span class="income-value">Frozen amount</span>
+                        </div>
+                    </div>
+
+                    <div class="order-stats-grid">
+                        <div class="order-stat-item">
+                            <span class="income-label">0</span>
+                            <span class="income-value">Completed orders</span>
+                            </div>
+                        <div class="order-stat-item">
+                            <span class="income-label">0</span>
+                            <span class="income-value">Unfinished orders</span>
+                            </div>
+                    </div>
+                </div>
+
+                <button class="auto-grab-btn" onclick="startAutoGrab()">Auto grab</button>
+
+                <div class="notes-section">
+                    <div class="notes-header">
+                        <span class="commission-note">N**9 Commission ₹1570.00</span>
+                        <span>2025-10-02 16:59:01</span>
+                    </div>
+                    <p>
+                        When you click auto - grab, the mall will automatically issue an order task. You need to complete the payment for the order. The order task needs to be completed within 60 minutes after grabbing the order, please complete the task as soon as possible. If you have any questions, please contact customer service.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="security-deposit-screen">
+            <div class="top-nav-payment">
+                Security Deposit
+            </div>
+
+            <div class="payment-container">
+                
+                <div class="balance-display">
+                    <div class="balance-amount" id="sd-balance-amount">₹1,200.00</div>
+                    <div class="balance-label">Balance</div>
+                </div>
+                
+                <div class="input-group">
+                    <div class="input-label">Enter the money</div>
+                    <div class="input-wrapper">
+                        <span class="input-currency">₹</span>
+                        <input type="number" id="deposit_amount" class="amount-input" placeholder="0.00">
+                        <button class="confirm-button" onclick="confirmDeposit()">Confirm</button>
+                    </div>
+                    <div class="min-amount-tip">Minimum deposit amount ₹200.00</div>
+                </div>
+
+                <div class="quick-select-header">Quick select money</div>
+                <div class="quick-select-grid">
+                    <button class="quick-select-btn" data-amount="200.00">200.00</button>
+                    <button class="quick-select-btn" data-amount="300.00">300.00</button>
+                    <button class="quick-select-btn" data-amount="500.00">500.00</button>
+                    <button class="quick-select-btn" data-amount="1000.00">1000.00</button>
+                    <button class="quick-select-btn" data-amount="3000.00">3000.00</button>
+                    <button class="quick-select-btn" data-amount="5000.00">5000.00</button>
+                    <button class="quick-select-btn" data-amount="10000.00">10000.00</button>
+                    <button class="quick-select-btn" data-amount="30000.00">30000.00</button>
+                    <button class="quick-select-btn" data-amount="50000.00">50000.00</button>
+                    <button class="quick-select-btn" data-amount="80000.00">80000.00</button>
+                    <button class="quick-select-btn" data-amount="100000.00">100000.00</button>
+                </div>
+
+                <div id="payment-section">
+                    <div class="payment-header">
+                        Proceed to Pay
+                        <div id="payment-timer">11:00</div> 
+                    </div>
+                    <div id="display-pay-amount"></div>
+                    
+                    <div class="qr-image-container">
+                        <img alt="UPI QR Code" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEggj5j2D1vQMB8E4jDAI_kyS2rU5-wU45nuZzwTDRmS30W7fNkgeTxfIFIpxRhnY6Kf-R1c1sxw5WQ1qW2QkOz5A1JosBtK-9Jw3RlRElhzG2y9AtiUu9ggjhheDM6DLWPS_an-wwgwNBmsV4mMoAp07L1rkDh-0fhOxJXdMaXmAolFuiq-X10Wuy9FBV3t/s1600/1000066610.png"/>
+                    </div>
+                    
+                    <p class="instruction">Scan the code or click one of the buttons below:</p>
+                    
+                    <div class="app-buttons">
+                        <a id="gpay-btn" class="app-button" href="#">
+                            <span class="app-icon gpay-icon"></span>
+                            Pay with Google Pay
+                        </a>
+
+                        <a id="phonepe-btn" class="app-button" href="#">
+                            <span class="app-icon phonepe-icon"></span>
+                            Pay with PhonePe
+                        </a>
+
+                        <a id="paytm-btn" class="app-button" href="#">
+                            <span class="app-icon paytm-icon"></span>
+                            Pay with Paytm
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-tip">
+                    **Tip:** Platform bank account change at any time, each deposit please go to the top-up page to get the latest account number. there is no responsibility for us if you deposit to expired account!
+                </div>
+                
+            </div>
+        </div>
+        
+        <div id="account-detail-screen">
+            <div class="ad-top-nav">
+                Account Detail
+            </div>
+
+            <div class="ad-container">
+                
+                <div class="profile-header">
+                    <div class="profile-info">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user" style="font-size: 24px; color: white;"></i>
+                        </div>
+                        <div class="profile-text">
+                            <h4 id="displayUserName">Pawan ks000</h4> 
+                            <p id="displayInviteCode">Invitation code: f3af42</p>
+                        </div>
+                    </div>
+                    <button class="copy-link-btn" onclick="copyLink()">Copy link</button>
+                </div>
+
+                <div class="balance-section-ad">
+                    <div class="balance-row">
+                        <div>
+                            <div class="main-balance" id="ad-main-balance">₹1,200.00</div>
+                            <div class="balance-label">Balance</div>
+                        </div>
+                        <a href="#" class="action-btn" onclick="handleWithdrawal(event)"> Withdraw</a>
+                    </div>
+
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <i class="fas fa-coins"></i>
+                            <span>Total</span>
+                            <span id="ad-total-balance">₹1,200.00</span>
+                        </div>
+                        <div class="summary-item">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <span>Detail</span>
+                            <span>₹0.00</span>
+                        </div>
+                        <div class="summary-item">
+                            <i class="fas fa-snowflake"></i>
+                            <span>Freeze</span>
+                            <span id="ad-freeze-balance">₹0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-list">
+                    <a href="#" class="menu-item" onclick="alert('Going to Personal page...'); return false;">
+                        <div class="menu-icon-text">
+                            <i class="fas fa-user"></i>
+                            <span class="menu-text">Personal</span>
+                        </div>
+                        <i class="fas fa-chevron-right arrow-icon"></i>
+                    </a>
+                    <a href="#" class="menu-item" onclick="alert('Going to Message page...'); return false;">
+                        <div class="menu-icon-text">
+                            <i class="fas fa-envelope"></i>
+                            <span class="menu-text">Message</span>
+                        </div>
+                        <i class="fas fa-chevron-right arrow-icon"></i>
+                    </a>
+                    <a href="#" class="menu-item" onclick="alert('Going to Invite Friend page...'); return false;">
+                        <div class="menu-icon-text">
+                            <i class="fas fa-user-plus"></i>
+                            <span class="menu-text">Invite Friend</span>
+                        </div>
+                        <i class="fas fa-chevron-right arrow-icon"></i>
+                    </a>
+                    <a href="#" class="menu-item" onclick="alert('Going to Invite Task page...'); return false;">
+                        <div class="menu-icon-text">
+                            <i class="fas fa-tasks"></i>
+                            <span class="menu-text">Invite Task</span>
+                        </div>
+                        <i class="fas fa-chevron-right arrow-icon"></i>
+                    </a>
+                    <a href="#" class="menu-item" onclick="alert('Going to Address page...'); return false;">
+                        <div class="menu-icon-text">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span class="menu-text">Address</span>
+                        </div>
+                        <i class="fas fa-chevron-right arrow-icon"></i>
+                    </a>
+                    <a href="#" class="menu-item" onclick="alert('Going to Security page...'); return false;">
+                        <div class="menu-icon-text">
+                            <i class="fas fa-lock"></i>
+                            <span class="menu-text">Security</span>
+                        </div>
+                        <i class="fas fa-chevron-right arrow-icon"></i>
+                    </a>
+                    <a href="#" class="menu-item" onclick="alert('Going to About Us page...'); return false;">
+                        <div class="menu-icon-text">
+                            <i class="fas fa-info-circle"></i>
+                            <span class="menu-text">About Us</span>
+                        </div>
+                        <i class="fas fa-chevron-right arrow-icon"></i>
+                    </a>
+                    <a href="#" class="menu-item" onclick="alert('Going to Language Settings page...'); return false;">
+                        <div class="menu-icon-text">
+                            <i class="fas fa-language"></i>
+                            <span class="menu-text">Language Settings</span>
+                        </div>
+                        <i class="fas fa-chevron-right arrow-icon"></i>
+                    </a>
+                    <a href="#" class="menu-item" onclick="alert('Logged out! (Would redirect to login page)'); return false;">
+                        <div class="menu-icon-text">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span class="menu-text">Logout</span>
+                        </div>
+                        <i class="fas fa-chevron-right arrow-icon"></i>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <a href="#" class="nav-item active" onclick="showDashboard(event)">
+                <i class="fas fa-home nav-icon"></i> Home
+            </a>
+            <a href="#" class="nav-item" onclick="showOrderGrab(event)">
+                <i class="fas fa-file-alt nav-icon"></i> Order
+            </a>
+            <a href="#" class="nav-item" onclick="alert('Going to Center action...'); return false;">">
+                <div class="nav-center-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+            </a>
+            <a href="#" class="nav-item" onclick="showSecurityDeposit(event)">
+                <i class="fas fa-shield-alt nav-icon"></i> Security Deposit
+            </a>
+            <a href="#" class="nav-item" onclick="showAccountDetail(event)">
+                <i class="fas fa-user nav-icon"></i> Account
+            </a>
+        </div>
+        
+        <div class="custom-popup" id="withdrawPopup">
+            <div class="popup-box">
+            <h3> Security Deposit Required</h3>
+            <p>Please deposit ₹200 as a security deposit before withdrawing.</p>
+            <button class="popup-btn" onclick="closePopupAndRedirect()">Deposit</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- CONSTANTS AND STATE ---
+        const registrationScreen = document.getElementById('registration-screen');
+        const dashboardContainer = document.getElementById('dashboard-container');
+        const dashboardScreen = document.getElementById('dashboard-screen');
+        const orderGrabScreen = document.getElementById('order-grab-screen');
+        const securityDepositScreen = document.getElementById('security-deposit-screen');
+        const accountDetailScreen = document.getElementById('account-detail-screen');
+        const bonusPopup = document.getElementById('bonusPopup'); // Added
+        const amountInput = document.getElementById('deposit_amount');
+        const quickSelectButtons = document.querySelectorAll('.quick-select-btn');
+        const paymentSection = document.getElementById('payment-section');
+        const timerDisplay = document.getElementById('payment-timer');
+        const socialShareButtonsContainer = document.getElementById('social-share-buttons');
+        
+        const slidesContainer = document.getElementById('slides-container'); // NEW
+        const dotsContainer = document.getElementById('slider-dots'); // NEW
+        const totalSlides = 3; // NEW: Total number of slides
+        let currentSlide = 0; // NEW: Current active slide index
+        let slideInterval; // NEW: Interval for auto-sliding
+        
+        const TIMER_DURATION_SECONDS = 11 * 60; 
+        const YOUR_UPI_ID = "okayd@ybl"; 
+        const MERCHANT_NAME = "Security Deposit";
+
+        // Placeholder User Data (will be populated on successful registration)
+        let USER_DATA = {
+            username: "Pawan ks000", // Default value
+            inviteCode: "f3af42", // Default value
+            currentBalance: 1200.00,
+            todayIncome: 0.00 
+        };
+        
+        let countdownInterval;
+        let isFirstLoad = true; // NEW STATE: To show popup only once after registration
+        
+        // --- SLIDER LOGIC (NEW) ---
+        function moveSlider() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        }
+
+        function updateSlider() {
+            if (slidesContainer) {
+                const offset = -currentSlide * 100 / totalSlides;
+                slidesContainer.style.transform = `translateX(${offset}%)`;
+            }
+            updateDots();
+        }
+
+        function updateDots() {
+            if (dotsContainer) {
+                const dots = dotsContainer.querySelectorAll('.dot');
+                dots.forEach((dot, index) => {
+                    dot.classList.remove('active');
+                    if (index === currentSlide) {
+                        dot.classList.add('active');
+                    }
+                });
+            }
+        }
+        
+        function startAutoSlide() {
+            // Clear any existing interval to prevent duplicates
+            if (slideInterval) clearInterval(slideInterval); 
+            // Slide every 3 seconds
+            slideInterval = setInterval(moveSlider, 3000); 
+        }
+
+        // --- REGISTRATION LOGIC (FROM index.html) ---
+        document.getElementById('registration-form').addEventListener('submit', handleRegistration);
+
+        function handleRegistration(event) {
+            event.preventDefault(); 
+            
+            const usernameValue = document.getElementById('username').value;
+            const userInviteCode = document.getElementById('invite').value; 
+            
+            // 1. Update global USER_DATA with submitted info
+            USER_DATA.username = usernameValue;
+            USER_DATA.inviteCode = userInviteCode;
+
+            // 2. Hide the registration screen
+            registrationScreen.style.display = 'none';
+
+            // 3. Show the main dashboard container
+            dashboardContainer.style.display = 'block';
+
+            // 4. Update info and show dashboard, which will handle the popup on first load
+            updateAllInfo();
+            showDashboard();
+            startAutoSlide(); // START SLIDING ONCE DASHBOARD IS SHOWN
+            
+            // Initialize social share buttons after user data is ready
+            setupSocialShareButtons();
+        }
+        
+        // NEW FUNCTION to close popup
+        function closeBonusPopup() {
+             // 1. Hide the bonus popup
+            if (bonusPopup) {
+                bonusPopup.style.display = 'none';
+            }
+        }
+
+        // function sendCode() {
+        //     alert('Sending verification code...'); // Removed, since button is removed
+        // }
+
+        function togglePassword(id, iconElement) {
+            const passwordField = document.getElementById(id);
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                iconElement.classList.remove('fa-eye-slash');
+                iconElement.classList.add('fa-eye');
+            } else {
+                passwordField.type = 'password';
+                iconElement.classList.remove('fa-eye');
+                iconElement.classList.add('fa-eye-slash');
+            }
+        }
+
+        // --- DASHBOARD NAVIGATION & FUNCTIONALITY ---
+        
+        function setActiveNav(index) {
+            document.querySelectorAll('.bottom-nav .nav-item').forEach((item, idx) => {
+                item.classList.remove('active');
+                if (idx === index) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        function hideAllScreens() {
+            document.querySelectorAll('#dashboard-screen, #order-grab-screen, #security-deposit-screen, #account-detail-screen').forEach(screen => {
+                screen.classList.remove('active-screen');
+                screen.style.display = 'none';
+            });
+            // Ensure popup is hidden when navigating normally
+            if (bonusPopup) bonusPopup.style.display = 'none'; 
+        }
+
+        function showScreen(screenElement, navIndex) {
+            hideAllScreens();
+            screenElement.style.display = 'block'; 
+            screenElement.classList.add('active-screen');
+            setActiveNav(navIndex); 
+            updateAllInfo(); 
+            window.scrollTo(0, 0);
+        }
+
+        function showDashboard(event) {
+            if (event) event.preventDefault();
+            showScreen(dashboardScreen, 0);
+            startAutoSlide(); // Ensure slider restarts when coming back to dashboard
+            
+            // Show bonus popup only on the very first load after registration
+            if (isFirstLoad) {
+                if (bonusPopup) {
+                    bonusPopup.style.display = 'flex';
+                }
+                isFirstLoad = false; // Mark as loaded
+            }
+        }
+        
+        function showOrderGrab(event) {
+            if (event) event.preventDefault();
+            showScreen(orderGrabScreen, 1);
+            if (slideInterval) clearInterval(slideInterval); // Pause slider
+        }
+
+        function showSecurityDeposit(event) {
+            if (event) event.preventDefault();
+            showScreen(securityDepositScreen, 3);
+            if (slideInterval) clearInterval(slideInterval); // Pause slider
+            
+            if (paymentSection) paymentSection.style.display = 'none';
+            if (countdownInterval) clearInterval(countdownInterval); 
+            if (timerDisplay) timerDisplay.textContent = '11:00'; 
+        }
+        
+        function showAccountDetail(event) {
+            if (event) event.preventDefault();
+            showScreen(accountDetailScreen, 4);
+            if (slideInterval) clearInterval(slideInterval); // Pause slider
+        }
+
+        function handleWithdrawal(event) {
+            event.preventDefault();
+            document.getElementById("withdrawPopup").style.display = "flex";
+        }
+
+        function closePopupAndRedirect() {
+            document.getElementById("withdrawPopup").style.display = "none";
+            showSecurityDeposit(); 
+        }
+        
+        function addBalance() {
+            showSecurityDeposit(); 
+        }
+
+        function startAutoGrab() {
+            alert('Starting Auto Grab process...');
+        }
+        
+        function copyLink() {
+            alert('Link copied to clipboard!');
+        }
+
+        // --- NEW INVITE FRIEND LOGIC ---
+        const INVITE_LINK = `https://yourdomain.com/register?invite=${USER_DATA.inviteCode}`;
+        const INVITE_TEXT = `Join me on JOBHU and earn ₹300! My invitation code is ${USER_DATA.inviteCode}. Register here: ${INVITE_LINK}`;
+
+        function generateSocialShareURL(platform, text) {
+            const encodedText = encodeURIComponent(text);
+            switch (platform) {
+                case 'whatsapp':
+                    // Note: Use web.whatsapp.com for web/desktop fallback
+                    return `https://wa.me/?text=${encodedText}`;
+                case 'facebook':
+                    // Facebook share link (can be a post or message)
+                    return `https://www.facebook.com/sharer/sharer.php?quote=${encodedText}`;
+                case 'telegram':
+                    return `https://t.me/share/url?url=&text=${encodedText}`;
+                case 'twitter':
+                    return `https://twitter.com/intent/tweet?text=${encodedText}`;
+                default:
+                    return '#';
+            }
+        }
+
+        function setupSocialShareButtons() {
+            if (!socialShareButtonsContainer) return;
+            socialShareButtonsContainer.innerHTML = ''; // Clear existing buttons
+
+            const socialPlatforms = [
+                { id: 'whatsapp', icon: 'fab fa-whatsapp', colorClass: 'whatsapp' },
+                { id: 'facebook', icon: 'fab fa-facebook-f', colorClass: 'facebook' },
+                { id: 'telegram', icon: 'fab fa-telegram-plane', colorClass: 'telegram' },
+                { id: 'twitter', icon: 'fab fa-twitter', colorClass: 'twitter' }
+            ];
+
+            socialPlatforms.forEach(platform => {
+                const url = generateSocialShareURL(platform.id, INVITE_TEXT);
+                const button = document.createElement('button');
+                button.className = `social-btn ${platform.colorClass}`;
+                button.innerHTML = `<i class="${platform.icon}"></i>`;
+                button.onclick = () => window.open(url, '_blank');
+                socialShareButtonsContainer.appendChild(button);
+            });
+        }
+
+        async function shareInviteLink() {
+            if (navigator.share) {
+                // Use Web Share API if available (for system-level sharing)
+                try {
+                    await navigator.share({
+                        title: 'JOBHU Invitation',
+                        text: INVITE_TEXT,
+                        url: INVITE_LINK
+                    });
+                    console.log('Invite shared successfully via Web Share API.');
+                } catch (error) {
+                    console.error('Error sharing:', error);
+                    // Fallback to manual copy or platform-specific links if share fails
+                    // In a real app, you might show a list of social media links here.
+                    copyLinkToClipboard(INVITE_LINK);
+                }
+            } else {
+                // Fallback for browsers that do not support navigator.share
+                copyLinkToClipboard(INVITE_LINK);
+            }
+        }
+        
+        function copyLinkToClipboard(link) {
+            // Standard copy to clipboard logic
+            const tempInput = document.createElement('textarea');
+            tempInput.value = link;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('Invite link and message copied to clipboard! You can share it now.');
+        }
+
+        // --- PAYMENT PAGE LOGIC ---
+        quickSelectButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                quickSelectButtons.forEach(btn => btn.classList.remove('active'));
+                const amount = button.getAttribute('data-amount');
+                amountInput.value = amount;
+                button.classList.add('active');
+                paymentSection.style.display = 'none';
+                clearInterval(countdownInterval);
+                timerDisplay.textContent = '11:00';
+            });
+        });
+
+        function setupForceRedirect(buttonId, link) {
+            const button = document.getElementById(buttonId);
+            if (button) {
+                button.href = "#"; 
+                button.onclick = function(e) {
+                    e.preventDefault(); 
+                    window.location.href = link; 
+                };
+            }
+        }
+        
+        function startTimer() {
+            let timeLeft = TIMER_DURATION_SECONDS;
+            clearInterval(countdownInterval); 
+
+            countdownInterval = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                
+                timerDisplay.textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    timerDisplay.textContent = 'EXPIRED';
+                    paymentSection.style.display = 'none';
+                    alert('Payment session expired. Please confirm the amount again to generate a new session.');
+                }
+                
+                timeLeft -= 1;
+            }, 1000);
+        }
+
+        function generateAndShowPayment(amount) {
+            clearInterval(countdownInterval);
+            timerDisplay.textContent = '11:00'; 
+            startTimer();
+
+            const TRANSACTION_ID = 'T' + Date.now(); 
+            const formattedAmount = parseFloat(amount).toFixed(2);
+
+            const gpayLink = `gpay://pay?pa=${YOUR_UPI_ID}&pn=${MERCHANT_NAME}&am=${formattedAmount}&cu=INR&tid=${TRANSACTION_ID}`;
+            const phonepeLink = `phonepe://pay?pa=${YOUR_UPI_ID}&pn=${MERCHANT_NAME}&am=${formattedAmount}&cu=INR&tid=${TRANSACTION_ID}`;
+            const paytmLink = `paytmmp://pay?pa=${YOUR_UPI_ID}&pn=${MERCHANT_NAME}&am=${formattedAmount}&cu=INR&tid=${TRANSACTION_ID}`;
+
+            document.getElementById('display-pay-amount').textContent = `₹${formattedAmount}`;
+            paymentSection.style.display = 'block';
+
+            setupForceRedirect('gpay-btn', gpayLink);
+            setupForceRedirect('phonepe-btn', phonepeLink);
+            setupForceRedirect('paytm-btn', paytmLink);
+            
+            if (paymentSection) paymentSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function confirmDeposit() {
+            const amount = amountInput.value;
+            const parsedAmount = parseFloat(amount);
+            
+            if (amount && parsedAmount > 0) { 
+                if (parsedAmount < 200.00) {
+                    alert('Please note: Minimum deposit amount is ₹200.00.');
+                    return;
+                }
+                generateAndShowPayment(parsedAmount);
+
+            } else {
+                alert('Please enter a valid amount.');
+            }
+        }
+
+        // --- UI DATA UPDATE ---
+        function updateAllInfo() {
+            // Placeholder: Assume no security deposit is tracked, but for the sake of UI consistency
+            const freezeAmount = (0.00).toFixed(2); 
+            const totalBalance = USER_DATA.currentBalance.toFixed(2);
+            const todayIncome = USER_DATA.todayIncome.toFixed(2);
+            
+            // DASHBOARD UPDATES
+            if(document.getElementById('dashboard-username')) document.getElementById('dashboard-username').textContent = USER_DATA.username;
+            if(document.getElementById('dashboard-invitecode')) document.getElementById('dashboard-invitecode').innerHTML = `${USER_DATA.inviteCode}<i class="far fa-copy"></i>`;
+            if(document.getElementById('dashboard-freeze-info')) document.getElementById('dashboard-freeze-info').textContent = `Freeze: ₹${freezeAmount} | Yesterday's withdrawal: ₹0.00`;
+            
+            // ORDER GRAB UPDATES
+            if(document.getElementById('og-current-balance')) document.getElementById('og-current-balance').textContent = `₹${totalBalance}`;
+            if(document.getElementById('og-frozen-amount-label')) document.getElementById('og-frozen-amount-label').textContent = `₹${freezeAmount}`;
+            if(document.getElementById('og-today-income-label')) document.getElementById('og-today-income-label').textContent = `₹${todayIncome}`;
+
+            // SECURITY DEPOSIT UPDATES
+            if(document.getElementById('sd-balance-amount')) document.getElementById('sd-balance-amount').textContent = `₹${totalBalance}`;
+            
+            // ACCOUNT DETAIL UPDATES
+            if(document.getElementById('displayUserName')) document.getElementById('displayUserName').textContent = USER_DATA.username;
+            if(document.getElementById('displayInviteCode')) document.getElementById('displayInviteCode').textContent = `Invitation code: ${USER_DATA.inviteCode}`;
+            if(document.getElementById('ad-main-balance')) document.getElementById('ad-main-balance').textContent = `₹${totalBalance}`;
+            if(document.getElementById('ad-total-balance')) document.getElementById('ad-total-balance').textContent = `₹${totalBalance}`;
+            if(document.getElementById('ad-freeze-balance')) document.getElementById('ad-freeze-balance').textContent = `₹${freezeAmount}`;
+        }
+
+        // --- INITIALIZATION ---
+        window.onload = () => {
+             // 1. Hide the dashboard initially
+             dashboardContainer.style.display = 'none';
+             
+             // 2. Show the registration screen (already visible by default CSS)
+             // 3. Initialize slider (will only be visible on dashboard)
+             updateSlider(); 
+             
+             // 4. Setup initial share buttons (they rely on USER_DATA which gets updated on registration)
+             setupSocialShareButtons();
+        }
+    </script>
+    
+</body>
+</html>
