@@ -213,10 +213,6 @@
             display: block;
         }
         
-        /* Removed .illustration-area styles as it's replaced by slider-wrapper/slide */
-        /* .illustration-area { height: 200px; background: linear-gradient(135deg, #7fcdf4, #2779a5); border-top-left-radius: 10px; border-top-right-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 18px; color: white; text-align: center; padding: 10px; background-size: cover; background-position: center; }
-        .illustration-area::after { content: 'BANK ILLUSTRATION PLACEHOLDER'; color: rgba(255, 255, 255, 0.7); font-size: 14px; position: absolute; } */
-        
         .slider-dots { text-align: center; padding: 5px 0; }
         .dot { height: 8px; width: 8px; background-color: #bbb; border-radius: 50%; display: inline-block; margin: 0 4px; transition: background-color 0.3s; }
         .dot.active { background-color: #4a90e2; }
@@ -306,7 +302,7 @@
         /* --- END NEW INVITE FRIEND STYLES --- */
 
         /* --- SUB-SCREEN STYLES --- */
-        #security-deposit-screen, #account-detail-screen, #order-grab-screen { 
+        #security-deposit-screen, #account-detail-screen, #game-screen { 
             display: none; 
             position: relative; 
             top: 0;
@@ -322,9 +318,9 @@
             display: block !important;
         }
 
-        /* Account Detail Styles (Partial) */
-        .ad-top-nav, .og-top-nav { background-color: white; padding: 15px 15px; text-align: center; font-size: 16px; font-weight: 500; color: #333; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 10px; position: sticky; top: 0; z-index: 10; }
-        .ad-container, .og-container { padding: 0 15px; } 
+        /* Top Nav styles */
+        .ad-top-nav, .og-top-nav, .game-top-nav { background-color: white; padding: 15px 15px; text-align: center; font-size: 16px; font-weight: 500; color: #333; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 10px; position: sticky; top: 0; z-index: 10; }
+        .ad-container, .og-container, .game-container { padding: 0 15px; } 
         .profile-header { background-color: white; padding: 15px; display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
         /* (Remaining AD/OG styles omitted for brevity, keeping only essential parts) */
         .profile-info { display: flex; align-items: center; }
@@ -347,21 +343,15 @@
         .menu-text { font-size: 15px; margin-left: 15px; }
         .arrow-icon { color: #ccc; font-size: 14px; }
         
-        /* Order Grab Styles (Partial) */
-        .amazon-card { background-color: white; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 15px; }
-        .flagship-header { display: flex; align-items: center; margin-bottom: 15px; }
-        .flagship-header i { font-size: 20px; color: #3b90d3; margin-right: 10px; }
-        .flagship-text { font-size: 16px; font-weight: 500; color: #333; }
-        .commission-text { font-size: 12px; color: #999; margin-left: 5px; }
-        .balance-info { display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 1px dashed #eee; }
-        .current-balance { font-size: 24px; font-weight: 700; color: #333; }
-        .add-button { background-color: #3b90d3; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 24px; line-height: 1; cursor: pointer; }
-        .income-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding-top: 15px; }
-        .income-item { display: flex; justify-content: space-between; font-size: 14px; }
-        .income-label { color: #666; }
-        .income-value { font-weight: 500; }
-        .auto-grab-btn { width: 100%; padding: 15px; background-color: #3b90d3; color: white; border: none; border-radius: 30px; font-size: 18px; font-weight: 500; margin-top: 30px; cursor: pointer; }
-        .notes-section { padding: 15px; margin-top: 25px; font-size: 13px; line-height: 1.6; color: #666; margin-bottom: 60px; }
+        /* Game Screen specific styles */
+        .virtual-trading-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+            text-align: center;
+        }
 
         /* Security Deposit Styles (Partial) */
         .sd-top-nav, .top-nav-payment { background-color: #38c172; padding: 15px 15px; text-align: center; font-size: 18px; font-weight: 500; color: white; position: sticky; top: 0; z-index: 100; }
@@ -479,13 +469,12 @@
           cursor: pointer;
         }
         
-        /* --- UPDATED BONUS POPUP STYLES (MATCHING 1000066681.png) --- */
+        /* --- UPDATED BONUS POPUP STYLES --- */
         #bonusPopup {
             display: none;
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            /* Make background blurry for dashboard effect */
             background-color: rgba(0,0,0,0.4); 
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
@@ -495,7 +484,6 @@
         }
         
         .bonus-box {
-            /* Matches the yellow/orange background of 1000066681.png */
             background: linear-gradient(145deg, #ffc94b, #ffa500);
             border-radius: 15px;
             width: 85%;
@@ -504,7 +492,6 @@
             padding: 30px 20px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.5);
             animation: fadeIn 0.3s ease-out;
-            /* No border for this style, relying on shadow */
         }
 
         .bonus-box .icon {
@@ -515,7 +502,7 @@
         }
         
         .bonus-box h3 {
-            color: #d35400; /* Darker orange/red for contrast */
+            color: #d35400; 
             margin-bottom: 10px;
             font-size: 22px;
             font-weight: 700;
@@ -530,18 +517,17 @@
         }
 
         .bonus-ok-btn {
-            /* Matches the button color in 1000066681.png */
             background: #e67e22; 
             color: white;
             border: none;
             padding: 12px 30px;
-            border-radius: 50px; /* More rounded */
+            border-radius: 50px; 
             font-size: 16px;
             cursor: pointer;
             font-weight: 700;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
             transition: background 0.3s;
-            text-transform: uppercase; /* Makes "OK" look better */
+            text-transform: uppercase; 
         }
         
         .bonus-ok-btn:hover {
@@ -557,6 +543,143 @@
             from { transform: translateY(0); }
             to { transform: translateY(-5px); }
         }
+
+        /* --- LIMBO GAME STYLES (UPDATED) --- */
+        #limbo-game-card {
+            background-color: #2c3e50; /* Dark background for game contrast */
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin-top: 15px;
+            padding: 15px;
+            color: white;
+            text-align: center;
+        }
+        
+        .limbo-header {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #f1c40f; /* Yellow/Gold for heading */
+        }
+        
+        #limbo-multiplier-display {
+            font-size: 3.5em;
+            font-weight: 900;
+            color: #3498db; /* Blue for multiplier */
+            margin: 10px 0;
+            transition: color 0.3s;
+            line-height: 1.2;
+            min-height: 50px; /* Ensure height stability */
+        }
+        
+        #limbo-graph-container {
+            height: 80px;
+            background-color: #34495e;
+            border-radius: 5px;
+            margin: 10px 0 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #limbo-line {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #2ecc71, #3498db);
+            clip-path: polygon(0% 100%, 0% 100%, 100% 100%, 100% 100%); /* Start hidden */
+            transition: clip-path 0.1s linear; /* Smooth line animation */
+        }
+
+        #limbo-inputs {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .limbo-input-group {
+            flex: 1;
+            text-align: left;
+        }
+
+        .limbo-input-group label {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: #bdc3c7;
+        }
+
+        .limbo-input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #7f8c8d;
+            border-radius: 5px;
+            background-color: #34495e;
+            color: white;
+            font-size: 14px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        
+        #limbo-play-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #e74c3c; /* Red for action */
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        #limbo-play-btn:hover:not(:disabled) {
+            background-color: #c0392b;
+        }
+        
+        #limbo-play-btn:disabled {
+            background-color: #7f8c8d;
+            cursor: not-allowed;
+        }
+
+        #limbo-result-message {
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: 500;
+            min-height: 18px;
+            color: #ecf0f1;
+        }
+
+        /* Animation effects */
+        .win-text { color: #2ecc71 !important; }
+        .loss-text { color: #e74c3c !important; }
+        /* --- END LIMBO GAME STYLES --- */
+        
+        /* --- VIRTUAL TRADING STYLES (NEW) --- */
+        .virtual-trading-card {
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .virtual-trading-card h3 {
+            margin-top: 0;
+            color: #9b59b6;
+            font-size: 16px;
+        }
+        .virtual-trading-card p {
+            font-size: 14px;
+            color: #bdc3c7;
+        }
+        /* --- END VIRTUAL TRADING STYLES --- */
+
+
     </style>
 </head>
 <body>
@@ -632,7 +755,7 @@
                                 <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiRns9BIy2rofE1gxIdzqJ9717tqQryX7DFMbeOdsL-cEm8lw5BGEQ77gN3b36Wdi5e6-CVh1THRgKIG3maVjF-tEXxIH0jufwaaJMgklj09aHk7tKrtKtH_zOmH9q6cAS7VFUdwi6juj1SqhPvCcZ5rppKgUMGiVx-FHMDqPxCtsVPq60ay-lRT_4rc_8I/s1600/1000066688.jpg" alt="Slide 1: Bank Illustration">
                             </div>
                             <div class="slide">
-                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkjVdmXB1Ad32GeAbO1lD5_I6RxiJM6QN9hXD_skG9SW4zyVIZaRdDzxLq2EiOuSmtror4uVGBbztPFlhMT6dsHpjbQ7H6kNnZUjgftYJG-FKH3BlHdDix7jxcWXsEhYVHezMMi8kjCd0VeK5dj7m6wPFcFcksQasC-zPNAfbqezPCQjF3aDROSfpt6ruF/s1600/1000066689.png" alt="Slide 2: Bank Illustration">
+                               <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkjVdmXB1Ad32GeAbO1lD5_I6RxiJM6QN9hXD_skG9SW4zyVIZaRdDzxLq2EiOuSmtror4uVGBbztPFlhMT6dsHpjbQ7H6kNnZUjgftYJG-FKH3BlHdDix7jxcWXsEhYVHezMMi8kjCd0VeK5dj7m6wPFcFcksQasC-zPNAfbqezPCQjF3aDROSfpt6ruF/s1600/1000066689.png" alt="Slide 2: Bank Illustration">
                             </div>
                             <div class="slide">
                                 <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi7neeYzYvUvMSxC8caEiZZkDhXkUKIE9H9Gz9QWLF9sGQu9FK5a_Dp0G2c4P_5XU-VSBAMFf1bEiSrgk9S69AkClrFdaJrj-o3yq8Z0D6FOTH1KENLIZOPh2sJI-xVE8zr5C_x0b2DiQTUG68YQvK9B9RmzHlPaA_qPpPCwLyEKQYxPwh0z7gNK2AhW80e/s1600/1000066690.png" alt="Slide 3: Bank Illustration">
@@ -662,7 +785,7 @@
                             <h4 style="margin: 0; margin-right: 10px;" id="dashboard-username">user</h4>
                             <span style="font-size: 14px; color: #666;"><i class="fas fa-qrcode"></i></span>
                         </div>
-                        <div class="main">₹1,200.00</div>
+                        <div class="main" id="dashboard-main-balance">₹1,200.00</div>
                         <div class="sub">
                             Today: <span style="color: #38c172;">₹0.00</span> | Yesterday's earnings: ₹0.00
                         </div>
@@ -672,7 +795,7 @@
                         <div style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 5px;">
                             <span style="font-size: 14px; color: #666; margin-right: 10px;" id="dashboard-invitecode">f3af42<i class="far fa-copy"></i></span>
                         </div>
-                        <div class="total">Total ₹1,200.00</div>
+                        <div class="total" id="dashboard-total-balance">Total ₹1,200.00</div>
                         <div class="freeze-info" id="dashboard-freeze-info">
                             Freeze: ₹0.00 | Yesterday's withdrawal: ₹0.00
                         </div>
@@ -715,72 +838,48 @@
         </div>
 
 
-        <div id="order-grab-screen">
-            <div class="og-top-nav">
-                Grab
+        <div id="game-screen">
+            <div class="game-top-nav">
+                 Rocket Riser Game
             </div>
 
-            <div class="og-container">
-                <div class="amazon-card">
-                    <div class="flagship-header">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="flagship-text">AMAZON Flagship store</span>
-                        <span class="commission-text">Commission 10.00%</span>
+            <div class="game-container">
+
+                <div id="limbo-game-card">
+                    <div class="limbo-header"> Rocket Riser Game (Limbo)</div>
+                    <div style="font-size: 14px; color: #2ecc71; font-weight: 500; margin-bottom: 10px;">
+                        Current Balance: <span id="limbo-real-balance">₹1,200.00</span>
                     </div>
 
-                    <div class="balance-info">
-                        <div>
-                            <div class="current-balance" id="og-current-balance">₹1,200.00</div>
-                            <div class="balance-label">Current balance</div>
+                    <div id="limbo-multiplier-display">1.00x</div>
+                    
+                    <div id="limbo-graph-container">
+                        <div id="limbo-line"></div>
+                    </div>
+
+                    <div id="limbo-inputs">
+                        <div class="limbo-input-group">
+                            <label for="limbo-bet">Bet (₹)</label>
+                            <input type="number" id="limbo-bet" value="10.00" min="1.00" step="1.00">
                         </div>
-                        <button class="add-button" onclick="addBalance()">+</button>
+                        <div class="limbo-input-group">
+                            <label for="limbo-target">Target (Cash Out)</label>
+                            <input type="number" id="limbo-target" value="2.00" min="1.01" step="0.01">
+                        </div>
                     </div>
                     
-                    <div class="income-grid">
-                        <div class="income-item">
-                            <span class="income-label" id="og-today-income-label">₹1,200.00</span>
-                            <span class="income-value">Today Income</span>
-                        </div>
-                        <div class="income-item">
-                            <span class="income-label">₹0.00</span>
-                            <span class="income-value">Personal earnings</span>
-                        </div>
-                        <div class="income-item">
-                            <span class="income-label">0</span>
-                            <span class="income-value">Locked orders</span>
-                        </div>
-                        <div class="income-item">
-                            <span class="income-label" id="og-frozen-amount-label">₹0.00</span>
-                            <span class="income-value">Frozen amount</span>
-                        </div>
-                    </div>
-
-                    <div class="order-stats-grid">
-                        <div class="order-stat-item">
-                            <span class="income-label">0</span>
-                            <span class="income-value">Completed orders</span>
-                            </div>
-                        <div class="order-stat-item">
-                            <span class="income-label">0</span>
-                            <span class="income-value">Unfinished orders</span>
-                            </div>
-                    </div>
+                    <button id="limbo-play-btn" onclick="startLimboGame()">START RISER</button>
+                    
+                    <div id="limbo-result-message"></div>
                 </div>
-
-                <button class="auto-grab-btn" onclick="startAutoGrab()">Auto grab</button>
-
-                <div class="notes-section">
-                    <div class="notes-header">
-                        <span class="commission-note">N**9 Commission ₹1570.00</span>
-                        <span>2025-10-02 16:59:01</span>
-                    </div>
-                    <p>
-                        When you click auto - grab, the mall will automatically issue an order task. You need to complete the payment for the order. The order task needs to be completed within 60 minutes after grabbing the order, please complete the task as soon as possible. If you have any questions, please contact customer service.
-                    </p>
+                <div class="virtual-trading-card">
+                    <h3>Virtual Trading Simulator</h3>
+                    <p>Coming Soon! Practice your order grabbing skills with virtual market data. (Fun Only)</p>
+                    <button style="padding: 8px 15px; background-color: #9b59b6; color: white; border: none; border-radius: 5px; margin-top: 10px;">Play Demo</button>
                 </div>
+                <div style="height: 60px;"></div>
             </div>
         </div>
-
         <div id="security-deposit-screen">
             <div class="top-nav-payment">
                 Security Deposit
@@ -869,7 +968,7 @@
                             <i class="fas fa-user" style="font-size: 24px; color: white;"></i>
                         </div>
                         <div class="profile-text">
-                            <h4 id="displayUserName"> users ks000</h4> 
+                            <h4 id="displayUserName">Pawan ks000</h4> 
                             <p id="displayInviteCode">Invitation code: f3af42</p>
                         </div>
                     </div>
@@ -977,8 +1076,8 @@
             <a href="#" class="nav-item active" onclick="showDashboard(event)">
                 <i class="fas fa-home nav-icon"></i> Home
             </a>
-            <a href="#" class="nav-item" onclick="showOrderGrab(event)">
-                <i class="fas fa-file-alt nav-icon"></i> Order
+            <a href="#" class="nav-item" onclick="showGameScreen(event)">
+                <i class="fas fa-gamepad nav-icon"></i> Game
             </a>
             <a href="#" class="nav-item" onclick="alert('Going to Center action...'); return false;">">
                 <div class="nav-center-icon">
@@ -1008,21 +1107,21 @@
         const registrationScreen = document.getElementById('registration-screen');
         const dashboardContainer = document.getElementById('dashboard-container');
         const dashboardScreen = document.getElementById('dashboard-screen');
-        const orderGrabScreen = document.getElementById('order-grab-screen');
+        const gameScreen = document.getElementById('game-screen'); 
         const securityDepositScreen = document.getElementById('security-deposit-screen');
         const accountDetailScreen = document.getElementById('account-detail-screen');
-        const bonusPopup = document.getElementById('bonusPopup'); // Added
+        const bonusPopup = document.getElementById('bonusPopup'); 
         const amountInput = document.getElementById('deposit_amount');
         const quickSelectButtons = document.querySelectorAll('.quick-select-btn');
         const paymentSection = document.getElementById('payment-section');
         const timerDisplay = document.getElementById('payment-timer');
         const socialShareButtonsContainer = document.getElementById('social-share-buttons');
         
-        const slidesContainer = document.getElementById('slides-container'); // NEW
-        const dotsContainer = document.getElementById('slider-dots'); // NEW
-        const totalSlides = 3; // NEW: Total number of slides
-        let currentSlide = 0; // NEW: Current active slide index
-        let slideInterval; // NEW: Interval for auto-sliding
+        const slidesContainer = document.getElementById('slides-container'); 
+        const dotsContainer = document.getElementById('slider-dots'); 
+        const totalSlides = 3; 
+        let currentSlide = 0; 
+        let slideInterval; 
         
         const TIMER_DURATION_SECONDS = 11 * 60; 
         const YOUR_UPI_ID = "okayd@ybl"; 
@@ -1030,16 +1129,29 @@
 
         // Placeholder User Data (will be populated on successful registration)
         let USER_DATA = {
-            username: "users 00", // Default value
-            inviteCode: "f3af42", // Default value
-            currentBalance: 1200.00,
+            username: "Pawan ks000", 
+            inviteCode: "f3af42", 
+            currentBalance: 1200.00, // REAL BALANCE
             todayIncome: 0.00 
         };
         
-        let countdownInterval;
-        let isFirstLoad = true; // NEW STATE: To show popup only once after registration
+        // --- LIMBO GAME STATE & ELEMENTS (UPDATED) ---
+        let isLimboPlaying = false;
+        let limboGameInterval;
         
-        // --- SLIDER LOGIC (NEW) ---
+        const limboBetInput = document.getElementById('limbo-bet');
+        const limboTargetInput = document.getElementById('limbo-target');
+        const limboPlayBtn = document.getElementById('limbo-play-btn');
+        const limboMultiplierDisplay = document.getElementById('limbo-multiplier-display');
+        const limboResultMessage = document.getElementById('limbo-result-message');
+        const limboRealBalanceDisplay = document.getElementById('limbo-real-balance'); // NEW ELEMENT
+        const limboLine = document.getElementById('limbo-line');
+        // --- END LIMBO GAME STATE & ELEMENTS ---
+
+        let countdownInterval;
+        let isFirstLoad = true; 
+        
+        // --- SLIDER LOGIC ---
         function moveSlider() {
             currentSlide = (currentSlide + 1) % totalSlides;
             updateSlider();
@@ -1066,13 +1178,11 @@
         }
         
         function startAutoSlide() {
-            // Clear any existing interval to prevent duplicates
             if (slideInterval) clearInterval(slideInterval); 
-            // Slide every 3 seconds
             slideInterval = setInterval(moveSlider, 3000); 
         }
 
-        // --- REGISTRATION LOGIC (FROM index.html) ---
+        // --- REGISTRATION LOGIC ---
         document.getElementById('registration-form').addEventListener('submit', handleRegistration);
 
         function handleRegistration(event) {
@@ -1081,36 +1191,25 @@
             const usernameValue = document.getElementById('username').value;
             const userInviteCode = document.getElementById('invite').value; 
             
-            // 1. Update global USER_DATA with submitted info
             USER_DATA.username = usernameValue;
             USER_DATA.inviteCode = userInviteCode;
 
-            // 2. Hide the registration screen
             registrationScreen.style.display = 'none';
 
-            // 3. Show the main dashboard container
             dashboardContainer.style.display = 'block';
 
-            // 4. Update info and show dashboard, which will handle the popup on first load
             updateAllInfo();
             showDashboard();
-            startAutoSlide(); // START SLIDING ONCE DASHBOARD IS SHOWN
+            startAutoSlide(); 
             
-            // Initialize social share buttons after user data is ready
             setupSocialShareButtons();
         }
         
-        // NEW FUNCTION to close popup
         function closeBonusPopup() {
-             // 1. Hide the bonus popup
             if (bonusPopup) {
                 bonusPopup.style.display = 'none';
             }
         }
-
-        // function sendCode() {
-        //     alert('Sending verification code...'); // Removed, since button is removed
-        // }
 
         function togglePassword(id, iconElement) {
             const passwordField = document.getElementById(id);
@@ -1137,11 +1236,10 @@
         }
 
         function hideAllScreens() {
-            document.querySelectorAll('#dashboard-screen, #order-grab-screen, #security-deposit-screen, #account-detail-screen').forEach(screen => {
+            document.querySelectorAll('#dashboard-screen, #game-screen, #security-deposit-screen, #account-detail-screen').forEach(screen => {
                 screen.classList.remove('active-screen');
                 screen.style.display = 'none';
             });
-            // Ensure popup is hidden when navigating normally
             if (bonusPopup) bonusPopup.style.display = 'none'; 
         }
 
@@ -1157,27 +1255,27 @@
         function showDashboard(event) {
             if (event) event.preventDefault();
             showScreen(dashboardScreen, 0);
-            startAutoSlide(); // Ensure slider restarts when coming back to dashboard
+            startAutoSlide(); 
             
-            // Show bonus popup only on the very first load after registration
             if (isFirstLoad) {
                 if (bonusPopup) {
                     bonusPopup.style.display = 'flex';
                 }
-                isFirstLoad = false; // Mark as loaded
+                isFirstLoad = false; 
             }
         }
         
-        function showOrderGrab(event) {
+        function showGameScreen(event) {
             if (event) event.preventDefault();
-            showScreen(orderGrabScreen, 1);
-            if (slideInterval) clearInterval(slideInterval); // Pause slider
+            showScreen(gameScreen, 1); // Nav index 1
+            if (slideInterval) clearInterval(slideInterval); 
+            updateLimboRealBalance(); // Use real balance update
         }
 
         function showSecurityDeposit(event) {
             if (event) event.preventDefault();
             showScreen(securityDepositScreen, 3);
-            if (slideInterval) clearInterval(slideInterval); // Pause slider
+            if (slideInterval) clearInterval(slideInterval); 
             
             if (paymentSection) paymentSection.style.display = 'none';
             if (countdownInterval) clearInterval(countdownInterval); 
@@ -1187,7 +1285,7 @@
         function showAccountDetail(event) {
             if (event) event.preventDefault();
             showScreen(accountDetailScreen, 4);
-            if (slideInterval) clearInterval(slideInterval); // Pause slider
+            if (slideInterval) clearInterval(slideInterval); 
         }
 
         function handleWithdrawal(event) {
@@ -1200,30 +1298,151 @@
             showSecurityDeposit(); 
         }
         
-        function addBalance() {
-            showSecurityDeposit(); 
-        }
-
-        function startAutoGrab() {
-            alert('Starting Auto Grab process...');
-        }
-        
         function copyLink() {
             alert('Link copied to clipboard!');
         }
 
+        // --- LIMBO GAME LOGIC (UPDATED FOR REAL BALANCE) ---
+        function updateLimboRealBalance() {
+            if (limboRealBalanceDisplay) {
+                limboRealBalanceDisplay.textContent = `₹${USER_DATA.currentBalance.toFixed(2)}`;
+            }
+        }
+
+        function getLimboCrashPoint() {
+            // A long-tail distribution formula for random crash point
+            // Minimum 1.01x, Max 50x (to prevent infinite loops and too high payouts)
+            const random = Math.random();
+            const multiplier = 1 / (1 - random); 
+            return parseFloat(Math.min(50, Math.max(1.01, multiplier)).toFixed(2));
+        }
+        
+        function resetLimboUI() {
+            clearInterval(limboGameInterval);
+            isLimboPlaying = false;
+            limboPlayBtn.disabled = false;
+            limboBetInput.disabled = false;
+            limboTargetInput.disabled = false;
+            limboPlayBtn.textContent = 'START RISER';
+            limboMultiplierDisplay.textContent = '1.00x';
+            limboMultiplierDisplay.classList.remove('win-text', 'loss-text');
+            limboLine.style.clipPath = 'polygon(0% 100%, 0% 100%, 100% 100%, 100% 100%)';
+        }
+
+        function startLimboGame() {
+            if (isLimboPlaying) return;
+            
+            const betAmount = parseFloat(limboBetInput.value);
+            const targetMultiplier = parseFloat(limboTargetInput.value);
+
+            // 1. Validation
+            if (betAmount <= 1.00 || isNaN(betAmount) || targetMultiplier <= 1.01 || isNaN(targetMultiplier)) {
+                limboResultMessage.textContent = "Invalid Bet or Target! Min Bet ₹1.00, Min Target 1.01x";
+                return;
+            }
+
+            if (betAmount > USER_DATA.currentBalance) {
+                limboResultMessage.textContent = "Aapke paas itna Balance nahi hai!";
+                return;
+            }
+            
+            if (USER_DATA.currentBalance < 1000) { 
+                 limboResultMessage.textContent = "Balance must be at least ₹1000 to play (Demo condition).";
+                 return;
+            }
+
+
+            // 2. Setup Game State
+            USER_DATA.currentBalance = parseFloat((USER_DATA.currentBalance - betAmount).toFixed(2));
+            updateAllInfo(); // Update all balance displays
+            
+            isLimboPlaying = true;
+            limboPlayBtn.disabled = true;
+            limboBetInput.disabled = true;
+            limboTargetInput.disabled = true;
+            limboPlayBtn.textContent = 'RISING...';
+            limboResultMessage.textContent = 'Rocket is taking off!';
+            
+            const crashPoint = getLimboCrashPoint();
+            let currentMultiplier = 1.00;
+            const intervalTime = 100;
+
+            // 3. Game Animation/Logic Loop
+            limboGameInterval = setInterval(() => {
+                
+                // Randomly crash the game early in 5% of cases for realism
+                if (Math.random() < 0.05 && currentMultiplier < 1.50) {
+                     clearInterval(limboGameInterval);
+                     finishLimboGame(betAmount, targetMultiplier, currentMultiplier);
+                     return;
+                }
+
+                // Calculate next multiplier step
+                const speedFactor = Math.log(currentMultiplier * 10) / 10 + 0.05; 
+                currentMultiplier += speedFactor * (intervalTime / 1000); 
+                
+                if (currentMultiplier >= crashPoint) {
+                    currentMultiplier = crashPoint;
+                    clearInterval(limboGameInterval);
+                    finishLimboGame(betAmount, targetMultiplier, currentMultiplier);
+                    return;
+                }
+                
+                // Update Multiplier Display
+                limboMultiplierDisplay.textContent = currentMultiplier.toFixed(2) + 'x';
+                
+                // Update Line Animation 
+                const visualMax = 10; 
+                const percentageX = Math.min(100, (currentMultiplier / visualMax) * 100);
+                
+                limboLine.style.clipPath = `polygon(0% 100%, ${percentageX}% 100%, ${percentageX}% 0%, 0% 0%)`;
+
+            }, intervalTime);
+        }
+
+        function finishLimboGame(betAmount, targetMultiplier, finalMultiplier) {
+            
+            let winnings = 0;
+            let resultMessage = "";
+            let newColorClass = "";
+            
+            if (finalMultiplier >= targetMultiplier) {
+                // WINNER
+                winnings = parseFloat((betAmount * targetMultiplier).toFixed(2)); 
+                const profit = parseFloat((winnings - betAmount).toFixed(2));
+                
+                USER_DATA.currentBalance = parseFloat((USER_DATA.currentBalance + winnings).toFixed(2));
+                
+                resultMessage = `JEET GAYE! Payout ${targetMultiplier.toFixed(2)}x. Won +₹${profit.toFixed(2)}.`;
+                newColorClass = 'win-text';
+                
+            } else {
+                // LOSER
+                resultMessage = `Afsos! Rocket ${finalMultiplier.toFixed(2)}x par phat gaya. Lost -₹${betAmount.toFixed(2)}.`;
+                newColorClass = 'loss-text';
+            }
+            
+            limboMultiplierDisplay.textContent = finalMultiplier.toFixed(2) + 'x';
+            limboMultiplierDisplay.classList.add(newColorClass);
+            limboResultMessage.textContent = resultMessage;
+            updateAllInfo(); // Update all balance displays
+
+            // Reset UI after a short delay
+            setTimeout(resetLimboUI, 3000); 
+        }
+
+        // --- END LIMBO GAME LOGIC ---
+
         // --- NEW INVITE FRIEND LOGIC ---
-        const INVITE_LINK = `https://jobhubhub-ctrl.github.io/Jobhub-/?invite=${USER_DATA.inviteCode}`; 
-        const INVITE_TEXT = `Join me on JOBHUB and earn ₹300! My invitation code is ${USER_DATA.inviteCode}. Register here: ${INVITE_LINK}`;
+        const INVITE_LINK = `https://yourdomain.com/register?invite=${USER_DATA.inviteCode}`;
+        const INVITE_TEXT = `Join me on JOBHU and earn ₹300! My invitation code is ${USER_DATA.inviteCode}. Register here: ${INVITE_LINK}`;
 
         function generateSocialShareURL(platform, text) {
             const encodedText = encodeURIComponent(text);
             switch (platform) {
                 case 'whatsapp':
-                    // Note: Use web.whatsapp.com for web/desktop fallback
                     return `https://wa.me/?text=${encodedText}`;
                 case 'facebook':
-                    // Facebook share link (can be a post or message)
                     return `https://www.facebook.com/sharer/sharer.php?quote=${encodedText}`;
                 case 'telegram':
                     return `https://t.me/share/url?url=&text=${encodedText}`;
@@ -1236,7 +1455,7 @@
 
         function setupSocialShareButtons() {
             if (!socialShareButtonsContainer) return;
-            socialShareButtonsContainer.innerHTML = ''; // Clear existing buttons
+            socialShareButtonsContainer.innerHTML = ''; 
 
             const socialPlatforms = [
                 { id: 'whatsapp', icon: 'fab fa-whatsapp', colorClass: 'whatsapp' },
@@ -1257,28 +1476,23 @@
 
         async function shareInviteLink() {
             if (navigator.share) {
-                // Use Web Share API if available (for system-level sharing)
                 try {
                     await navigator.share({
-                        title: 'JOBHU Invitation',
+                        title: 'JOBHUb Invitation',
                         text: INVITE_TEXT,
                         url: INVITE_LINK
                     });
                     console.log('Invite shared successfully via Web Share API.');
                 } catch (error) {
                     console.error('Error sharing:', error);
-                    // Fallback to manual copy or platform-specific links if share fails
-                    // In a real app, you might show a list of social media links here.
                     copyLinkToClipboard(INVITE_LINK);
                 }
             } else {
-                // Fallback for browsers that do not support navigator.share
                 copyLinkToClipboard(INVITE_LINK);
             }
         }
         
         function copyLinkToClipboard(link) {
-            // Standard copy to clipboard logic
             const tempInput = document.createElement('textarea');
             tempInput.value = link;
             document.body.appendChild(tempInput);
@@ -1374,7 +1588,6 @@
 
         // --- UI DATA UPDATE ---
         function updateAllInfo() {
-            // Placeholder: Assume no security deposit is tracked, but for the sake of UI consistency
             const freezeAmount = (0.00).toFixed(2); 
             const totalBalance = USER_DATA.currentBalance.toFixed(2);
             const todayIncome = USER_DATA.todayIncome.toFixed(2);
@@ -1382,12 +1595,12 @@
             // DASHBOARD UPDATES
             if(document.getElementById('dashboard-username')) document.getElementById('dashboard-username').textContent = USER_DATA.username;
             if(document.getElementById('dashboard-invitecode')) document.getElementById('dashboard-invitecode').innerHTML = `${USER_DATA.inviteCode}<i class="far fa-copy"></i>`;
+            if(document.getElementById('dashboard-main-balance')) document.getElementById('dashboard-main-balance').textContent = `₹${totalBalance}`;
+            if(document.getElementById('dashboard-total-balance')) document.getElementById('dashboard-total-balance').textContent = `Total ₹${totalBalance}`;
             if(document.getElementById('dashboard-freeze-info')) document.getElementById('dashboard-freeze-info').textContent = `Freeze: ₹${freezeAmount} | Yesterday's withdrawal: ₹0.00`;
             
-            // ORDER GRAB UPDATES
-            if(document.getElementById('og-current-balance')) document.getElementById('og-current-balance').textContent = `₹${totalBalance}`;
-            if(document.getElementById('og-frozen-amount-label')) document.getElementById('og-frozen-amount-label').textContent = `₹${freezeAmount}`;
-            if(document.getElementById('og-today-income-label')) document.getElementById('og-today-income-label').textContent = `₹${todayIncome}`;
+            // GAME SCREEN UPDATES (Limbo balance)
+            updateLimboRealBalance(); 
 
             // SECURITY DEPOSIT UPDATES
             if(document.getElementById('sd-balance-amount')) document.getElementById('sd-balance-amount').textContent = `₹${totalBalance}`;
@@ -1402,15 +1615,10 @@
 
         // --- INITIALIZATION ---
         window.onload = () => {
-             // 1. Hide the dashboard initially
              dashboardContainer.style.display = 'none';
-             
-             // 2. Show the registration screen (already visible by default CSS)
-             // 3. Initialize slider (will only be visible on dashboard)
              updateSlider(); 
-             
-             // 4. Setup initial share buttons (they rely on USER_DATA which gets updated on registration)
              setupSocialShareButtons();
+             resetLimboUI();
         }
     </script>
     
