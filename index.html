@@ -145,6 +145,20 @@
             font-weight: bold;
         }
         
+        /* NEW FORGET PASSWORD STYLE */
+        .forget-password {
+            text-align: right;
+            margin-top: -10px;
+            margin-bottom: 10px; 
+        }
+
+        .forget-password a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
        /* --- DASHBOARD STYLES (from dashboard.html) --- */
         .top-nav {
             background-color: white;
@@ -692,7 +706,10 @@
                         <i class="toggle-icon fas fa-eye-slash" onclick="togglePassword('login_password', this)"></i>
                     </div>
                 </div>
-
+                
+                <div class="forget-password">
+                    <a href="#" onclick="handleForgetPassword(event)">Forget Password?</a>
+                </div>
                 <button type="submit" class="login-submit-button">Login</button>
 
                 <button type="button" class="secondary-button" onclick="showRegistrationScreen()">No account, register now</button>
@@ -1222,6 +1239,42 @@
             }
         }
         
+        // --- NEW FORGET PASSWORD LOGIC ---
+        function handleForgetPassword(event) {
+            event.preventDefault();
+            const usernameOrPhone = document.getElementById('login_username').value.trim();
+            const users = JSON.parse(localStorage.getItem('registeredUsers')) || {};
+            
+            let user = null;
+            let foundBy = '';
+
+            // 1. Try to find user by exact username match
+            if (users[usernameOrPhone]) {
+                user = users[usernameOrPhone];
+                foundBy = 'username';
+            }
+
+            // 2. If not found by username, iterate through all users to check by phone
+            if (!user) {
+                for (const key in users) {
+                    if (users[key].phone === usernameOrPhone) {
+                        user = users[key];
+                        foundBy = 'phone';
+                        break;
+                    }
+                }
+            }
+
+            if (user) {
+                // In a real application, an SMS/email would be sent here.
+                // Since this is a static file, we simulate it with an alert.
+                alert(`Password has been successfully sent to your registered mobile number: **${user.phone}**.`);
+            } else {
+                alert('Account not found. Please enter your registered username or phone number.');
+            }
+        }
+        // --- END NEW FORGET PASSWORD LOGIC ---
+
         // --- USER & DATA MANAGEMENT ---
         function loadUserData(usernameKey) {
             const users = JSON.parse(localStorage.getItem('registeredUsers')) || {};
