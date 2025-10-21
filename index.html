@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOBHUB Dashboard</title>
+    <title>JOBHUB - Register | Login | Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -24,7 +24,7 @@
         }
         
         /* --- SCREEN HIDING STYLES --- */
-        #registration-screen {
+        #registration-screen, #login-screen {
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -37,10 +37,10 @@
         #dashboard-container {
             display: none; /* Initially hide the dashboard */
             padding-bottom: 60px; /* Space for bottom nav */
-            position: relative; /* Added for z-index context to popup */
+            position: relative; 
         }
         
-        /* --- REGISTRATION STYLES (from index.html) --- */
+        /* --- REGISTRATION/LOGIN STYLES --- */
         .reg-container {
             width: 90%;
             max-width: 400px;
@@ -100,28 +100,7 @@
             display: flex;
             align-items: center;
         }
-
-        .verification-group {
-            display: flex;
-            align-items: flex-end;
-        }
-
-        .verification-input {
-            flex-grow: 1;
-            margin-right: 10px;
-        }
-
-        .send-button {
-            padding: 8px 15px;
-            background-color: #3b90d3;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            height: 38px;
-        }
-
+        
         .password-input-group {
             display: flex;
             align-items: center;
@@ -140,7 +119,7 @@
             bottom: 10px;
         }
 
-        .register-button {
+        .register-button, .login-submit-button {
             width: 100%;
             padding: 15px;
             background-color: #5bb9ef;
@@ -153,7 +132,7 @@
             font-weight: bold;
         }
 
-        .login-button {
+        .secondary-button {
             width: 100%;
             padding: 15px;
             background-color: rgba(255, 255, 255, 0.2);
@@ -166,7 +145,7 @@
             font-weight: bold;
         }
         
-        /* --- DASHBOARD STYLES (from dashboard.html) --- */
+       /* --- DASHBOARD STYLES (from dashboard.html) --- */
         .top-nav {
             background-color: white;
             padding: 10px 15px;
@@ -693,6 +672,35 @@
         </div>
     </div>
     
+    <div id="login-screen" style="display: none;">
+        <div class="reg-container">
+            <div class="header">
+                <div class="sign-up-text">Login</div>
+                <div class="avatar">
+                    <i class="fas fa-sign-in-alt" style="font-size: 40px; color: white;"></i>
+                </div>
+            </div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <input type="text" id="login_username" class="input-field" placeholder="Phone number/User Name" required>
+                </div>
+
+                <div class="form-group">
+                    <div class="password-input-group">
+                        <input type="password" id="login_password" class="input-field" placeholder="Enter password" required>
+                        <i class="toggle-icon fas fa-eye-slash" onclick="togglePassword('login_password', this)"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="login-submit-button">Login</button>
+
+                <button type="button" class="secondary-button" onclick="showRegistrationScreen()">No account, register now</button>
+
+            </form>
+        </div>
+    </div>
+    
     <div id="registration-screen">
         <div class="reg-container">
             <div class="header">
@@ -704,37 +712,37 @@
 
             <form id="registration-form">
                 <div class="form-group">
-                    <input type="text" id="username" class="input-field" placeholder="Please enter the user name" required>
+                    <input type="text" id="reg_username" class="input-field" placeholder="Please enter the user name" required>
                 </div>
 
                 <div class="form-group">
                     <div class="phone-input-group">
                         <span class="country-code">91</span>
-                        <input type="tel" id="phone" class="input-field phone-input" placeholder="Please enter the phone number" required>
+                        <input type="tel" id="reg_phone" class="input-field phone-input" placeholder="Please enter the phone number" required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="password-input-group">
-                        <input type="password" id="password" class="input-field" placeholder="Enter password" required>
-                        <i class="toggle-icon fas fa-eye-slash" onclick="togglePassword('password', this)"></i>
+                        <input type="password" id="reg_password" class="input-field" placeholder="Enter password" required>
+                        <i class="toggle-icon fas fa-eye-slash" onclick="togglePassword('reg_password', this)"></i>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="password-input-group">
-                        <input type="password" id="payment_password" class="input-field" placeholder="Set 6-digit payment password" required>
-                        <i class="toggle-icon fas fa-eye-slash" onclick="togglePassword('payment_password', this)"></i>
+                        <input type="password" id="reg_payment_password" class="input-field" placeholder="Set 6-digit payment password" required>
+                        <i class="toggle-icon fas fa-eye-slash" onclick="togglePassword('reg_payment_password', this)"></i>
                     </div>
                 </div>
 
                 <div class="form-group invite-group">
-                    <input type="text" id="invite" class="input-field" value="246915" placeholder="Invite" readonly> 
+                    <input type="text" id="reg_invite" class="input-field" value="246915" placeholder="Invite" readonly> 
                 </div>
 
                 <button type="submit" class="register-button">Register Now</button>
 
-                <button type="button" class="login-button" onclick="alert('Going to Login Page...');">Already have an account?</button>
+                <button type="button" class="secondary-button" onclick="showLoginScreen()">Already have an account?</button>
 
             </form>
         </div>
@@ -758,7 +766,7 @@
                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkjVdmXB1Ad32GeAbO1lD5_I6RxiJM6QN9hXD_skG9SW4zyVIZaRdDzxLq2EiOuSmtror4uVGBbztPFlhMT6dsHpjbQ7H6kNnZUjgftYJG-FKH3BlHdDix7jxcWXsEhYVHezMMi8kjCd0VeK5dj7m6wPFcFcksQasC-zPNAfbqezPCQjF3aDROSfpt6ruF/s1600/1000066689.png" alt="Slide 2: Bank Illustration">
                             </div>
                             <div class="slide">
-                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi7neeYzYvUvMSxC8caEiZZkDhXkUKIE9H9Gz9QWLF9sGQu9FK5a_Dp0G2c4P_5XU-VSBAMFf1bEiSrgk9S69AkClrFdaJrj-o3yq8Z0D6FOTH1KENLIZOPh2sJI-xVE8zr5C_x0b2DiQTUG68YQvK9B9RmzHlPaA_qPpPCwLyEKQYxPwh0z7gNK2AhW80e/s1600/1000066690.png" alt="Slide 3: Bank Illustration">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi7neeYzYvUvMSxC8caEiZZkDhXkUKIE9H9Gz9QZLF9sGQu9FK5a_Dp0G2c4P_5XU-VSBAMFf1bEiSrgk9S69AkClrFdaJrj-o3yq8Z0D6FOTH1KENLIZOPh2sJI-xVE8zr5C_x0b2DiQTUG68YvK9B9RmzHlPaA_qPpPCwLyEKQYxPwh0z7gNK2AhW80e/s1600/1000066690.png" alt="Slide 3: Bank Illustration">
                             </div>
                         </div>
                     </div>
@@ -833,18 +841,12 @@
                         </div>
                 </div>
 
-
             </div>
         </div>
 
-
         <div id="game-screen">
-            <div class="game-top-nav">
-                 Rocket Riser Game
-            </div>
-
+            <div class="game-top-nav"> Rocket Riser Game </div>
             <div class="game-container">
-
                 <div id="limbo-game-card">
                     <div class="limbo-header"> Rocket Riser Game (Limbo)</div>
                     <div style="font-size: 14px; color: #2ecc71; font-weight: 500; margin-bottom: 10px;">
@@ -852,11 +854,9 @@
                     </div>
 
                     <div id="limbo-multiplier-display">1.00x</div>
-                    
                     <div id="limbo-graph-container">
                         <div id="limbo-line"></div>
                     </div>
-
                     <div id="limbo-inputs">
                         <div class="limbo-input-group">
                             <label for="limbo-bet">Bet (₹)</label>
@@ -867,9 +867,7 @@
                             <input type="number" id="limbo-target" value="2.00" min="1.01" step="0.01">
                         </div>
                     </div>
-                    
                     <button id="limbo-play-btn" onclick="startLimboGame()">START RISER</button>
-                    
                     <div id="limbo-result-message"></div>
                 </div>
                 <div class="virtual-trading-card">
@@ -880,18 +878,14 @@
                 <div style="height: 60px;"></div>
             </div>
         </div>
+        
         <div id="security-deposit-screen">
-            <div class="top-nav-payment">
-                Security Deposit
-            </div>
-
+            <div class="top-nav-payment"> Security Deposit </div>
             <div class="payment-container">
-                
                 <div class="balance-display">
                     <div class="balance-amount" id="sd-balance-amount">₹1,200.00</div>
                     <div class="balance-label">Balance</div>
                 </div>
-                
                 <div class="input-group">
                     <div class="input-label">Enter the money</div>
                     <div class="input-wrapper">
@@ -935,12 +929,10 @@
                             <span class="app-icon gpay-icon"></span>
                             Pay with Google Pay
                         </a>
-
                         <a id="phonepe-btn" class="app-button" href="#">
                             <span class="app-icon phonepe-icon"></span>
                             Pay with PhonePe
                         </a>
-
                         <a id="paytm-btn" class="app-button" href="#">
                             <span class="app-icon paytm-icon"></span>
                             Pay with Paytm
@@ -956,12 +948,8 @@
         </div>
         
         <div id="account-detail-screen">
-            <div class="ad-top-nav">
-                Account Detail
-            </div>
-
+            <div class="ad-top-nav"> Account Detail </div>
             <div class="ad-container">
-                
                 <div class="profile-header">
                     <div class="profile-info">
                         <div class="profile-avatar">
@@ -974,7 +962,6 @@
                     </div>
                     <button class="copy-link-btn" onclick="copyLink()">Copy link</button>
                 </div>
-
                 <div class="balance-section-ad">
                     <div class="balance-row">
                         <div>
@@ -983,7 +970,6 @@
                         </div>
                         <a href="#" class="action-btn" onclick="handleWithdrawal(event)"> Withdraw</a>
                     </div>
-
                     <div class="summary-grid">
                         <div class="summary-item">
                             <i class="fas fa-coins"></i>
@@ -1005,70 +991,33 @@
 
                 <div class="menu-list">
                     <a href="#" class="menu-item" onclick="alert('Going to Personal page...'); return false;">
-                        <div class="menu-icon-text">
-                            <i class="fas fa-user"></i>
-                            <span class="menu-text">Personal</span>
-                        </div>
-                        <i class="fas fa-chevron-right arrow-icon"></i>
+                        <div class="menu-icon-text"> <i class="fas fa-user"></i> <span class="menu-text">Personal</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
                     </a>
                     <a href="#" class="menu-item" onclick="alert('Going to Message page...'); return false;">
-                        <div class="menu-icon-text">
-                            <i class="fas fa-envelope"></i>
-                            <span class="menu-text">Message</span>
-                        </div>
-                        <i class="fas fa-chevron-right arrow-icon"></i>
+                        <div class="menu-icon-text"> <i class="fas fa-envelope"></i> <span class="menu-text">Message</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
                     </a>
                     <a href="#" class="menu-item" onclick="alert('Going to Invite Friend page...'); return false;">
-                        <div class="menu-icon-text">
-                            <i class="fas fa-user-plus"></i>
-                            <span class="menu-text">Invite Friend</span>
-                        </div>
-                        <i class="fas fa-chevron-right arrow-icon"></i>
+                        <div class="menu-icon-text"> <i class="fas fa-user-plus"></i> <span class="menu-text">Invite Friend</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
                     </a>
                     <a href="#" class="menu-item" onclick="alert('Going to Invite Task page...'); return false;">
-                        <div class="menu-icon-text">
-                            <i class="fas fa-tasks"></i>
-                            <span class="menu-text">Invite Task</span>
-                        </div>
-                        <i class="fas fa-chevron-right arrow-icon"></i>
+                        <div class="menu-icon-text"> <i class="fas fa-tasks"></i> <span class="menu-text">Invite Task</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
                     </a>
                     <a href="#" class="menu-item" onclick="alert('Going to Address page...'); return false;">
-                        <div class="menu-icon-text">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span class="menu-text">Address</span>
-                        </div>
-                        <i class="fas fa-chevron-right arrow-icon"></i>
+                        <div class="menu-icon-text"> <i class="fas fa-map-marker-alt"></i> <span class="menu-text">Address</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
                     </a>
                     <a href="#" class="menu-item" onclick="alert('Going to Security page...'); return false;">
-                        <div class="menu-icon-text">
-                            <i class="fas fa-lock"></i>
-                            <span class="menu-text">Security</span>
-                        </div>
-                        <i class="fas fa-chevron-right arrow-icon"></i>
+                        <div class="menu-icon-text"> <i class="fas fa-lock"></i> <span class="menu-text">Security</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
                     </a>
                     <a href="#" class="menu-item" onclick="alert('Going to About Us page...'); return false;">
-                        <div class="menu-icon-text">
-                            <i class="fas fa-info-circle"></i>
-                            <span class="menu-text">About Us</span>
-                        </div>
-                        <i class="fas fa-chevron-right arrow-icon"></i>
+                        <div class="menu-icon-text"> <i class="fas fa-info-circle"></i> <span class="menu-text">About Us</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
                     </a>
                     <a href="#" class="menu-item" onclick="alert('Going to Language Settings page...'); return false;">
-                        <div class="menu-icon-text">
-                            <i class="fas fa-language"></i>
-                            <span class="menu-text">Language Settings</span>
-                        </div>
-                        <i class="fas fa-chevron-right arrow-icon"></i>
+                        <div class="menu-icon-text"> <i class="fas fa-language"></i> <span class="menu-text">Language Settings</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
                     </a>
-                    <a href="#" class="menu-item" onclick="alert('Logged out! (Would redirect to login page)'); return false;">
-                        <div class="menu-icon-text">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span class="menu-text">Logout</span>
-                        </div>
-                        <i class="fas fa-chevron-right arrow-icon"></i>
+                    <a href="#" class="menu-item" onclick="logoutUser()">
+                        <div class="menu-icon-text"> <i class="fas fa-sign-out-alt"></i> <span class="menu-text">Logout</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
                     </a>
                 </div>
-                
             </div>
         </div>
 
@@ -1105,6 +1054,7 @@
     <script>
         // --- CONSTANTS AND STATE ---
         const registrationScreen = document.getElementById('registration-screen');
+        const loginScreen = document.getElementById('login-screen'); // NEW
         const dashboardContainer = document.getElementById('dashboard-container');
         const dashboardScreen = document.getElementById('dashboard-screen');
         const gameScreen = document.getElementById('game-screen'); 
@@ -1127,15 +1077,16 @@
         const YOUR_UPI_ID = "okayd@ybl"; 
         const MERCHANT_NAME = "Security Deposit";
 
-        // Placeholder User Data (will be populated on successful registration)
+        // Placeholder User Data (will be loaded/populated on success)
         let USER_DATA = {
-            username: "Pawan ks000", 
-            inviteCode: "f3af42", 
-            currentBalance: 1200.00, // REAL BALANCE
+            username: "", 
+            phone: "",
+            inviteCode: "246915", // Default
+            currentBalance: 0.00, 
             todayIncome: 0.00 
         };
         
-        // --- LIMBO GAME STATE & ELEMENTS (UPDATED) ---
+        // --- LIMBO GAME STATE & ELEMENTS (Kept Same) ---
         let isLimboPlaying = false;
         let limboGameInterval;
         
@@ -1144,14 +1095,284 @@
         const limboPlayBtn = document.getElementById('limbo-play-btn');
         const limboMultiplierDisplay = document.getElementById('limbo-multiplier-display');
         const limboResultMessage = document.getElementById('limbo-result-message');
-        const limboRealBalanceDisplay = document.getElementById('limbo-real-balance'); // NEW ELEMENT
+        const limboRealBalanceDisplay = document.getElementById('limbo-real-balance'); 
         const limboLine = document.getElementById('limbo-line');
         // --- END LIMBO GAME STATE & ELEMENTS ---
 
         let countdownInterval;
-        let isFirstLoad = true; 
+        let isFreshRegistration = false; // Flag to control pop-up on first load
+
+        // --- SCREEN CONTROL LOGIC (UPDATED) ---
+        function showScreen(screenElement) {
+            registrationScreen.style.display = 'none';
+            loginScreen.style.display = 'none';
+            dashboardContainer.style.display = 'none'; 
+            
+            if (screenElement === registrationScreen) {
+                registrationScreen.style.display = 'flex';
+            } else if (screenElement === loginScreen) {
+                loginScreen.style.display = 'flex';
+            } else if (screenElement === dashboardContainer) {
+                dashboardContainer.style.display = 'block';
+                // Inside dashboard, show home screen by default
+                showDashboard(); 
+            }
+        }
         
-        // --- SLIDER LOGIC ---
+        function showRegistrationScreen() {
+            showScreen(registrationScreen);
+        }
+        
+        function showLoginScreen() {
+            showScreen(loginScreen);
+        }
+        
+        // --- AUTH LOGIC (REGISTER) ---
+        document.getElementById('registration-form').addEventListener('submit', handleRegistration);
+
+        function handleRegistration(event) {
+            event.preventDefault(); 
+            
+            const username = document.getElementById('reg_username').value.trim();
+            const phone = document.getElementById('reg_phone').value.trim();
+            const password = document.getElementById('reg_password').value;
+            const paymentPassword = document.getElementById('reg_payment_password').value;
+            const inviteCode = document.getElementById('reg_invite').value; 
+
+            if (password.length < 6 || paymentPassword.length !== 6 || phone.length < 10) {
+                 alert('Invalid input. Password must be 6+ chars, Payment Password must be 6 digits, Phone must be 10+ digits.');
+                 return;
+            }
+
+            // 1. Get existing users
+            let users = JSON.parse(localStorage.getItem('registeredUsers')) || {};
+
+            // 2. Check if user already exists (using phone/username as unique key)
+            if (users[phone] || users[username]) {
+                alert('Account already exists. Please log in.');
+                return;
+            }
+
+            // 3. Save new user data
+            users[username] = { // Use username as the primary key for login
+                username: username,
+                phone: phone,
+                password: password,
+                paymentPassword: paymentPassword,
+                inviteCode: inviteCode,
+                balance: 1200.00, // Initial bonus
+                freeze: 0.00,
+                todayIncome: 0.00
+            };
+            
+            localStorage.setItem('registeredUsers', JSON.stringify(users));
+
+            // 4. Automatically log in the new user
+            alert('Registration successful! ₹1200 bonus credited.');
+            
+            // **[CHANGE 1: SET FLAG]** Set flag in localStorage for fresh registration
+            localStorage.setItem('isFreshRegistration', 'true');
+            
+            // Set current user in storage
+            localStorage.setItem('currentUser', username);
+            
+            // Update app state and navigate to dashboard
+            loadUserData(username);
+            showScreen(dashboardContainer);
+            // NOTE: Pop-up is now handled inside loadUserData
+        }
+        
+        // --- AUTH LOGIC (LOGIN) ---
+        document.getElementById('login-form').addEventListener('submit', handleLogin);
+
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const usernameOrPhone = document.getElementById('login_username').value.trim();
+            const password = document.getElementById('login_password').value;
+
+            const users = JSON.parse(localStorage.getItem('registeredUsers')) || {};
+
+            let userKey = usernameOrPhone; 
+            
+            // Try to find user by exact username match
+            let user = users[userKey];
+
+            if (!user) {
+                // If not found by username, iterate through all users to check by phone
+                for (const key in users) {
+                    if (users[key].phone === usernameOrPhone) {
+                        user = users[key];
+                        userKey = key; // Found by phone, use the username key
+                        break;
+                    }
+                }
+            }
+            
+            if (user && user.password === password) {
+                // Successful Login
+                localStorage.setItem('currentUser', userKey);
+                alert('Login successful! Welcome back.');
+                // **[CHANGE 2: CLEAR FLAG ON LOGIN]** Clear fresh registration flag if it exists
+                localStorage.removeItem('isFreshRegistration');
+                loadUserData(userKey);
+                showScreen(dashboardContainer);
+            } else {
+                alert('Invalid username/phone or password. Please check your credentials.');
+            }
+        }
+        
+        // --- USER & DATA MANAGEMENT ---
+        function loadUserData(usernameKey) {
+            const users = JSON.parse(localStorage.getItem('registeredUsers')) || {};
+            const user = users[usernameKey];
+
+            if (user) {
+                USER_DATA.username = user.username;
+                USER_DATA.phone = user.phone;
+                USER_DATA.inviteCode = user.inviteCode;
+                USER_DATA.currentBalance = user.balance;
+                USER_DATA.freeze = user.freeze;
+                USER_DATA.todayIncome = user.todayIncome;
+                
+                updateAllInfo(); 
+                
+                // **[CHANGE 3: CHECK & SHOW POP-UP]** Check for the fresh registration flag
+                const isFreshReg = localStorage.getItem('isFreshRegistration');
+                if (isFreshReg === 'true') {
+                    if (bonusPopup) {
+                        // Show the bonus pop-up only after fresh registration
+                        bonusPopup.style.display = 'flex';
+                    }
+                    // Remove the flag so it doesn't show on refresh
+                    localStorage.removeItem('isFreshRegistration');
+                }
+
+            } else {
+                // Should not happen if called after successful login/reg
+                alert('Error: User data not found.');
+                logoutUser();
+            }
+        }
+        
+        function saveUserData() {
+             const usernameKey = localStorage.getItem('currentUser');
+             if (usernameKey) {
+                 let users = JSON.parse(localStorage.getItem('registeredUsers'));
+                 if (users && users[usernameKey]) {
+                     // Update balance and other mutable fields
+                     users[usernameKey].balance = USER_DATA.currentBalance;
+                     users[usernameKey].freeze = USER_DATA.freeze;
+                     users[usernameKey].todayIncome = USER_DATA.todayIncome;
+
+                     localStorage.setItem('registeredUsers', JSON.stringify(users));
+                 }
+             }
+        }
+        
+        function logoutUser() {
+            localStorage.removeItem('currentUser');
+            alert('You have been logged out!');
+            showLoginScreen();
+            if (slideInterval) clearInterval(slideInterval); 
+            if (countdownInterval) clearInterval(countdownInterval); 
+        }
+
+        // --- DASHBOARD NAVIGATION & FUNCTIONALITY (Kept Same) ---
+        
+        function setActiveNav(index) {
+            document.querySelectorAll('.bottom-nav .nav-item').forEach((item, idx) => {
+                item.classList.remove('active');
+                if (idx === index) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        function hideAllScreens() {
+            document.querySelectorAll('#dashboard-screen, #game-screen, #security-deposit-screen, #account-detail-screen').forEach(screen => {
+                screen.classList.remove('active-screen');
+                screen.style.display = 'none';
+            });
+            // **[CHANGE 4: REMOVED POPUP SHOW LOGIC FROM HERE]** Pop-up logic is now in loadUserData
+            if (bonusPopup) bonusPopup.style.display = 'none'; 
+        }
+
+        function showScreenContent(screenElement, navIndex) {
+            hideAllScreens();
+            screenElement.style.display = 'block'; 
+            screenElement.classList.add('active-screen');
+            setActiveNav(navIndex); 
+            updateAllInfo(); 
+            window.scrollTo(0, 0);
+        }
+
+        function showDashboard(event) {
+            if (event) event.preventDefault();
+            showScreenContent(dashboardScreen, 0);
+            startAutoSlide(); 
+            
+            // **[CHANGE 5: REMOVED POPUP SHOW LOGIC FROM HERE]** Pop-up logic is now in loadUserData
+        }
+        
+        function showGameScreen(event) {
+            if (event) event.preventDefault();
+            showScreenContent(gameScreen, 1);
+            if (slideInterval) clearInterval(slideInterval); 
+            updateLimboRealBalance(); 
+        }
+
+        function showSecurityDeposit(event) {
+            if (event) event.preventDefault();
+            showScreenContent(securityDepositScreen, 3);
+            if (slideInterval) clearInterval(slideInterval); 
+            
+            if (paymentSection) paymentSection.style.display = 'none';
+            if (countdownInterval) clearInterval(countdownInterval); 
+            if (timerDisplay) timerDisplay.textContent = '11:00'; 
+        }
+        
+        function showAccountDetail(event) {
+            if (event) event.preventDefault();
+            showScreenContent(accountDetailScreen, 4);
+            if (slideInterval) clearInterval(slideInterval); 
+        }
+
+        function handleWithdrawal(event) {
+            event.preventDefault();
+            document.getElementById("withdrawPopup").style.display = "flex";
+        }
+
+        function closePopupAndRedirect() {
+            document.getElementById("withdrawPopup").style.display = "none";
+            showSecurityDeposit(); 
+        }
+        
+        // --- OTHER UTILITY FUNCTIONS (Kept Same) ---
+        function closeBonusPopup() {
+            if (bonusPopup) {
+                bonusPopup.style.display = 'none';
+            }
+        }
+        
+        function togglePassword(id, iconElement) {
+            const passwordField = document.getElementById(id);
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                iconElement.classList.remove('fa-eye-slash');
+                iconElement.classList.add('fa-eye');
+            } else {
+                passwordField.type = 'password';
+                iconElement.classList.remove('fa-eye');
+                iconElement.classList.add('fa-eye-slash');
+            }
+        }
+        
+        function copyLink() {
+            alert('Link copied to clipboard!');
+        }
+
+        // --- SLIDER LOGIC (Kept Same) ---
         function moveSlider() {
             currentSlide = (currentSlide + 1) % totalSlides;
             updateSlider();
@@ -1182,127 +1403,7 @@
             slideInterval = setInterval(moveSlider, 3000); 
         }
 
-        // --- REGISTRATION LOGIC ---
-        document.getElementById('registration-form').addEventListener('submit', handleRegistration);
-
-        function handleRegistration(event) {
-            event.preventDefault(); 
-            
-            const usernameValue = document.getElementById('username').value;
-            const userInviteCode = document.getElementById('invite').value; 
-            
-            USER_DATA.username = usernameValue;
-            USER_DATA.inviteCode = userInviteCode;
-
-            registrationScreen.style.display = 'none';
-
-            dashboardContainer.style.display = 'block';
-
-            updateAllInfo();
-            showDashboard();
-            startAutoSlide(); 
-            
-            setupSocialShareButtons();
-        }
-        
-        function closeBonusPopup() {
-            if (bonusPopup) {
-                bonusPopup.style.display = 'none';
-            }
-        }
-
-        function togglePassword(id, iconElement) {
-            const passwordField = document.getElementById(id);
-            if (passwordField.type === 'password') {
-                passwordField.type = 'text';
-                iconElement.classList.remove('fa-eye-slash');
-                iconElement.classList.add('fa-eye');
-            } else {
-                passwordField.type = 'password';
-                iconElement.classList.remove('fa-eye');
-                iconElement.classList.add('fa-eye-slash');
-            }
-        }
-
-        // --- DASHBOARD NAVIGATION & FUNCTIONALITY ---
-        
-        function setActiveNav(index) {
-            document.querySelectorAll('.bottom-nav .nav-item').forEach((item, idx) => {
-                item.classList.remove('active');
-                if (idx === index) {
-                    item.classList.add('active');
-                }
-            });
-        }
-
-        function hideAllScreens() {
-            document.querySelectorAll('#dashboard-screen, #game-screen, #security-deposit-screen, #account-detail-screen').forEach(screen => {
-                screen.classList.remove('active-screen');
-                screen.style.display = 'none';
-            });
-            if (bonusPopup) bonusPopup.style.display = 'none'; 
-        }
-
-        function showScreen(screenElement, navIndex) {
-            hideAllScreens();
-            screenElement.style.display = 'block'; 
-            screenElement.classList.add('active-screen');
-            setActiveNav(navIndex); 
-            updateAllInfo(); 
-            window.scrollTo(0, 0);
-        }
-
-        function showDashboard(event) {
-            if (event) event.preventDefault();
-            showScreen(dashboardScreen, 0);
-            startAutoSlide(); 
-            
-            if (isFirstLoad) {
-                if (bonusPopup) {
-                    bonusPopup.style.display = 'flex';
-                }
-                isFirstLoad = false; 
-            }
-        }
-        
-        function showGameScreen(event) {
-            if (event) event.preventDefault();
-            showScreen(gameScreen, 1); // Nav index 1
-            if (slideInterval) clearInterval(slideInterval); 
-            updateLimboRealBalance(); // Use real balance update
-        }
-
-        function showSecurityDeposit(event) {
-            if (event) event.preventDefault();
-            showScreen(securityDepositScreen, 3);
-            if (slideInterval) clearInterval(slideInterval); 
-            
-            if (paymentSection) paymentSection.style.display = 'none';
-            if (countdownInterval) clearInterval(countdownInterval); 
-            if (timerDisplay) timerDisplay.textContent = '11:00'; 
-        }
-        
-        function showAccountDetail(event) {
-            if (event) event.preventDefault();
-            showScreen(accountDetailScreen, 4);
-            if (slideInterval) clearInterval(slideInterval); 
-        }
-
-        function handleWithdrawal(event) {
-            event.preventDefault();
-            document.getElementById("withdrawPopup").style.display = "flex";
-        }
-
-        function closePopupAndRedirect() {
-            document.getElementById("withdrawPopup").style.display = "none";
-            showSecurityDeposit(); 
-        }
-        
-        function copyLink() {
-            alert('Link copied to clipboard!');
-        }
-
-        // --- LIMBO GAME LOGIC (UPDATED FOR REAL BALANCE) ---
+        // --- LIMBO GAME LOGIC (Kept Same) ---
         function updateLimboRealBalance() {
             if (limboRealBalanceDisplay) {
                 limboRealBalanceDisplay.textContent = `₹${USER_DATA.currentBalance.toFixed(2)}`;
@@ -1310,8 +1411,6 @@
         }
 
         function getLimboCrashPoint() {
-            // A long-tail distribution formula for random crash point
-            // Minimum 1.01x, Max 50x (to prevent infinite loops and too high payouts)
             const random = Math.random();
             const multiplier = 1 / (1 - random); 
             return parseFloat(Math.min(50, Math.max(1.01, multiplier)).toFixed(2));
@@ -1351,9 +1450,9 @@
                  return;
             }
 
-
             // 2. Setup Game State
             USER_DATA.currentBalance = parseFloat((USER_DATA.currentBalance - betAmount).toFixed(2));
+            saveUserData(); // Save new balance
             updateAllInfo(); // Update all balance displays
             
             isLimboPlaying = true;
@@ -1370,14 +1469,12 @@
             // 3. Game Animation/Logic Loop
             limboGameInterval = setInterval(() => {
                 
-                // Randomly crash the game early in 5% of cases for realism
                 if (Math.random() < 0.05 && currentMultiplier < 1.50) {
                      clearInterval(limboGameInterval);
                      finishLimboGame(betAmount, targetMultiplier, currentMultiplier);
                      return;
                 }
 
-                // Calculate next multiplier step
                 const speedFactor = Math.log(currentMultiplier * 10) / 10 + 0.05; 
                 currentMultiplier += speedFactor * (intervalTime / 1000); 
                 
@@ -1388,10 +1485,8 @@
                     return;
                 }
                 
-                // Update Multiplier Display
                 limboMultiplierDisplay.textContent = currentMultiplier.toFixed(2) + 'x';
                 
-                // Update Line Animation 
                 const visualMax = 10; 
                 const percentageX = Math.min(100, (currentMultiplier / visualMax) * 100);
                 
@@ -1407,7 +1502,6 @@
             let newColorClass = "";
             
             if (finalMultiplier >= targetMultiplier) {
-                // WINNER
                 winnings = parseFloat((betAmount * targetMultiplier).toFixed(2)); 
                 const profit = parseFloat((winnings - betAmount).toFixed(2));
                 
@@ -1417,39 +1511,33 @@
                 newColorClass = 'win-text';
                 
             } else {
-                // LOSER
                 resultMessage = `Afsos! Rocket ${finalMultiplier.toFixed(2)}x par phat gaya. Lost -₹${betAmount.toFixed(2)}.`;
                 newColorClass = 'loss-text';
             }
             
+            saveUserData(); // Save final balance
             limboMultiplierDisplay.textContent = finalMultiplier.toFixed(2) + 'x';
             limboMultiplierDisplay.classList.add(newColorClass);
             limboResultMessage.textContent = resultMessage;
-            updateAllInfo(); // Update all balance displays
+            updateAllInfo(); 
 
-            // Reset UI after a short delay
             setTimeout(resetLimboUI, 3000); 
         }
 
         // --- END LIMBO GAME LOGIC ---
 
-        // --- NEW INVITE FRIEND LOGIC ---
-        const INVITE_LINK = `https://jobhubhub-ctrl.github.io/Jobhub-/?invite=${USER_DATA.inviteCode}`;
-        const INVITE_TEXT = `Join me on JOBHUB and earn ₹300! My invitation code is ${USER_DATA.inviteCode}. Register here: ${INVITE_LINK}`;
+        // --- INVITE FRIEND LOGIC (Kept Same) ---
+        const INVITE_LINK = `https://yourdomain.com/register?invite=${USER_DATA.inviteCode}`;
+        const INVITE_TEXT = `Join me on JOBHU and earn ₹300! My invitation code is ${USER_DATA.inviteCode}. Register here: ${INVITE_LINK}`;
 
         function generateSocialShareURL(platform, text) {
             const encodedText = encodeURIComponent(text);
             switch (platform) {
-                case 'whatsapp':
-                    return `https://wa.me/?text=${encodedText}`;
-                case 'facebook':
-                    return `https://www.facebook.com/sharer/sharer.php?quote=${encodedText}`;
-                case 'telegram':
-                    return `https://t.me/share/url?url=&text=${encodedText}`;
-                case 'twitter':
-                    return `https://twitter.com/intent/tweet?text=${encodedText}`;
-                default:
-                    return '#';
+                case 'whatsapp': return `https://wa.me/?text=${encodedText}`;
+                case 'facebook': return `https://www.facebook.com/sharer/sharer.php?quote=${encodedText}`;
+                case 'telegram': return `https://t.me/share/url?url=&text=${encodedText}`;
+                case 'twitter': return `https://twitter.com/intent/tweet?text=${encodedText}`;
+                default: return '#';
             }
         }
 
@@ -1465,7 +1553,7 @@
             ];
 
             socialPlatforms.forEach(platform => {
-                const url = generateSocialShareURL(platform.id, INVITE_TEXT);
+                const url = generateSocialShareURL(platform.id, INVITE_TEXT.replace(USER_DATA.inviteCode, document.getElementById('dashboard-invitecode').textContent.slice(0, 6))); // Use live code
                 const button = document.createElement('button');
                 button.className = `social-btn ${platform.colorClass}`;
                 button.innerHTML = `<i class="${platform.icon}"></i>`;
@@ -1475,20 +1563,19 @@
         }
 
         async function shareInviteLink() {
+            const finalInviteText = `Join me on JOBHU and earn ₹300! My invitation code is ${USER_DATA.inviteCode}. Register here: ${INVITE_LINK.replace('246915', USER_DATA.inviteCode)}`;
             if (navigator.share) {
                 try {
                     await navigator.share({
                         title: 'JOBHUb Invitation',
-                        text: INVITE_TEXT,
-                        url: INVITE_LINK
+                        text: finalInviteText,
+                        url: INVITE_LINK.replace('246915', USER_DATA.inviteCode)
                     });
-                    console.log('Invite shared successfully via Web Share API.');
                 } catch (error) {
-                    console.error('Error sharing:', error);
-                    copyLinkToClipboard(INVITE_LINK);
+                    copyLinkToClipboard(finalInviteText);
                 }
             } else {
-                copyLinkToClipboard(INVITE_LINK);
+                copyLinkToClipboard(finalInviteText);
             }
         }
         
@@ -1502,7 +1589,7 @@
             alert('Invite link and message copied to clipboard! You can share it now.');
         }
 
-        // --- PAYMENT PAGE LOGIC ---
+        // --- PAYMENT PAGE LOGIC (Kept Same) ---
         quickSelectButtons.forEach(button => {
             button.addEventListener('click', () => {
                 quickSelectButtons.forEach(btn => btn.classList.remove('active'));
@@ -1588,7 +1675,7 @@
 
         // --- UI DATA UPDATE ---
         function updateAllInfo() {
-            const freezeAmount = (0.00).toFixed(2); 
+            const freezeAmount = USER_DATA.freeze.toFixed(2); 
             const totalBalance = USER_DATA.currentBalance.toFixed(2);
             const todayIncome = USER_DATA.todayIncome.toFixed(2);
             
@@ -1611,13 +1698,23 @@
             if(document.getElementById('ad-main-balance')) document.getElementById('ad-main-balance').textContent = `₹${totalBalance}`;
             if(document.getElementById('ad-total-balance')) document.getElementById('ad-total-balance').textContent = `₹${totalBalance}`;
             if(document.getElementById('ad-freeze-balance')) document.getElementById('ad-freeze-balance').textContent = `₹${freezeAmount}`;
+            
+            setupSocialShareButtons(); // Update invite code in share buttons
         }
 
         // --- INITIALIZATION ---
         window.onload = () => {
-             dashboardContainer.style.display = 'none';
+             const loggedInUser = localStorage.getItem('currentUser');
+             
+             if (loggedInUser) {
+                 loadUserData(loggedInUser);
+                 showScreen(dashboardContainer);
+             } else {
+                 // Show registration first if no one is logged in
+                 showScreen(registrationScreen);
+             }
+             
              updateSlider(); 
-             setupSocialShareButtons();
              resetLimboUI();
         }
     </script>
