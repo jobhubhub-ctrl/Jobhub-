@@ -3,243 +3,443 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOBHUB </title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>JOBHUB - The Future of Earnings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* --- THEME COLORS --- */
+        :root {
+            --primary-color: #3B82F6; /* Modern Blue */
+            --secondary-color: #10B981; /* Green Success */
+            --background-light: #F8FAFC;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --gradient-auth: linear-gradient(135deg, #4F46E5, #3B82F6);
+        }
+
         /* --- GLOBAL STYLES --- */
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f2f5;
-            color: #333;
+            background-color: var(--background-light);
             min-height: 100vh;
-            overflow-y: auto; 
-            overflow-x: hidden; 
+            overflow-x: hidden;
         }
 
         .container {
-            padding: 0 15px; 
+            padding: 0 15px;
+        }
+        
+        /* --- LOGO STYLE (Unique) --- */
+        .app-logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .app-logo span {
+            color: var(--secondary-color);
+            margin-left: 5px;
+        }
+        .app-logo i {
+            font-size: 24px;
+            margin-right: 8px;
+            color: #FFD700; /* Gold */
         }
         
         /* --- SCREEN HIDING STYLES --- */
-        #registration-screen, #login-screen {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
+        #registration-screen {
             min-height: 100vh;
-            background: linear-gradient(to bottom, #7fcdf4, #2779a5);
-            color: #333;
-            padding-top: 50px;
+            display: none;
+            /* Applying Animation to the Gradient Background */
+            background: linear-gradient(-45deg, #4F46E5, #3B82F6, #1D4ED8, #10B981);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            padding: 0;
+            position: relative;
         }
         
-        #dashboard-container {
-            display: none; /* Initially hide the dashboard */
-            padding-bottom: 60px; /* Space for bottom nav */
-            position: relative; 
-        }
-        
-        /* --- REGISTRATION/LOGIN STYLES --- */
-        .reg-container {
-            width: 90%;
-            max-width: 400px;
-            padding: 20px;
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        .header {
+        #dashboard-container {
+            display: none;
+            padding-bottom: 60px;
+            position: relative;
+        }
+
+        /* --- REGISTRATION/LOGIN STYLES (Unique & Attractive) --- */
+        .auth-container {
+            /* --- CENTERING THE CARD --- */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Vertical center */
+            align-items: center;     /* Horizontal center */
+            width: 100%; /* Ensure it spans full width for proper centering */
+            /* ----------------------- */
+            padding: 30px 15px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        
+        .auth-card {
+            background-color: white;
+            border-radius: 15px;
+            /* --- REDESIGN ENHANCEMENT 1: PREMIUM CARD LOOK --- */
+            border: 1px solid rgba(255, 255, 255, 0.5); /* Light border for floating effect */
+            box-shadow: 0 15px 40px rgba(0,0,0,0.45); /* Softened/updated shadow */
+            
+            width: 100%;
+            max-width: 380px;
+            padding: 30px;
+            box-sizing: border-box;
+            /* Slide-in animation for the card */
+            animation: slideInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; 
+            opacity: 0;
+            transform: translateY(50px);
+            
+            /* Added: Animation for hover effect */
+            transition: all 0.3s ease-in-out; 
+        }
+        
+        /* --- REDESIGN ENHANCEMENT 1: HOVER ANIMATION --- */
+        .auth-card:hover {
+            transform: translateY(0) rotateZ(-0.5deg) scale(1.01); 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.55);
+        }
+        
+        /* --- REDESIGN ENHANCEMENT 2: CUSTOM WAVE DIVIDER --- */
+        .card-divider {
+            height: 5px;
+            background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+            width: 50%;
+            margin: 0 auto 30px auto;
+            border-radius: 5px;
+            opacity: 0.8;
+        }
+
+        @keyframes slideInUp {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+
+        .auth-header {
             text-align: center;
             margin-bottom: 30px;
         }
 
-        .avatar {
-            width: 100px;
-            height: 100px;
-            margin: 15px auto;
-            border-radius: 50%;
-            background-color: #5bb9ef;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .auth-header h2 {
+            margin: 0;
+            color: var(--text-dark);
+            font-weight: 700;
+            font-size: 24px;
         }
 
-        .sign-up-text {
-            color: white;
-            font-size: 28px;
-            font-weight: 500;
-            margin-bottom: 10px;
-        }
-
-        .form-group {
-            position: relative;
-            margin-bottom: 25px;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 10px 0;
-            border: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.7);
-            background: transparent;
-            color: white;
-            font-size: 16px;
-            outline: none;
-            box-sizing: border-box;
-        }
-
-        .country-code {
-            padding-right: 10px;
-            color: white;
-            font-size: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.7);
-            height: 40px;
-            line-height: 40px;
-        }
-        
-        .phone-input-group {
-            display: flex;
-            align-items: center;
-        }
-        
-        .password-input-group {
-            display: flex;
-            align-items: center;
+        .auth-form-group {
+            margin-bottom: 20px;
             position: relative;
         }
-        
-        .password-input-group .input-field {
-            padding-right: 40px;
-        }
 
-        .toggle-icon {
-            position: absolute;
-            right: 0;
-            cursor: pointer;
-            color: rgba(255, 255, 255, 0.7);
-            bottom: 10px;
-        }
-
-        .register-button, .login-submit-button {
-            width: 100%;
-            padding: 15px;
-            background-color: #5bb9ef;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 18px;
-            margin-top: 30px;
-            font-weight: bold;
-        }
-
-        .secondary-button {
-            width: 100%;
-            padding: 15px;
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 18px;
-            margin-top: 15px;
-            font-weight: bold;
-        }
-        
-        /* NEW FORGET PASSWORD STYLE */
-        .forget-password {
-            text-align: right;
-            margin-top: -10px;
-            margin-bottom: 10px; 
-        }
-
-        .forget-password a {
-            color: white;
-            text-decoration: none;
+        .auth-form-group label {
+            display: block;
             font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 5px;
             font-weight: 500;
         }
+
+        .auth-input-wrapper {
+            position: relative;
+        }
         
-       /* --- DASHBOARD STYLES (from dashboard.html) --- */
-        .top-nav {
-            background-color: white;
-            padding: 10px 15px;
-            text-align: center;
+        .auth-input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+
+        .auth-form-group input {
+            width: 100%;
+            padding: 12px 15px 12px 50px; /* Space for icon */
+            border: 1px solid #E5E7EB;
+            border-radius: 10px;
             font-size: 16px;
-            font-weight: 500;
-            color: #333;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+            outline: none;
+            /* REDESIGN: Added transform for smooth scale animation */
+            transform: scale(1); 
+            transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s; /* Add transform transition */
+        }
+
+        /* --- REDESIGN ENHANCEMENT 3: INPUT FOCUS ANIMATION --- */
+        .auth-form-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4); /* Stronger shadow */
+            transform: scale(1.01); /* Subtle scale up */
+        }
+        
+        .auth-form-group .password-toggle-icon {
+            position: absolute;
+            right: 11px;
+            top: 50%; 
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.2s;
+            font-size: 14px;
+            padding: 5px;
+        }
+        .auth-form-group .password-toggle-icon:hover {
+            color: var(--primary-color);
+        }
+
+        .auth-submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: background-color 0.2s, transform 0.1s;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .auth-submit-btn:hover {
+            background-color: #059669;
+            transform: translateY(-2px) scale(1.005); /* Enhanced hover animation */
+        }
+        
+        .toggle-auth-mode {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .toggle-auth-mode a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .toggle-auth-mode a:hover {
+            color: #1D4ED8;
+        }
+        
+        /* --- DASHBOARD STYLES (New Design) --- */
+        .top-nav {
+            background: var(--gradient-auth);
+            padding: 15px 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 10;
         }
-        .main-card { background-color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-top: 15px; padding-bottom: 10px; }
-        
-        /* --- SLIDER STYLES (NEW) --- */
-        .slider-wrapper {
-            position: relative;
-            overflow: hidden; /* Important to hide extra slides */
-            height: 200px; /* Fixed height for the slider area */
-            border-top-left-radius: 10px; 
-            border-top-right-radius: 10px;
-        }
-        
-        .slides-container {
+
+        .welcome-card {
+            background: linear-gradient(to right, #60A5FA, #3B82F6); 
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 15px 0 15px;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.5);
             display: flex;
-            height: 100%;
-            width: 300%; /* 3 slides * 100% width each */
-            transition: transform 0.5s ease-in-out;
-        }
-        
-        .slide {
-            width: calc(100% / 3); /* Each slide takes 1/3 of the container width */
-            flex-shrink: 0;
-            height: 100%;
-            display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
         }
-        
-        .slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ensures the image covers the slide area */
-            display: block;
+        .welcome-card h3 {
+            margin: 0 0 5px 0;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        .welcome-card p {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .welcome-card .icon {
+            font-size: 36px;
+            color: #FFD700; /* Gold */
         }
         
-        .slider-dots { text-align: center; padding: 5px 0; }
-        .dot { height: 8px; width: 8px; background-color: #bbb; border-radius: 50%; display: inline-block; margin: 0 4px; transition: background-color 0.3s; }
-        .dot.active { background-color: #4a90e2; }
+        .main-balance-card { 
+            background-color: white; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+            margin: 15px 15px 0 15px; 
+            padding: 20px; 
+            text-align: center;
+            border-top: 5px solid var(--secondary-color);
+        }
+        .main-balance-card .label {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .main-balance-card .amount {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin: 5px 0 15px 0;
+        }
         
-        /* --- END SLIDER STYLES --- */
-        
-        .action-buttons { display: flex; justify-content: space-around; padding: 10px 0; margin-top: -10px; }
-        .action-btn { flex: 1; margin: 0 5px; padding: 10px 0; background-color: white; border-radius: 8px; text-align: center; font-size: 16px; font-weight: 500; color: #333; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-decoration: none; display: flex; align-items: center; justify-content: center; }
-        .action-btn i { margin-right: 8px; font-size: 18px; color: #4a90e2; }
-        .balance-card { background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-top: 15px; display: flex; justify-content: space-between; align-items: flex-start; }
-        .balance-card h4 { margin: 0 0 5px 0; font-weight: 500; color: #666; }
-        .balance-details .main { font-size: 24px; font-weight: 700; color: #333; margin: 5px 0; }
-        .balance-details .sub { font-size: 12px; color: #999; }
-        .balance-section .total { font-size: 24px; font-weight: 700; color: #333; }
-        .freeze-info { font-size: 12px; color: #e74c3c; margin-top: 5px; }
-        .partner-logo-container { background-color: white; border-radius: 8px; padding: 10px; margin-top: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-around; overflow-x: auto; white-space: nowrap; }
-        .partner-section h3 { margin: 20px 0 10px 0; font-size: 16px; font-weight: 500; }
-        .partner-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .bank-logo { background-color: white; border-radius: 8px; height: 80px; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-size: 10px; font-weight: 700; color: #4a90e2; }
+        .balance-stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #E5E7EB;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-item .value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+        .stat-item .label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
 
-        /* --- NEW INVITE FRIEND STYLES --- */
-        .invite-friend-card {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-            margin-top: 20px;
+        .action-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 10px; 
+            padding: 15px; 
+        }
+        .action-btn { 
+            background-color: white; 
+            border-radius: 12px; 
+            padding: 15px; 
+            text-align: center; 
+            font-size: 15px; 
+            font-weight: 600; 
+            color: var(--text-dark); 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
+            text-decoration: none; 
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80px;
+        }
+        .action-btn:hover {
+             transform: translateY(-2px);
+        }
+        .action-btn.deposit i { color: var(--primary-color); }
+        .action-btn.withdraw i { color: #EF4444; }
+        
+        /* --- Suggested Content Styles (New Sections) --- */
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+        .rank-icon {
+            font-size: 20px;
+            margin-right: 10px;
+            width: 30px;
+            text-align: center;
+        }
+        .rank-1 { color: #FFD700; } /* Gold */
+        .rank-2 { color: #C0C0C0; } /* Silver */
+        .rank-3 { color: #CD7F32; } /* Bronze */
+        .earner-name {
+            font-weight: 600;
+            flex-grow: 1;
+        }
+        .earner-amount {
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .mission-card {
+            background-color: var(--background-light);
             padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #E5E7EB;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .mission-card:hover {
+             transform: translateY(-2px);
+        }
+        .mission-card i {
+            font-size: 30px;
+            color: #F97316; /* Orange */
+            margin-bottom: 8px;
+        }
+        .mission-card h4 {
+            margin: 0 0 5px 0;
+            font-size: 14px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        .mission-card p {
+            margin: 0;
+            font-size: 12px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+
+        /* --- PARTNER & INVITE SECTION (Updated) --- */
+        .card {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin: 15px 15px 0 15px;
+            padding: 20px;
+        }
+        
+        .section-header {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 10px;
+        }
+
+        .invite-friend-card {
+            padding: 20px;
             text-align: center;
         }
 
         .invite-header {
             font-size: 18px;
             font-weight: 700;
-            color: #d35400; /* Orange/Gold for focus */
+            color: #F97316; /* Orange focus */
             margin-bottom: 15px;
             display: flex;
             align-items: center;
@@ -249,16 +449,16 @@
         .invite-header i {
             margin-right: 10px;
             font-size: 24px;
-            color: #f39c12;
+            color: #FBBF24; /* Amber */
         }
 
         .share-button {
             width: 100%;
-            padding: 12px;
-            background-color: #38c172; /* Green for action */
+            padding: 14px;
+            background-color: var(--primary-color); 
             color: white;
             border: none;
-            border-radius: 25px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
             font-weight: 600;
@@ -267,126 +467,22 @@
             align-items: center;
             justify-content: center;
             transition: background-color 0.2s;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
         }
 
         .share-button:hover {
-            background-color: #31a364;
-        }
-
-        .social-share-buttons {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 15px;
-        }
-
-        .social-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 30px;
-            padding: 5px;
-            color: #333; /* Default */
+            background-color: #2563EB;
         }
         
-        .social-btn.whatsapp i { color: #25d366; }
-        .social-btn.facebook i { color: #1877f2; }
-        .social-btn.telegram i { color: #0088cc; }
-        .social-btn.twitter i { color: #1da1f2; }
-        /* --- END NEW INVITE FRIEND STYLES --- */
-
-        /* --- SUB-SCREEN STYLES --- */
-        #security-deposit-screen, #account-detail-screen, #game-screen { 
-            display: none; 
-            position: relative; 
-            top: 0;
-            left: 0;
-            width: 100%;
-            min-height: calc(100vh - 60px);
-            background-color: #f0f2f5; 
-            z-index: 999; 
-            overflow-y: visible;
-        }
+        /* --- Bottom Nav, Popups, and Sub-Screen Styles (Kept for functionality) --- */
         
-        .active-screen {
-            display: block !important;
-        }
-
-        /* Top Nav styles */
-        .ad-top-nav, .og-top-nav, .game-top-nav { background-color: white; padding: 15px 15px; text-align: center; font-size: 16px; font-weight: 500; color: #333; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 10px; position: sticky; top: 0; z-index: 10; }
-        .ad-container, .og-container, .game-container { padding: 0 15px; } 
-        .profile-header { background-color: white; padding: 15px; display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
-        /* (Remaining AD/OG styles omitted for brevity, keeping only essential parts) */
-        .profile-info { display: flex; align-items: center; }
-        .profile-avatar { width: 50px; height: 50px; border-radius: 50%; background-color: #5bb9ef; display: flex; justify-content: center; align-items: center; margin-right: 15px; }
-        .profile-text h4 { margin: 0; font-size: 16px; font-weight: 500; color: #333; }
-        .profile-text p { margin: 3px 0 0 0; font-size: 12px; color: #666; }
-        .copy-link-btn { background-color: #f0f0f0; color: #4a90e2; border: 1px solid #ddd; padding: 5px 10px; border-radius: 5px; font-size: 12px; cursor: pointer; white-space: nowrap; }
-        .balance-section-ad { background-color: white; padding: 15px; margin-bottom: 10px; }
-        .balance-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .main-balance { font-size: 28px; font-weight: 700; color: #333; }
-        .balance-label { font-size: 14px; color: #666; }
-        .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; border-top: 1px solid #f0f0f0; padding-top: 10px; }
-        .summary-item { display: flex; flex-direction: column; align-items: center; padding: 5px 0; }
-        .summary-item i { font-size: 20px; color: #999; margin-bottom: 5px; }
-        .summary-item span { font-size: 14px; color: #333; }
-        .menu-list { background-color: white; margin-top: 10px; }
-        .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid #f0f0f0; cursor: pointer; text-decoration: none; color: #333; }
-        .menu-icon-text { display: flex; align-items: center; }
-        .menu-icon-text i { font-size: 18px; color: #4a90e2; width: 30px; text-align: center; }
-        .menu-text { font-size: 15px; margin-left: 15px; }
-        .arrow-icon { color: #ccc; font-size: 14px; }
-        
-        /* Game Screen specific styles */
-        .virtual-trading-card {
-            background-color: white;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        /* Security Deposit Styles (Partial) */
-        .sd-top-nav, .top-nav-payment { background-color: #38c172; padding: 15px 15px; text-align: center; font-size: 18px; font-weight: 500; color: white; position: sticky; top: 0; z-index: 100; }
-        .sd-container, .payment-container { padding: 15px; }
-        .balance-display { padding: 15px 0; margin-bottom: 20px; border-bottom: 1px solid #ddd; }
-        .sd-container .balance-amount, .payment-container .balance-amount { font-size: 32px; font-weight: 700; color: #333; margin-bottom: 5px; }
-        .input-group { margin-bottom: 30px; }
-        .input-label { font-size: 16px; font-weight: 500; margin-bottom: 10px; display: block; }
-        .input-wrapper { display: flex; align-items: center; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
-        .input-currency { font-size: 20px; margin-right: 5px; color: #333; }
-        .amount-input { flex-grow: 1; border: none; padding: 5px 0; font-size: 20px; outline: none; }
-        .confirm-button { background-color: #38c172; color: white; padding: 8px 15px; border: none; border-radius: 5px; font-size: 14px; font-weight: 500; cursor: pointer; margin-left: 10px; }
-        .min-amount-tip { font-size: 12px; color: #999; margin-top: 10px; }
-        .quick-select-header { font-size: 16px; font-weight: 500; margin-bottom: 15px; }
-        .quick-select-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .quick-select-btn { background-color: white; color: #4a90e2; padding: 15px 5px; border: 1px solid #4a90e2; border-radius: 5px; font-size: 16px; font-weight: 500; cursor: pointer; text-align: center; transition: background-color 0.2s, color 0.2s; }
-        .quick-select-btn:active, .quick-select-btn.active { background-color: #4a90e2; color: white; }
-        #payment-section { background-color: #ffffff; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin-top: 30px; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; }
-        .payment-header { font-size: 20px; font-weight: 700; color: #38c172; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        #payment-timer { font-size: 18px; font-weight: 700; color: #dc3545; padding: 5px 10px; border: 2px solid #dc3545; border-radius: 5px; }
-        #display-pay-amount { font-size: 28px; font-weight: 700; color: #333; margin-bottom: 20px; }
-        .qr-image-container { display: inline-block; margin-bottom: 20px; padding: 10px; border: 2px solid #38c172; border-radius: 8px; }
-        .qr-image-container img { max-width: 200px; height: auto; display: block; }
-        .app-buttons { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
-        .app-button { display: block; padding: 12px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 15px; color: white; display: flex; align-items: center; justify-content: center; }
-        .app-icon { width: 24px; height: 24px; margin-right: 10px; background-size: contain; background-repeat: no-repeat; }
-        #gpay-btn { background-color: #4285F4; }
-        .gpay-icon { background-image: url('https://img.icons8.com/color/48/000000/google-pay.png'); }
-        #phonepe-btn { background-color: #5a3195; }
-        .phonepe-icon { background-image: url('https://img.icons8.com/color/48/000000/phone-pe.png'); }
-        #paytm-btn { background-color: #00b9f1; }
-        .paytm-icon { background-image: url('https://img.icons8.com/color/48/000000/paytm.png'); }
-        .footer-tip { margin-top: 40px; padding: 15px; background-color: #fff8e1; border: 1px solid #ffecb3; border-radius: 5px; font-size: 13px; line-height: 1.4; color: #795548; margin-bottom: 60px; }
-
-        /* --- BOTTOM NAVIGATION STYLES --- */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
             background-color: white;
-            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
             display: flex;
             justify-content: space-around;
             padding: 5px 0;
@@ -398,1377 +494,1332 @@
             flex-direction: column;
             align-items: center;
             text-decoration: none;
-            color: #999;
+            color: var(--text-muted);
             font-size: 12px;
             flex: 1;
+            transition: color 0.2s;
         }
-        .nav-item.active { color: #4a90e2; }
+        .nav-item.active { color: var(--primary-color); }
         .nav-icon { font-size: 20px; margin-bottom: 3px; }
-        .nav-center-icon {
-            background-color: #4a90e2;
-            color: white;
+        
+        /* Custom Pop-up Styles for Bonus & Withdrawal Alerts */
+        .custom-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+        }
+        .popup-box {
+            background: #fff;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 380px;
+            text-align: center;
+            padding: 30px 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            /* animation: bounceIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); */
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+        /* Add a subtle animation for better user experience */
+        .custom-popup[style*="flex"] .popup-box {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .popup-box h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 10px;
+            color: var(--text-dark);
+        }
+        .popup-box p {
+            font-size: 15px;
+            color: var(--text-muted);
+            margin: 10px 0 20px 0;
+        }
+        .popup-box .icon {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        /* Specific bonus popup styling */
+        .bonus-box .icon {
+            color: var(--secondary-color); /* Green Success color */
+            background: #e6fff3; /* Light green circle background */
             border-radius: 50%;
-            padding: 10px;
-            margin-top: -15px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            font-size: 24px;
-            height: 40px;
-            width: 40px;
+            width: 80px;
+            height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
-        } 
-        
-        /* Popup Modal CSS (Withdrawal) */
-        .custom-popup {
-          display: none;
-          position: fixed;
-          top: 0; left: 0;
-          width: 100%; height: 100%;
-          background-color: rgba(0,0,0,0.5);
-          justify-content: center;
-          align-items: center;
-          z-index: 2000;
+            margin: 0 auto 20px auto;
+            border: 3px solid var(--secondary-color);
         }
-
-        .popup-box {
-          background: #fff;
-          border-radius: 10px;
-          width: 85%;
-          max-width: 350px;
-          text-align: center;
-          padding: 25px 20px;
-          box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        .popup-box h3 {
-          color: #e67e22;
-          margin-bottom: 10px;
-        }
-
-        .popup-box p {
-          font-size: 15px;
-          color: #333;
-          margin-bottom: 20px;
-        }
-
         .popup-btn {
-          background: #4a90e2;
-          color: white;
-          border: none;
-          padding: 10px 25px;
-          border-radius: 5px;
-          font-size: 15px;
-          cursor: pointer;
-        }
-        
-        /* --- UPDATED BONUS POPUP STYLES --- */
-        #bonusPopup {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.4); 
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            justify-content: center;
-            align-items: center;
-            z-index: 3000; 
-        }
-        
-        .bonus-box {
-            background: linear-gradient(145deg, #ffc94b, #ffa500);
-            border-radius: 15px;
-            width: 85%;
-            max-width: 300px;
-            text-align: center;
-            padding: 30px 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .bonus-box .icon {
-            font-size: 50px;
-            color: #d35400; 
-            margin-bottom: 15px;
-            animation: bounce 1s infinite alternate;
-        }
-        
-        .bonus-box h3 {
-            color: #d35400; 
-            margin-bottom: 10px;
-            font-size: 22px;
-            font-weight: 700;
-            text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
-        }
-
-        .bonus-box p {
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 25px;
-            font-weight: 500;
-        }
-
-        .bonus-ok-btn {
-            background: #e67e22; 
+            background: var(--secondary-color);
             color: white;
             border: none;
             padding: 12px 30px;
-            border-radius: 50px; 
-            font-size: 16px;
-            cursor: pointer;
-            font-weight: 700;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            transition: background 0.3s;
-            text-transform: uppercase; 
-        }
-        
-        .bonus-ok-btn:hover {
-            background: #d35400;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes bounce {
-            from { transform: translateY(0); }
-            to { transform: translateY(-5px); }
-        }
-
-        /* --- LIMBO GAME STYLES (UPDATED) --- */
-        #limbo-game-card {
-            background-color: #2c3e50; /* Dark background for game contrast */
             border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            margin-top: 15px;
-            padding: 15px;
-            color: white;
-            text-align: center;
-        }
-        
-        .limbo-header {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #f1c40f; /* Yellow/Gold for heading */
-        }
-        
-        #limbo-multiplier-display {
-            font-size: 3.5em;
-            font-weight: 900;
-            color: #3498db; /* Blue for multiplier */
-            margin: 10px 0;
-            transition: color 0.3s;
-            line-height: 1.2;
-            min-height: 50px; /* Ensure height stability */
-        }
-        
-        #limbo-graph-container {
-            height: 80px;
-            background-color: #34495e;
-            border-radius: 5px;
-            margin: 10px 0 20px 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        #limbo-line {
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right, #2ecc71, #3498db);
-            clip-path: polygon(0% 100%, 0% 100%, 100% 100%, 100% 100%); /* Start hidden */
-            transition: clip-path 0.1s linear; /* Smooth line animation */
-        }
-
-        #limbo-inputs {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .limbo-input-group {
-            flex: 1;
-            text-align: left;
-        }
-
-        .limbo-input-group label {
-            display: block;
-            font-size: 12px;
-            margin-bottom: 5px;
-            color: #bdc3c7;
-        }
-
-        .limbo-input-group input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #7f8c8d;
-            border-radius: 5px;
-            background-color: #34495e;
-            color: white;
-            font-size: 14px;
-            box-sizing: border-box;
-            outline: none;
-        }
-        
-        #limbo-play-btn {
-            width: 100%;
-            padding: 12px;
-            background-color: #e74c3c; /* Red for action */
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-size: 18px;
-            font-weight: 700;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             transition: background-color 0.2s;
         }
-
-        #limbo-play-btn:hover:not(:disabled) {
-            background-color: #c0392b;
+        .popup-btn:hover {
+            background-color: #059669;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
         
-        #limbo-play-btn:disabled {
-            background-color: #7f8c8d;
-            cursor: not-allowed;
+        /* Styling for multiple buttons in popup */
+        .popup-actions {
+            display: flex;
+            gap: 10px; /* Space between buttons */
+            justify-content: center;
+        }
+        .popup-actions .popup-btn {
+            flex: 1; /* Make buttons take equal width */
+            padding: 12px; /* Adjust padding for better look with flex */
+            border-radius: 8px; /* Slightly less rounded than main popup box */
+            font-size: 15px; /* Slightly smaller font for multiple buttons */
         }
 
-        #limbo-result-message {
-            margin-top: 15px;
-            font-size: 14px;
-            font-weight: 500;
-            min-height: 18px;
-            color: #ecf0f1;
+
+        /* --- NEW TOAST NOTIFICATION STYLES --- */
+        #toast-container {
+            position: fixed;
+            top: 20px; 
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4000; /* Higher than popups */
+            width: 90%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        /* Animation effects */
-        .win-text { color: #2ecc71 !important; }
-        .loss-text { color: #e74c3c !important; }
-        /* --- END LIMBO GAME STYLES --- */
-        
-        /* --- VIRTUAL TRADING STYLES (NEW) --- */
-        .virtual-trading-card {
-            background-color: #2c3e50;
-            color: white;
-            border-radius: 10px;
+        .toast {
+            background-color: white;
+            color: var(--text-dark);
             padding: 15px;
-            margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            transform: translateY(-20px);
         }
-        .virtual-trading-card h3 {
-            margin-top: 0;
-            color: #9b59b6;
-            font-size: 16px;
-        }
-        .virtual-trading-card p {
-            font-size: 14px;
-            color: #bdc3c7;
-        }
-        /* --- END VIRTUAL TRADING STYLES --- */
 
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .toast-content {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .toast.success { border-left: 5px solid var(--secondary-color); }
+        .toast.success i { color: var(--secondary-color); }
+
+        .toast.error { border-left: 5px solid #EF4444; }
+        .toast.error i { color: #EF4444; }
+        
+        .toast.info { border-left: 5px solid var(--primary-color); }
+        .toast.info i { color: var(--primary-color); }
+
+
+        /* Sub-screen style adjustments for new theme */
+        #security-deposit-screen, #account-detail-screen, #game-screen { display: none; }
+        .top-nav-payment { background-color: var(--secondary-color); padding: 15px 15px; text-align: center; font-size: 18px; font-weight: 700; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 10px; position: sticky; top: 0; z-index: 10; }
+        .ad-top-nav, .game-top-nav { background: var(--gradient-auth); padding: 15px 15px; text-align: center; font-size: 18px; font-weight: 700; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 10px; position: sticky; top: 0; z-index: 10; }
+        .menu-item i { color: var(--primary-color) !important; }
+        
+        /* Limbo Game Specific Styles (Rocket Riser) */
+        #limbo-multiplier-display {
+            font-size: 36px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #ecf0f1; /* White */
+        }
+        .win-text {
+            color: #2ecc71 !important; /* Green */
+        }
+        .loss-text {
+            color: #e74c3c !important; /* Red */
+        }
 
     </style>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script> 
 </head>
 <body>
     
-    <div id="bonusPopup">
-        <div class="bonus-box">
+    <div id="bonusPopup" class="custom-popup" style="display: none; z-index: 3000;">
+        <div class="popup-box bonus-box">
             <div class="icon"><i class="fas fa-gift"></i></div>
             <h3>Congratulations!</h3>
             <p>Congratulations! You have received a ₹1200 new user bonus.</p>
-            <button class="bonus-ok-btn" onclick="closeBonusPopup()">OK</button>
+            <button class="popup-btn bonus-ok-btn" onclick="closeBonusPopup()">OK</button>
         </div>
     </div>
     
-    <div id="login-screen" style="display: none;">
-        <div class="reg-container">
-            <div class="header">
-                <div class="sign-up-text">Login</div>
-                <div class="avatar">
-                    <i class="fas fa-sign-in-alt" style="font-size: 40px; color: white;"></i>
-                </div>
-            </div>
-
-            <form id="login-form">
-                <div class="form-group">
-                    <input type="text" id="login_username" class="input-field" placeholder="Phone number/User Name" required>
-                </div>
-
-                <div class="form-group">
-                    <div class="password-input-group">
-                        <input type="password" id="login_password" class="input-field" placeholder="Enter password" required>
-                        <i class="toggle-icon fas fa-eye-slash" onclick="togglePassword('login_password', this)"></i>
-                    </div>
-                </div>
-                
-                <div class="forget-password">
-                    <a href="#" onclick="handleForgetPassword(event)">Forget Password?</a>
-                </div>
-                <button type="submit" class="login-submit-button">Login</button>
-
-                <button type="button" class="secondary-button" onclick="showRegistrationScreen()">No account, register now</button>
-
-            </form>
+    <div id="withdrawPopup" class="custom-popup" style="display: none;">
+        <div class="popup-box" style="border-top: 5px solid #EF4444;">
+            <div class="icon"><i class="fas fa-exclamation-triangle" style="color: #EF4444;"></i></div>
+            <h3> Security Deposit Required</h3>
+            <p>Please deposit ₹200 as a security deposit before withdrawing.</p>
+            <button class="popup-btn" onclick="closePopupAndRedirect()" style="background: var(--primary-color);">Deposit</button>
         </div>
     </div>
+
+    <div id="logoutConfirmPopup" class="custom-popup" style="display: none; z-index: 3000;">
+        <div class="popup-box">
+            <div class="icon"><i class="fas fa-sign-out-alt" style="color: #EF4444;"></i></div>
+            <h3>Logout Confirmation</h3>
+            <p>Are you sure you want to logout?</p>
+            <div class="popup-actions">
+                <button class="popup-btn" onclick="performLogout()" style="background-color: #EF4444;">Logout</button>
+                <button class="popup-btn" onclick="closeLogoutConfirmPopup()" style="background-color: var(--text-muted);">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div id="toast-container"></div>
     
     <div id="registration-screen">
-        <div class="reg-container">
-            <div class="header">
-                <div class="sign-up-text">Sign up</div>
-                <div class="avatar">
-                    <i class="fas fa-user" style="font-size: 40px; color: white;"></i>
+        <div class="auth-container">
+            <div class="app-logo" style="margin-bottom: 40px; color: white;">
+                <i class="fas fa-rocket"></i>JOB<span>HUB</span>
+            </div>
+            
+            <div class="auth-card" id="auth-card">
+                <div class="auth-header">
+                    <h2 id="auth-title">Register Your Account</h2>
+                </div>
+                
+                <div class="card-divider"></div>
+                
+                <form id="registration-form">
+                    <div class="auth-form-group">
+                        <label for="reg-username">Username</label>
+                        <div class="auth-input-wrapper">
+                            <i class="fas fa-user auth-input-icon"></i>
+                            <input type="text" id="reg-username" placeholder="Choose a Username" required>
+                        </div>
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="reg-phone">Phone Number</label>
+                        <div class="auth-input-wrapper">
+                            <i class="fas fa-phone auth-input-icon"></i>
+                            <input type="text" id="reg-phone" placeholder="10-digit Phone Number" required>
+                        </div>
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="reg-password">Password</label>
+                        <div class="auth-input-wrapper">
+                            <i class="fas fa-lock auth-input-icon"></i>
+                            <input type="password" id="reg-password" placeholder="Enter Secure Password" required>
+                            <i class="fas fa-eye-slash password-toggle-icon" onclick="togglePassword('reg-password', this)"></i>
+                        </div>
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="reg-confirm-password">Confirm Password</label>
+                        <div class="auth-input-wrapper">
+                            <i class="fas fa-redo-alt auth-input-icon"></i>
+                            <input type="password" id="reg-confirm-password" placeholder="Re-enter Password" required>
+                            <i class="fas fa-eye-slash password-toggle-icon" onclick="togglePassword('reg-confirm-password', this)"></i>
+                        </div>
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="reg-invite-code">Invitation Code (Optional)</label>
+                        <div class="auth-input-wrapper">
+                            <i class="fas fa-user-plus auth-input-icon"></i>
+                            <input type="text" id="reg-invite-code" placeholder="Enter Invitation Code">
+                        </div>
+                    </div>
+                    <button type="submit" class="auth-submit-btn">Register & Get ₹1200 Bonus</button>
+                </form>
+                
+                <form id="login-form" style="display: none;">
+                    <div class="auth-form-group">
+                        <label for="login-phone">Phone Number</label>
+                        <div class="auth-input-wrapper">
+                            <i class="fas fa-phone auth-input-icon"></i>
+                            <input type="text" id="login-phone" placeholder="Enter Phone Number" required>
+                        </div>
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="login-password">Password</label>
+                        <div class="auth-input-wrapper">
+                            <i class="fas fa-lock auth-input-icon"></i>
+                            <input type="password" id="login-password" placeholder="Enter Password" required>
+                            <i class="fas fa-eye-slash password-toggle-icon" onclick="togglePassword('login-password', this)"></i>
+                        </div>
+                    </div>
+                    <button type="submit" class="auth-submit-btn">Login to Dashboard</button>
+                </form>
+
+                <div class="toggle-auth-mode">
+                    <span id="toggle-auth-text">Already have an account? </span>
+                    <a href="#" id="toggle-auth-link" onclick="toggleAuthMode(event)">Login</a>
                 </div>
             </div>
-
-            <form id="registration-form">
-                <div class="form-group">
-                    <input type="text" id="reg_username" class="input-field" placeholder="Please enter the user name" required>
-                </div>
-
-                <div class="form-group">
-                    <div class="phone-input-group">
-                        <span class="country-code">91</span>
-                        <input type="tel" id="reg_phone" class="input-field phone-input" placeholder="Please enter the phone number" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="password-input-group">
-                        <input type="password" id="reg_password" class="input-field" placeholder="Enter password" required>
-                        <i class="toggle-icon fas fa-eye-slash" onclick="togglePassword('reg_password', this)"></i>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="password-input-group">
-                        <input type="password" id="reg_payment_password" class="input-field" placeholder="Set 6-digit payment password" required>
-                        <i class="toggle-icon fas fa-eye-slash" onclick="togglePassword('reg_payment_password', this)"></i>
-                    </div>
-                </div>
-
-                <div class="form-group invite-group">
-                    <input type="text" id="reg_invite" class="input-field" value="246915" placeholder="Invite" readonly> 
-                </div>
-
-                <button type="submit" class="register-button">Register Now</button>
-
-                <button type="button" class="secondary-button" onclick="showLoginScreen()">Already have an account?</button>
-
-            </form>
         </div>
     </div>
     
     <div id="dashboard-container">
         
-        <div id="dashboard-screen" class="active-screen">
+        <div id="dashboard-screen">
             <div class="top-nav">
-                JOBHUB 
+                <div class="app-logo">
+                    <i class="fas fa-rocket"></i>JOB<span>HUB</span>
+                </div> 
             </div>
 
-            <div class="container">
-                <div class="main-card">
-                    <div class="slider-wrapper">
-                        <div class="slides-container" id="slides-container">
-                            <div class="slide">
-                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiRns9BIy2rofE1gxIdzqJ9717tqQryX7DFMbeOdsL-cEm8lw5BGEQ77gN3b36Wdi5e6-CVh1THRgKIG3maVjF-tEXxIH0jufwaaJMgklj09aHk7tKrtKtH_zOmH9q6cAS7VFUdwi6juj1SqhPvCcZ5rppKgUMGiVx-FHMDqPxCtsVPq60ay-lRT_4rc_8I/s1600/1000066688.jpg" alt="Slide 1: Bank Illustration">
-                            </div>
-                            <div class="slide">
-                               <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkjVdmXB1Ad32GeAbO1lD5_I6RxiJM6QN9hXD_skG9SW4zyVIZaRdDzxLq2EiOuSmtror4uVGBbztPFlhMT6dsHpjbQ7H6kNnZUjgftYJG-FKH3BlHdDix7jxcWXsEhYVHezMMi8kjCd0VeK5dj7m6wPFcFcksQasC-zPNAfbqezPCQjF3aDROSfpt6ruF/s1600/1000066689.png" alt="Slide 2: Bank Illustration">
-                            </div>
-                            <div class="slide">
-                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi7neeYzYvUvMSxC8caEiZZkDhXkUKIE9H9Gz9QZLF9sGQu9FK5a_Dp0G2c4P_5XU-VSBAMFf1bEiSrgk9S69AkClrFdaJrj-o3yq8Z0D6FOTH1KENLIZOPh2sJI-xVE8zr5C_x0b2DiQTUG68YvK9B9RmzHlPaA_qPpPCwLyEKQYxPwh0z7gNK2AhW80e/s1600/1000066690.png" alt="Slide 3: Bank Illustration">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="slider-dots" id="slider-dots">
-                        <span class="dot active"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </div>
+            <div class="welcome-card">
+                <div>
+                    <h3 id="dashboard-username-welcome">Welcome, User!</h3>
+                    <p>Current Rank: ⭐ VIP 1</p>
+                    <p>Invite Code: <span id="dashboard-invitecode-welcome">000000</span></p>
                 </div>
-
-                <div class="action-buttons">
-                    <a href="#" class="action-btn" onclick="showSecurityDeposit(event)">
-                        <i class="fas fa-shield-alt"></i> Security Deposit
-                    </a>
-                    <a href="#" class="action-btn" onclick="handleWithdrawal(event)">
-                        <i class="fas fa-exchange-alt"></i> Withdrawal
-                    </a>
+                <div class="icon">
+                    <i class="fas fa-user-circle"></i>
                 </div>
-                
-                <div class="balance-card">
-                    <div class="balance-details">
-                        <div style="display: flex; align-items: center; margin-bottom: 5px;">
-                            <h4 style="margin: 0; margin-right: 10px;" id="dashboard-username">user</h4>
-                            <span style="font-size: 14px; color: #666;"><i class="fas fa-qrcode"></i></span>
-                        </div>
-                        <div class="main" id="dashboard-main-balance">₹1,200.00</div>
-                        <div class="sub">
-                            Today: <span style="color: #38c172;">₹0.00</span> | Yesterday's earnings: ₹0.00
-                        </div>
-                    </div>
-                    
-                    <div class="balance-section">
-                        <div style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 5px;">
-                            <span style="font-size: 14px; color: #666; margin-right: 10px;" id="dashboard-invitecode">f3af42<i class="far fa-copy"></i></span>
-                        </div>
-                        <div class="total" id="dashboard-total-balance">Total ₹1,200.00</div>
-                        <div class="freeze-info" id="dashboard-freeze-info">
-                            Freeze: ₹0.00 | Yesterday's withdrawal: ₹0.00
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="partner-logo-container">
-                    <div class="ecommerce-logo-item"><i class="fas fa-star" style="color: gold; font-size: 16px;"></i><div class="ecommerce-logo-text logo-flipkart">Flipkart</div></div>
-                    <div class="ecommerce-logo-item"><i class="fab fa-amazon" style="color: #FF9900; font-size: 16px;"></i><div class="ecommerce-logo-text logo-amazon">Amazon</div></div>
-                    <div class="ecommerce-logo-item"><i class="fas fa-shopping-bag" style="color: #f54e60; font-size: 16px;"></i><div class="ecommerce-logo-text logo-meesho">Meesho</div></div>
-                    <div class="ecommerce-logo-item"><i class="fas fa-tshirt" style="color: #ff3e6c; font-size: 16px;"></i><div class="ecommerce-logo-text logo-myntra">Myntra</div></div>
-                </div>
-
-                  <div class="partner-section">
-    <h3>Partner</h3>
-    <div style="text-align: center; margin-top: 10px; margin-bottom: 20px;">
-        <img alt="Partner Banks Logos" 
-             src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg6TIgr8vTXgmOV3-Rh11nisQbH7Jgv2jkFXOOqbjQRMqNdDSKhSuKhuc311Cxkl0C0f56dGg9o4W9G-lpkzMsbTqDOAqpK-NwJBISxtkks6XYzD385WM_EHCtRdiSMw9e32eWxpB35ON5qxhU6nUJpealTglHM_1N6eija-CFgkp4G9nlRHWyHihc7QHnO/s1600/1000066695.png"
-             style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
-        />
-    </div>
-</div>
-                
-                <div class="invite-friend-card">
-                    <div class="invite-header">
-                        <i class="fas fa-users"></i> 
-                        Invite Friend to Earn ₹300
-                    </div>
-                    
-                    <button class="share-button" onclick="shareInviteLink()">
-                        <i class="fas fa-share-alt" style="margin-right: 10px;"></i> Share Invite Link
-                    </button>
-                    
-                    <div class="social-share-buttons" id="social-share-buttons">
-                        </div>
-                </div>
-
             </div>
+
+            <div class="main-balance-card">
+                <div class="label">Total Account Balance</div>
+                <div class="amount" id="dashboard-main-balance">₹0.00</div>
+                
+                <div class="balance-stats">
+                    <div class="stat-item">
+                        <div class="value" id="dashboard-today-income">₹0.00</div>
+                        <div class="label">Today's Earning</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="value" style="color: #F59E0B;">₹0.00</div>
+                        <div class="label">Yesterday's Earning</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="value" style="color: #EF4444;">₹0.00</div>
+                        <div class="label">Freeze Balance</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-grid">
+                <a href="#" class="action-btn deposit" onclick="showSecurityDeposit(event)">
+                    <i class="fas fa-wallet"></i> Security Deposit
+                </a>
+                <a href="#" class="action-btn withdraw" onclick="handleWithdrawal(event)">
+                    <i class="fas fa-exchange-alt"></i> Withdrawal
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="section-header" style="border-left-color: #F59E0B;">Top Earners Leaderboard (Today)</div>
+                <div class="leaderboard-list">
+                    <div class="leaderboard-item">
+                        <i class="fas fa-trophy rank-icon rank-1"></i>
+                        <span class="earner-name">**Ravi Sharma**</span>
+                        <span class="earner-amount">₹4,500</span>
+                    </div>
+                    <div class="leaderboard-item">
+                        <i class="fas fa-trophy rank-icon rank-2"></i>
+                        <span class="earner-name">Pooja_88</span>
+                        <span class="earner-amount">₹3,120</span>
+                    </div>
+                    <div class="leaderboard-item">
+                        <i class="fas fa-trophy rank-icon rank-3"></i>
+                        <span class="earner-name">InviterX</span>
+                        <span class="earner-amount">₹2,890</span>
+                    </div>
+                    <div class="leaderboard-item">
+                        <span class="rank-icon" style="font-weight: 700; color: var(--text-muted);">4.</span>
+                        <span class="earner-name">GamerPro</span>
+                        <span class="earner-amount">₹1,950</span>
+                    </div>
+                </div>
+                <p style="text-align: right; font-size: 12px; color: var(--text-muted); margin-top: 10px; cursor: pointer;">View Full Leaderboard >></p>
+            </div>
+            <div class="card">
+                <div class="section-header" style="border-left-color: var(--primary-color);">Exclusive Missions</div>
+                <div class="mission-grid">
+                    <div class="mission-card">
+                        <i class="fas fa-user-friends"></i>
+                        <h4>Invite 5 Friends</h4>
+                        <p>Reward: ₹500 Bonus</p>
+                    </div>
+                    <div class="mission-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>Daily Game Streak</h4>
+                        <p>Reward: ₹100 Extra</p>
+                    </div>
+                    <div class="mission-card">
+                        <i class="fas fa-gift"></i>
+                        <h4>Reach VIP 2</h4>
+                        <p>Reward: ₹1000 Cash</p>
+                    </div>
+                    <div class="mission-card">
+                        <i class="fas fa-credit-card"></i>
+                        <h4>First Withdrawal</h4>
+                        <p>Reward: 5% Extra</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card invite-friend-card">
+                <div class="invite-header">
+                    <i class="fas fa-user-friends"></i> 
+                    Invite Friend and Earn Big
+                </div>
+                
+                <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">
+                    Share your link and get a ₹300 bonus for every successful referral!
+                </p>
+                
+                <button class="share-button" onclick="shareInviteLink()">
+                    <i class="fas fa-share-alt" style="margin-right: 10px;"></i> Share Invite Link
+                </button>
+                
+                <div class="social-share-buttons" id="social-share-buttons" style="margin-top: 20px; display: flex; justify-content: center; gap: 20px;">
+                    <a href="#" onclick="shareOnSocial('whatsapp', event)" style="color: #25D366; font-size: 30px;"><i class="fab fa-whatsapp" title="WhatsApp"></i></a>
+                    <a href="#" onclick="shareOnSocial('telegram', event)" style="color: #0088CC; font-size: 30px;"><i class="fab fa-telegram-plane" title="Telegram"></i></a>
+                    <a href="#" onclick="shareOnSocial('facebook', event)" style="color: #1877F2; font-size: 30px;"><i class="fab fa-facebook" title="Facebook"></i></a>
+                    <a href="#" onclick="shareOnSocial('twitter', event)" style="color: #1DA1F2; font-size: 30px;"><i class="fab fa-twitter" title="Twitter"></i></a>
+                    <a href="#" onclick="shareOnSocial('instagram', event)" style="color: #E4405F; font-size: 30px;"><i class="fab fa-instagram" title="Instagram"></i></a>
+                </div>
+                </div>
+            <div style="height: 20px;"></div>
+
+
         </div>
+
 
         <div id="game-screen">
-            <div class="game-top-nav"> Rocket Riser Game </div>
-            <div class="game-container">
-                <div id="limbo-game-card">
-                    <div class="limbo-header"> Rocket Riser Game (Limbo)</div>
-                    <div style="font-size: 14px; color: #2ecc71; font-weight: 500; margin-bottom: 10px;">
-                        Current Balance: <span id="limbo-real-balance">₹1,200.00</span>
+            <div class="game-top-nav">
+                 <div class="app-logo"><i class="fas fa-rocket"></i>JOB<span>HUB</span> - Rocket Riser</div>
+            </div>
+            <div class="game-container" style="padding: 15px;">
+                <div id="limbo-game-card" class="card" style="background-color: #2c3e50; color: white; padding: 25px; border-radius: 15px; box-shadow: 0 8px 15px rgba(0,0,0,0.3);">
+                    
+                    <div style="font-size: 14px; color: #3498db; font-weight: 600; text-align: center; margin-bottom: 10px;">
+                        Available Balance: <span id="limbo-real-balance" style="color: #2ecc71;">₹0.00</span>
+                    </div>
+                    
+                    <div id="limbo-multiplier-display" style="font-size: 56px; font-weight: 800; text-align: center; margin: 10px 0 20px 0; color: #ecf0f1; transition: color 0.1s;">1.00x</div>
+                    
+                    <div id="limbo-graph-container" style="height: 120px; background-color: #34495e; border-radius: 10px; margin: 15px 0 25px 0; position: relative; overflow: hidden; display: flex; align-items: flex-end;">
+                        <div id="limbo-rocket" style="position: absolute; left: -10px; bottom: 5px; font-size: 24px; transition: transform 0.1s linear, color 0.1s;">🚀</div>
+                    </div>
+                    
+                    <div id="limbo-inputs" style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px;">
+                        
+                        <div class="limbo-input-group">
+                            <label for="limbo-bet" style="color: #bdc3c7; font-size: 14px; display: block; margin-bottom: 5px;">Your Bet Amount (₹)</label>
+                            <input type="number" id="limbo-bet" value="10.00" min="1.00" step="1.00" style="width: 100%; padding: 10px; border: 1px solid #7f8c8d; border-radius: 8px; background-color: #34495e; color: white; font-size: 16px; box-sizing: border-box;">
+                        </div>
+                        
+                        <div class="limbo-input-group">
+                            <label for="limbo-target" style="color: #bdc3c7; font-size: 14px; display: block; margin-bottom: 5px;">Auto Cash Out Target (x)</label>
+                            <input type="number" id="limbo-target" value="2.00" min="1.01" step="0.01" style="width: 100%; padding: 10px; border: 1px solid #7f8c8d; border-radius: 8px; background-color: #34495e; color: white; font-size: 16px; box-sizing: border-box;">
+                        </div>
+                    </div>
+                    
+                    <div class="limbo-actions" style="display: flex; gap: 10px;">
+                        <button id="limbo-play-btn" class="limbo-action-btn" onclick="startLimboGame()" style="flex: 1; padding: 15px; background-color: #2ecc71; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer; transition: background-color 0.2s;">START RISER</button>
+                        <button id="limbo-cashout-btn" class="limbo-action-btn" onclick="cashOut()" style="flex: 1; padding: 15px; background-color: #f1c40f; color: #2c3e50; border: none; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer; display: none; transition: background-color 0.2s;">CASH OUT @ 1.00x</button>
                     </div>
 
-                    <div id="limbo-multiplier-display">1.00x</div>
-                    <div id="limbo-graph-container">
-                        <div id="limbo-line"></div>
+                    <div id="limbo-result-message" style="margin-top: 20px; font-size: 16px; font-weight: 600; min-height: 20px; text-align: center; color: #ecf0f1;">Ready to launch!</div>
+                    
+                    <div id="limbo-history" style="margin-top: 25px;">
+                         <div style="font-size: 14px; color: #bdc3c7; font-weight: 600; margin-bottom: 10px;">Previous Results:</div>
+                         <div id="history-dots" style="display: flex; flex-wrap: wrap; gap: 5px; max-height: 70px; overflow: hidden; justify-content: center;">
+                             </div>
                     </div>
-                    <div id="limbo-inputs">
-                        <div class="limbo-input-group">
-                            <label for="limbo-bet">Bet (₹)</label>
-                            <input type="number" id="limbo-bet" value="10.00" min="1.00" step="1.00">
-                        </div>
-                        <div class="limbo-input-group">
-                            <label for="limbo-target">Target (Cash Out)</label>
-                            <input type="number" id="limbo-target" value="2.00" min="1.01" step="0.01">
-                        </div>
-                    </div>
-                    <button id="limbo-play-btn" onclick="startLimboGame()">START RISER</button>
-                    <div id="limbo-result-message"></div>
+
                 </div>
-                <div class="virtual-trading-card">
-                    <h3>Virtual Trading Simulator</h3>
-                    <p>Coming Soon! Practice your order grabbing skills with virtual market data. (Fun Only)</p>
-                    <button style="padding: 8px 15px; background-color: #9b59b6; color: white; border: none; border-radius: 5px; margin-top: 10px;">Play Demo</button>
+
+                <div class="card virtual-trading-card" style="margin-top: 15px; text-align: center;">
+                    <h3>What is Rocket Riser?</h3>
+                    <p style="font-size: 14px; color: var(--text-muted);">
+                        It's a high-risk, high-reward game. Place your bet, and watch the multiplier rise. Cash out before the rocket crashes to multiply your bet. If it crashes before you cash out, you lose your bet.
+                    </p>
+                    <p style="font-size: 14px; color: #e74c3c; font-weight: 700;">Play responsibly. This is a game of chance.</p>
                 </div>
-                <div style="height: 60px;"></div>
-            </div>
+                <div style="height: 60px;"></div> 
+            </div> 
         </div>
-        
+
+
         <div id="security-deposit-screen">
-            <div class="top-nav-payment"> Security Deposit </div>
-            <div class="payment-container">
-                <div class="balance-display">
-                    <div class="balance-amount" id="sd-balance-amount">₹1,200.00</div>
-                    <div class="balance-label">Balance</div>
+            <div class="top-nav-payment">
+                <div class="app-logo"><i class="fas fa-lock"></i> Deposit Security</div>
+            </div>
+            <div class="payment-container" style="padding: 15px;">
+                <div class="balance-display" style="padding: 15px 0; margin-bottom: 20px; border-bottom: 1px solid #E5E7EB;">
+                    <div class="balance-amount" id="sd-balance-amount" style="font-size: 32px; font-weight: 700; color: var(--text-dark); margin-bottom: 5px;">₹0.00</div>
+                    <div class="balance-label" style="font-size: 14px; color: var(--text-muted);">Current Balance</div>
                 </div>
                 <div class="input-group">
-                    <div class="input-label">Enter the money</div>
-                    <div class="input-wrapper">
-                        <span class="input-currency">₹</span>
-                        <input type="number" id="deposit_amount" class="amount-input" placeholder="0.00">
-                        <button class="confirm-button" onclick="confirmDeposit()">Confirm</button>
+                    <div class="input-label" style="font-size: 16px; font-weight: 600; margin-bottom: 10px; display: block;">Enter the amount</div>
+                    <div class="input-wrapper" style="display: flex; align-items: center; border-bottom: 2px solid var(--primary-color); padding-bottom: 5px;">
+                        <span class="input-currency" style="font-size: 20px; margin-right: 5px; color: var(--primary-color);">₹</span>
+                        <input type="number" id="deposit_amount" class="amount-input" placeholder="0.00" style="flex-grow: 1; border: none; padding: 5px 0; font-size: 22px; outline: none;">
+                        <button class="confirm-button" onclick="confirmDeposit()" style="background-color: var(--secondary-color); color: white; padding: 8px 15px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;">Confirm</button>
                     </div>
-                    <div class="min-amount-tip">Minimum deposit amount ₹200.00</div>
+                    <div class="min-amount-tip" style="font-size: 12px; color: var(--text-muted); margin-top: 10px;">Minimum deposit amount ₹200.00</div>
                 </div>
 
-                <div class="quick-select-header">Quick select money</div>
-                <div class="quick-select-grid">
-                    <button class="quick-select-btn" data-amount="200.00">₹200.00</button>
-                    <button class="quick-select-btn" data-amount="300.00">₹300.00</button>
-                    <button class="quick-select-btn" data-amount="500.00">₹500.00</button>
-                    <button class="quick-select-btn" data-amount="1000.00">₹1000.00</button>
-                    <button class="quick-select-btn" data-amount="3000.00">₹3000.00</button>
-                    <button class="quick-select-btn" data-amount="5000.00">₹5000.00</button>
-                    <button class="quick-select-btn" data-amount="10000.00">₹10000.00</button>
-                    <button class="quick-select-btn" data-amount="30000.00">₹30000.00</button>
-                    <button class="quick-select-btn" data-amount="50000.00">₹50000.00</button>
-                    <button class="quick-select-btn" data-amount="80000.00">₹80000.00</button>
-                    <button class="quick-select-btn" data-amount="100000.00">₹100000.00</button>
+                <div class="quick-select-header" style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Quick select amount</div>
+                <div class="quick-select-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                    <button class="quick-select-btn" data-amount="200.00" style="background-color: white; color: var(--primary-color); padding: 15px 5px; border: 2px solid #E5E7EB; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer;">₹200</button>
+                    <button class="quick-select-btn" data-amount="500.00" style="background-color: white; color: var(--primary-color); padding: 15px 5px; border: 2px solid #E5E7EB; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer;">₹500</button>
+                    <button class="quick-select-btn" data-amount="1000.00" style="background-color: white; color: var(--primary-color); padding: 15px 5px; border: 2px solid #E5E7EB; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer;">₹1000</button>
+                    <button class="quick-select-btn" data-amount="3000.00" style="background-color: white; color: var(--primary-color); padding: 15px 5px; border: 2px solid #E5E7EB; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer;">₹3000</button>
+                    <button class="quick-select-btn" data-amount="5000.00" style="background-color: white; color: var(--primary-color); padding: 15px 5px; border: 2px solid #E5E7EB; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer;">₹5000</button>
+                    <button class="quick-select-btn" data-amount="10000.00" style="background-color: white; color: var(--primary-color); padding: 15px 5px; border: 2px solid #E5E7EB; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer;">₹10000</button>
                 </div>
 
-                <div id="payment-section">
-                    <div class="payment-header">
-                        Proceed to Pay
-                        <div id="payment-timer">11:00</div> 
-                    </div>
-                    <div id="display-pay-amount"></div>
+                <div id="payment-section" style="background-color: #ffffff; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin-top: 30px; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center;">
+                    <div class="payment-header" style="font-size: 18px; font-weight: 700; color: var(--primary-color); margin-bottom: 15px;">Complete Payment</div>
+                    <p style="font-size: 15px; color: var(--text-dark); margin-bottom: 20px;">Amount to Pay: <span id="payment_display_amount" style="font-weight: 700; color: #EF4444;">₹0.00</span></p>
                     
-                    <div class="qr-image-container">
-                        <img alt="UPI QR Code" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEggj5j2D1vQMB8E4jDAI_kyS2rU5-wU45nuZzwTDRmS30W7fNkgeTxfIFIpxRhnY6Kf-R1c1sxw5WQ1qW2QkOz5A1JosBtK-9Jw3RlRElhzG2y9AtiUu9ggjhheDM6DLWPS_an-wwgwNBmsV4mMoAp07L1rkDh-0fhOxJXdMaXmAolFuiq-X10Wuy9FBV3t/s1600/1000066610.png"/>
-                    </div>
-                    
-                    <p class="instruction">Scan the code or click one of the buttons below:</p>
-                    
-                    <div class="app-buttons">
-                        <a id="gpay-btn" class="app-button" href="#">
-                            <span class="app-icon gpay-icon"></span>
-                            Pay with Google Pay
-                        </a>
-                        <a id="phonepe-btn" class="app-button" href="#">
-                            <span class="app-icon phonepe-icon"></span>
-                            Pay with PhonePe
-                        </a>
-                        <a id="paytm-btn" class="app-button" href="#">
-                            <span class="app-icon paytm-icon"></span>
-                            Pay with Paytm
-                        </a>
-                    </div>
-                </div>
+                    <div class="upi-qr-card" style="background-color: #F8FAFC; border: 1px solid var(--primary-color); border-radius: 10px; padding: 20px; margin-bottom: 20px; text-align: center;">
+                        <h4 style="margin-top: 0; font-size: 18px; color: var(--text-dark); display: flex; align-items: center; justify-content: center;"><i class="fas fa-qrcode" style="margin-right: 8px; color: var(--primary-color);"></i> Scan & Pay (UPI)</h4>
+                        
+                        <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 15px;">**Scan the QR code** below with any UPI App to pay the exact amount.</p>
 
-                <div class="footer-tip">
-                    **Tip:** Platform bank account change at any time, each deposit please go to the top-up page to get the latest account number. there is no responsibility for us if you deposit to expired account!
+                        <div id="qrcode-container" style="display: flex; justify-content: center; align-items: center; padding: 15px; background-color: white; border-radius: 10px; border: 1px solid #E5E7EB; margin-bottom: 15px;">
+                            <p style="color: var(--text-muted); font-weight: 500;">QR Code will appear here.</p>
+                        </div>
+                        
+                        <p style="font-size: 12px; color: #EF4444; margin-top: 10px;">**Important:** The QR code is generated for the exact amount. Do not change the amount in your UPI App.</p>
+                    </div>
+                    <div id="utr-submission-section" style="background-color: white; border: 1px solid #E5E7EB; border-radius: 10px; padding: 20px; margin-top: 20px; text-align: left;">
+                        <h5 style="margin-top: 0; font-size: 16px; color: var(--secondary-color); display: flex; align-items: center;"><i class="fas fa-file-upload" style="margin-right: 8px;"></i> Submit Payment Proof</h5>
+                        <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 15px;">**Important:** After paying via QR code, submit your 12-digit UTR/Ref ID and a screenshot.</p>
+                        
+                        <form id="utr-form">
+                            <div class="auth-form-group" style="margin-bottom: 15px;">
+                                <label for="utr-number" style="font-size: 14px;">UTR / Transaction ID (12 Digits)</label>
+                                <input type="text" id="utr-number" placeholder="Enter 12-digit UTR/Ref ID" required style="width: 100%; padding: 10px; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 16px;">
+                            </div>
+                            
+                            <div class="auth-form-group" style="margin-bottom: 20px;">
+                                <label for="payment-screenshot" style="font-size: 14px;">Payment Screenshot</label>
+                                <input type="file" id="payment-screenshot" accept="image/*" required style="padding: 5px 0;">
+                            </div>
+                            
+                            <button type="submit" class="popup-btn" style="background: var(--primary-color); width: 100%; padding: 12px; border-radius: 8px; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-paper-plane" style="margin-right: 10px;"></i> Confirm & Submit Proof
+                            </button>
+                        </form>
+                    </div>
+                    <div id="deposit-pending-section" style="background-color: #FEF3C7; border: 1px solid #FCD34D; color: #92400E; border-radius: 10px; padding: 20px; margin-top: 20px; text-align: center; display: none;">
+                        <i class="fas fa-clock" style="font-size: 30px; margin-bottom: 10px;"></i>
+                        <h5 style="margin-top: 0; font-size: 16px;">Deposit Pending Review</h5>
+                        <p style="font-size: 14px;">Your deposit is under review. It will be credited within **12 hours**.</p>
+                        <p style="font-size: 12px; font-weight: 600;">Submitted Amount: <span id="pending-display-amount">₹0.00</span></p>
+                    </div>
+
+                    <div class="transaction-details" style="text-align: left; margin-top: 20px;">
+                        <h5 style="margin-top: 0; font-size: 14px; color: var(--text-dark);">After Payment:</h5>
+                        <ul style="list-style: disc; margin-left: 20px; font-size: 14px; color: var(--text-muted);">
+                            <li>Transfer the **exact amount** shown above.</li>
+                            <li>Your deposit will be credited automatically within 5 minutes.</li>
+                            <li>If payment fails, try again or contact support.</li>
+                        </ul>
+                    </div>
                 </div>
-                
             </div>
         </div>
-        
+
         <div id="account-detail-screen">
-            <div class="ad-top-nav"> Account Detail </div>
-            <div class="ad-container">
-                <div class="profile-header">
-                    <div class="profile-info">
-                        <div class="profile-avatar">
-                            <i class="fas fa-user" style="font-size: 24px; color: white;"></i>
-                        </div>
-                        <div class="profile-text">
-                            <h4 id="displayUserName">Pawan ks000</h4> 
-                            <p id="displayInviteCode">Invitation code: f3af42</p>
-                        </div>
-                    </div>
-                    <button class="copy-link-btn" onclick="copyLink()">Copy link</button>
+            <div class="ad-top-nav">
+                <div class="app-logo"><i class="fas fa-user-circle"></i> My Account</div>
+            </div>
+            <div class="account-container" style="padding: 15px;">
+                <div class="card" style="padding: 15px;">
+                    <div style="font-size: 18px; font-weight: 700; color: var(--text-dark); margin-bottom: 15px;">Personal Details</div>
+                    <p style="margin: 5px 0; font-size: 14px; display: flex; justify-content: space-between;"><span>Username:</span> <span id="ad-username" style="font-weight: 600;">NA</span></p>
+                    <p style="margin: 5px 0; font-size: 14px; display: flex; justify-content: space-between;"><span>Phone:</span> <span id="ad-phone" style="font-weight: 600;">98XXXXX000</span></p>
+                    <p style="margin: 5px 0; font-size: 14px; display: flex; justify-content: space-between;"><span>Invite Code:</span> <span id="ad-invite-code" style="font-weight: 600;">000000</span></p>
+                    <p style="margin: 5px 0; font-size: 14px; display: flex; justify-content: space-between;"><span>Total Earnings:</span> <span id="ad-total-earnings" style="font-weight: 600; color: var(--secondary-color);">₹0.00</span></p>
                 </div>
-                <div class="balance-section-ad">
-                    <div class="balance-row">
-                        <div>
-                            <div class="main-balance" id="ad-main-balance">₹1,200.00</div>
-                            <div class="balance-label">Balance</div>
-                        </div>
-                        <a href="#" class="action-btn" onclick="handleWithdrawal(event)"> Withdraw</a>
+
+                <div class="card">
+                    <div style="font-size: 18px; font-weight: 700; color: var(--text-dark); margin-bottom: 15px;">Account Settings</div>
+                    <div class="menu-item" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #E5E7EB; cursor: pointer;">
+                        <span>Change Password</span>
+                        <i class="fas fa-chevron-right"></i>
                     </div>
-                    <div class="summary-grid">
-                        <div class="summary-item">
-                            <i class="fas fa-coins"></i>
-                            <span>Total</span>
-                            <span id="ad-total-balance">₹1,200.00</span>
-                        </div>
-                        <div class="summary-item">
-                            <i class="fas fa-file-invoice-dollar"></i>
-                            <span>Detail</span>
-                            <span>₹0.00</span>
-                        </div>
-                        <div class="summary-item">
-                            <i class="fas fa-snowflake"></i>
-                            <span>Freeze</span>
-                            <span id="ad-freeze-balance">₹0.00</span>
-                        </div>
+                    <div class="menu-item" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #E5E7EB; cursor: pointer;">
+                        <span>Transaction History</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="menu-item" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; cursor: pointer;">
+                        <span>Customer Support</span>
+                        <i class="fas fa-chevron-right"></i>
                     </div>
                 </div>
 
-                <div class="menu-list">
-                    <a href="#" class="menu-item" onclick="alert('Going to Personal page...'); return false;">
-                        <div class="menu-icon-text"> <i class="fas fa-user"></i> <span class="menu-text">Personal</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
-                    </a>
-                    <a href="#" class="menu-item" onclick="alert('Going to Message page...'); return false;">
-                        <div class="menu-icon-text"> <i class="fas fa-envelope"></i> <span class="menu-text">Message</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
-                    </a>
-                    <a href="#" class="menu-item" onclick="alert('Going to Invite Friend page...'); return false;">
-                        <div class="menu-icon-text"> <i class="fas fa-user-plus"></i> <span class="menu-text">Invite Friend</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
-                    </a>
-                    <a href="#" class="menu-item" onclick="alert('Going to Invite Task page...'); return false;">
-                        <div class="menu-icon-text"> <i class="fas fa-tasks"></i> <span class="menu-text">Invite Task</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
-                    </a>
-                    <a href="#" class="menu-item" onclick="alert('Going to Address page...'); return false;">
-                        <div class="menu-icon-text"> <i class="fas fa-map-marker-alt"></i> <span class="menu-text">Address</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
-                    </a>
-                    <a href="#" class="menu-item" onclick="alert('Going to Security page...'); return false;">
-                        <div class="menu-icon-text"> <i class="fas fa-lock"></i> <span class="menu-text">Security</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
-                    </a>
-                    <a href="#" class="menu-item" onclick="alert('Going to About Us page...'); return false;">
-                        <div class="menu-icon-text"> <i class="fas fa-info-circle"></i> <span class="menu-text">About Us</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
-                    </a>
-                    <a href="#" class="menu-item" onclick="alert('Going to Language Settings page...'); return false;">
-                        <div class="menu-icon-text"> <i class="fas fa-language"></i> <span class="menu-text">Language Settings</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
-                    </a>
-                    <a href="#" class="menu-item" onclick="logoutUser()">
-                        <div class="menu-icon-text"> <i class="fas fa-sign-out-alt"></i> <span class="menu-text">Logout</span> </div> <i class="fas fa-chevron-right arrow-icon"></i>
-                    </a>
+                <div class="card" style="text-align: center;">
+                    <button onclick="showLogoutConfirmPopup()" class="auth-submit-btn" style="background-color: #EF4444; margin-top: 0; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);">
+                        <i class="fas fa-sign-out-alt" style="margin-right: 10px;"></i> Logout
+                    </button>
                 </div>
             </div>
         </div>
 
         <div class="bottom-nav">
-            <a href="#" class="nav-item active" onclick="showDashboard(event)">
+            <a href="#" class="nav-item active" data-screen="dashboard-screen" onclick="showScreen(event, 'dashboard-screen')">
                 <i class="fas fa-home nav-icon"></i> Home
             </a>
-            <a href="#" class="nav-item" onclick="showGameScreen(event)">
-                <i class="fas fa-gamepad nav-icon"></i> Game
+            <a href="#" class="nav-item" data-screen="game-screen" onclick="showScreen(event, 'game-screen')">
+                <i class="fas fa-rocket nav-icon"></i> Game
             </a>
-            <a href="#" class="nav-item" onclick="alert('Going to Center action...'); return false;">">
-                <div class="nav-center-icon">
-                    <i class="fas fa-bolt"></i>
-                </div>
+            <a href="#" class="nav-item" data-screen="security-deposit-screen" onclick="showScreen(event, 'security-deposit-screen')">
+                <i class="fas fa-wallet nav-icon"></i> Deposit
             </a>
-            <a href="#" class="nav-item" onclick="showSecurityDeposit(event)">
-                <i class="fas fa-shield-alt nav-icon"></i> Security Deposit
-            </a>
-            <a href="#" class="nav-item" onclick="showAccountDetail(event)">
+            <a href="#" class="nav-item" data-screen="account-detail-screen" onclick="showScreen(event, 'account-detail-screen')">
                 <i class="fas fa-user nav-icon"></i> Account
             </a>
         </div>
-        
-        <div class="custom-popup" id="withdrawPopup">
-            <div class="popup-box">
-            <h3> Security Deposit Required</h3>
-            <p>Please deposit ₹200 as a security deposit before withdrawing.</p>
-            <button class="popup-btn" onclick="closePopupAndRedirect()">Deposit</button>
-            </div>
-        </div>
     </div>
 
-
     <script>
-        // --- CONSTANTS AND STATE ---
-        const registrationScreen = document.getElementById('registration-screen');
-        const loginScreen = document.getElementById('login-screen'); // NEW
-        const dashboardContainer = document.getElementById('dashboard-container');
-        const dashboardScreen = document.getElementById('dashboard-screen');
-        const gameScreen = document.getElementById('game-screen'); 
-        const securityDepositScreen = document.getElementById('security-deposit-screen');
-        const accountDetailScreen = document.getElementById('account-detail-screen');
-        const bonusPopup = document.getElementById('bonusPopup'); 
-        const amountInput = document.getElementById('deposit_amount');
-        const quickSelectButtons = document.querySelectorAll('.quick-select-btn');
-        const paymentSection = document.getElementById('payment-section');
-        const timerDisplay = document.getElementById('payment-timer');
-        const socialShareButtonsContainer = document.getElementById('social-share-buttons');
-        
-        const slidesContainer = document.getElementById('slides-container'); 
-        const dotsContainer = document.getElementById('slider-dots'); 
-        const totalSlides = 3; 
-        let currentSlide = 0; 
-        let slideInterval; 
-        
-        const TIMER_DURATION_SECONDS = 11 * 60; 
-        const YOUR_UPI_ID = "okayd@ybl"; 
-        const MERCHANT_NAME = "Security Deposit";
+        // --- DATA STRUCTURE & STORAGE ---
+        const userKey = 'jobhub_logged_in_user';
+        const balanceKey = 'jobhub_user_balance_';
+        const hasBonusKey = 'jobhub_user_bonus_';
+        const hasDepositKey = 'jobhub_user_deposit_';
+        const allUsersKey = 'jobhub_all_users';
 
-        // Placeholder User Data (will be loaded/populated on success)
-        let USER_DATA = {
-            username: "", 
-            phone: "",
-            inviteCode: "246915", // Default
-            currentBalance: 0.00, 
-            todayIncome: 0.00 
-        };
-        
-        // --- LIMBO GAME STATE & ELEMENTS (Kept Same) ---
-        let isLimboPlaying = false;
-        let limboGameInterval;
-        
-        const limboBetInput = document.getElementById('limbo-bet');
-        const limboTargetInput = document.getElementById('limbo-target');
-        const limboPlayBtn = document.getElementById('limbo-play-btn');
-        const limboMultiplierDisplay = document.getElementById('limbo-multiplier-display');
-        const limboResultMessage = document.getElementById('limbo-result-message');
-        const limboRealBalanceDisplay = document.getElementById('limbo-real-balance'); 
-        const limboLine = document.getElementById('limbo-line');
-        // --- END LIMBO GAME STATE & ELEMENTS ---
+        // --- AUTH/STATE FUNCTIONS ---
+        function getLoggedInUser() {
+            return localStorage.getItem(userKey);
+        }
 
-        let countdownInterval;
-        let isFreshRegistration = false; // Flag to control pop-up on first load
+        function getAllUsers() {
+            const users = localStorage.getItem(allUsersKey);
+            return users ? JSON.parse(users) : {};
+        }
 
-        // --- SCREEN CONTROL LOGIC (UPDATED) ---
-        function showScreen(screenElement) {
-            registrationScreen.style.display = 'none';
-            loginScreen.style.display = 'none';
-            dashboardContainer.style.display = 'none'; 
+        function saveAllUsers(users) {
+            localStorage.setItem(allUsersKey, JSON.stringify(users));
+        }
+
+        function saveBalance(phone, amount) {
+            localStorage.setItem(balanceKey + phone, amount.toFixed(2));
+            updateDashboardBalance();
+        }
+
+        function getBalance(phone) {
+            const balance = localStorage.getItem(balanceKey + phone);
+            // Default to 1200.00 for new users who haven't made a deposit, simulating bonus
+            // Get balance from the general user object if not found in specific balance key (for older entries)
+            if (balance) return parseFloat(balance);
             
-            if (screenElement === registrationScreen) {
-                registrationScreen.style.display = 'flex';
-            } else if (screenElement === loginScreen) {
-                loginScreen.style.display = 'flex';
-            } else if (screenElement === dashboardContainer) {
-                dashboardContainer.style.display = 'block';
-                // Inside dashboard, show home screen by default
-                showDashboard(); 
-            }
-        }
-        
-        function showRegistrationScreen() {
-            showScreen(registrationScreen);
-        }
-        
-        function showLoginScreen() {
-            showScreen(loginScreen);
-        }
-        
-        // --- AUTH LOGIC (REGISTER) ---
-        document.getElementById('registration-form').addEventListener('submit', handleRegistration);
+            const users = getAllUsers();
+            if (users[phone] && users[phone].balance) return users[phone].balance;
 
-        function handleRegistration(event) {
-            event.preventDefault(); 
+            return 1200.00;
+        }
+
+        function hasUserBonus(phone) {
+            return localStorage.getItem(hasBonusKey + phone) === 'true';
+        }
+
+        function markUserBonus(phone) {
+            localStorage.setItem(hasBonusKey + phone, 'true');
+        }
+
+        function hasSecurityDeposit(phone) {
+             return localStorage.getItem(hasDepositKey + phone) === 'true';
+        }
+
+        function markSecurityDeposit(phone) {
+             localStorage.setItem(hasDepositKey + phone, 'true');
+        }
+
+
+        // --- UI/UTILITY FUNCTIONS ---
+        function showToast(message, type = 'info', duration = 3000) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
             
-            const username = document.getElementById('reg_username').value.trim();
-            const phone = document.getElementById('reg_phone').value.trim();
-            const password = document.getElementById('reg_password').value;
-            const paymentPassword = document.getElementById('reg_payment_password').value;
-            const inviteCode = document.getElementById('reg_invite').value; 
+            let icon = '';
+            if (type === 'success') icon = '<i class="fas fa-check-circle"></i>';
+            else if (type === 'error') icon = '<i class="fas fa-times-circle"></i>';
+            else icon = '<i class="fas fa-info-circle"></i>';
 
-            if (password.length < 6 || paymentPassword.length !== 6 || phone.length < 10) {
-                 alert('Invalid input. Password must be 6+ chars, Payment Password must be 6 digits, Phone must be 10+ digits.');
-                 return;
-            }
+            toast.innerHTML = `${icon}<div class="toast-content">${message}</div>`;
+            container.prepend(toast);
 
-            // 1. Get existing users
-            let users = JSON.parse(localStorage.getItem('registeredUsers')) || {};
+            // Show animation
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
 
-            // 2. Check if user already exists (using phone/username as unique key)
-            if (users[phone] || users[username]) {
-                alert('Account already exists. Please log in.');
-                return;
-            }
-
-            // 3. Save new user data
-            users[username] = { // Use username as the primary key for login
-                username: username,
-                phone: phone,
-                password: password,
-                paymentPassword: paymentPassword,
-                inviteCode: inviteCode,
-                balance: 1200.00, // Initial bonus
-                freeze: 0.00,
-                todayIncome: 0.00
-            };
-            
-            localStorage.setItem('registeredUsers', JSON.stringify(users));
-
-            // 4. Automatically log in the new user
-            alert('Registration successful! ₹1200 bonus credited.');
-            
-            // **[CHANGE 1: SET FLAG]** Set flag in localStorage for fresh registration
-            localStorage.setItem('isFreshRegistration', 'true');
-            
-            // Set current user in storage
-            localStorage.setItem('currentUser', username);
-            
-            // Update app state and navigate to dashboard
-            loadUserData(username);
-            showScreen(dashboardContainer);
-            // NOTE: Pop-up is now handled inside loadUserData
-        }
-        
-        // --- AUTH LOGIC (LOGIN) ---
-        document.getElementById('login-form').addEventListener('submit', handleLogin);
-
-        function handleLogin(event) {
-            event.preventDefault();
-
-            const usernameOrPhone = document.getElementById('login_username').value.trim();
-            const password = document.getElementById('login_password').value;
-
-            const users = JSON.parse(localStorage.getItem('registeredUsers')) || {};
-
-            let userKey = usernameOrPhone; 
-            
-            // Try to find user by exact username match
-            let user = users[userKey];
-
-            if (!user) {
-                // If not found by username, iterate through all users to check by phone
-                for (const key in users) {
-                    if (users[key].phone === usernameOrPhone) {
-                        user = users[key];
-                        userKey = key; // Found by phone, use the username key
-                        break;
-                    }
-                }
-            }
-            
-            if (user && user.password === password) {
-                // Successful Login
-                localStorage.setItem('currentUser', userKey);
-                alert('Login successful! Welcome back.');
-                // **[CHANGE 2: CLEAR FLAG ON LOGIN]** Clear fresh registration flag if it exists
-                localStorage.removeItem('isFreshRegistration');
-                loadUserData(userKey);
-                showScreen(dashboardContainer);
-            } else {
-                alert('Invalid username/phone or password. Please check your credentials.');
-            }
-        }
-        
-        // --- NEW FORGET PASSWORD LOGIC ---
-        function handleForgetPassword(event) {
-            event.preventDefault();
-            const usernameOrPhone = document.getElementById('login_username').value.trim();
-            const users = JSON.parse(localStorage.getItem('registeredUsers')) || {};
-            
-            let user = null;
-            let foundBy = '';
-
-            // 1. Try to find user by exact username match
-            if (users[usernameOrPhone]) {
-                user = users[usernameOrPhone];
-                foundBy = 'username';
-            }
-
-            // 2. If not found by username, iterate through all users to check by phone
-            if (!user) {
-                for (const key in users) {
-                    if (users[key].phone === usernameOrPhone) {
-                        user = users[key];
-                        foundBy = 'phone';
-                        break;
-                    }
-                }
-            }
-
-            if (user) {
-                // In a real application, an SMS/email would be sent here.
-                // Since this is a static file, we simulate it with an alert.
-                alert(`Password has been successfully sent to your registered mobile number: **${user.phone}**.`);
-            } else {
-                alert('Account not found. Please enter your registered username or phone number.');
-            }
-        }
-        // --- END NEW FORGET PASSWORD LOGIC ---
-
-        // --- USER & DATA MANAGEMENT ---
-        function loadUserData(usernameKey) {
-            const users = JSON.parse(localStorage.getItem('registeredUsers')) || {};
-            const user = users[usernameKey];
-
-            if (user) {
-                USER_DATA.username = user.username;
-                USER_DATA.phone = user.phone;
-                USER_DATA.inviteCode = user.inviteCode;
-                USER_DATA.currentBalance = user.balance;
-                USER_DATA.freeze = user.freeze;
-                USER_DATA.todayIncome = user.todayIncome;
-                
-                updateAllInfo(); 
-                
-                // **[CHANGE 3: CHECK & SHOW POP-UP]** Check for the fresh registration flag
-                const isFreshReg = localStorage.getItem('isFreshRegistration');
-                if (isFreshReg === 'true') {
-                    if (bonusPopup) {
-                        // Show the bonus pop-up only after fresh registration
-                        bonusPopup.style.display = 'flex';
-                    }
-                    // Remove the flag so it doesn't show on refresh
-                    localStorage.removeItem('isFreshRegistration');
-                }
-
-            } else {
-                // Should not happen if called after successful login/reg
-                alert('Error: User data not found.');
-                logoutUser();
-            }
-        }
-        
-        function saveUserData() {
-             const usernameKey = localStorage.getItem('currentUser');
-             if (usernameKey) {
-                 let users = JSON.parse(localStorage.getItem('registeredUsers'));
-                 if (users && users[usernameKey]) {
-                     // Update balance and other mutable fields
-                     users[usernameKey].balance = USER_DATA.currentBalance;
-                     users[usernameKey].freeze = USER_DATA.freeze;
-                     users[usernameKey].todayIncome = USER_DATA.todayIncome;
-
-                     localStorage.setItem('registeredUsers', JSON.stringify(users));
-                 }
-             }
-        }
-        
-        function logoutUser() {
-            localStorage.removeItem('currentUser');
-            alert('You have been logged out!');
-            showLoginScreen();
-            if (slideInterval) clearInterval(slideInterval); 
-            if (countdownInterval) clearInterval(countdownInterval); 
+            // Hide animation
+            setTimeout(() => {
+                toast.classList.remove('show');
+                // Remove from DOM after transition
+                setTimeout(() => {
+                    container.removeChild(toast);
+                }, 300);
+            }, duration);
         }
 
-        // --- DASHBOARD NAVIGATION & FUNCTIONALITY (Kept Same) ---
-        
-        function setActiveNav(index) {
-            document.querySelectorAll('.bottom-nav .nav-item').forEach((item, idx) => {
-                item.classList.remove('active');
-                if (idx === index) {
-                    item.classList.add('active');
-                }
-            });
-        }
-
-        function hideAllScreens() {
-            document.querySelectorAll('#dashboard-screen, #game-screen, #security-deposit-screen, #account-detail-screen').forEach(screen => {
-                screen.classList.remove('active-screen');
-                screen.style.display = 'none';
-            });
-            // **[CHANGE 4: REMOVED POPUP SHOW LOGIC FROM HERE]** Pop-up logic is now in loadUserData
-            if (bonusPopup) bonusPopup.style.display = 'none'; 
-        }
-
-        function showScreenContent(screenElement, navIndex) {
-            hideAllScreens();
-            screenElement.style.display = 'block'; 
-            screenElement.classList.add('active-screen');
-            setActiveNav(navIndex); 
-            updateAllInfo(); 
-            window.scrollTo(0, 0);
-        }
-
-        function showDashboard(event) {
-            if (event) event.preventDefault();
-            showScreenContent(dashboardScreen, 0);
-            startAutoSlide(); 
-            
-            // **[CHANGE 5: REMOVED POPUP SHOW LOGIC FROM HERE]** Pop-up logic is now in loadUserData
-        }
-        
-        function showGameScreen(event) {
-            if (event) event.preventDefault();
-            showScreenContent(gameScreen, 1);
-            if (slideInterval) clearInterval(slideInterval); 
-            updateLimboRealBalance(); 
-        }
-
-        function showSecurityDeposit(event) {
-            if (event) event.preventDefault();
-            showScreenContent(securityDepositScreen, 3);
-            if (slideInterval) clearInterval(slideInterval); 
-            
-            if (paymentSection) paymentSection.style.display = 'none';
-            if (countdownInterval) clearInterval(countdownInterval); 
-            if (timerDisplay) timerDisplay.textContent = '11:00'; 
-        }
-        
-        function showAccountDetail(event) {
-            if (event) event.preventDefault();
-            showScreenContent(accountDetailScreen, 4);
-            if (slideInterval) clearInterval(slideInterval); 
-        }
-
-        function handleWithdrawal(event) {
-            event.preventDefault();
-            document.getElementById("withdrawPopup").style.display = "flex";
-        }
-
-        function closePopupAndRedirect() {
-            document.getElementById("withdrawPopup").style.display = "none";
-            showSecurityDeposit(); 
-        }
-        
-        // --- OTHER UTILITY FUNCTIONS (Kept Same) ---
-        function closeBonusPopup() {
-            if (bonusPopup) {
-                bonusPopup.style.display = 'none';
-            }
-        }
-        
         function togglePassword(id, iconElement) {
-            const passwordField = document.getElementById(id);
-            if (passwordField.type === 'password') {
-                passwordField.type = 'text';
+            const input = document.getElementById(id);
+            if (input.type === 'password') {
+                input.type = 'text';
                 iconElement.classList.remove('fa-eye-slash');
                 iconElement.classList.add('fa-eye');
             } else {
-                passwordField.type = 'password';
+                input.type = 'password';
                 iconElement.classList.remove('fa-eye');
                 iconElement.classList.add('fa-eye-slash');
             }
         }
         
-        function copyLink() {
-            alert('Link copied to clipboard!');
-        }
-
-        // --- SLIDER LOGIC (Kept Same) ---
-        function moveSlider() {
-            currentSlide = (currentSlide + 1) % totalSlides;
-            updateSlider();
-        }
-
-        function updateSlider() {
-            if (slidesContainer) {
-                const offset = -currentSlide * 100 / totalSlides;
-                slidesContainer.style.transform = `translateX(${offset}%)`;
+        function updateDashboardBalance() {
+            const phone = getLoggedInUser();
+            if (phone) {
+                const balance = getBalance(phone);
+                document.getElementById('dashboard-main-balance').textContent = '₹' + balance.toFixed(2);
+                document.getElementById('sd-balance-amount').textContent = '₹' + balance.toFixed(2);
+                document.getElementById('limbo-real-balance').textContent = '₹' + balance.toFixed(2);
+                
+                // For demonstration: calculate a fake income 
+                document.getElementById('dashboard-today-income').textContent = '₹' + (balance > 1200 ? (balance - 1200).toFixed(2) : '0.00');
             }
-            updateDots();
         }
 
-        function updateDots() {
-            if (dotsContainer) {
-                const dots = dotsContainer.querySelectorAll('.dot');
-                dots.forEach((dot, index) => {
-                    dot.classList.remove('active');
-                    if (index === currentSlide) {
-                        dot.classList.add('active');
-                    }
-                });
+        function showScreen(event, screenId) {
+            if (event) event.preventDefault();
+            
+            // Hide all main screens
+            document.getElementById('dashboard-screen').style.display = 'none';
+            document.getElementById('security-deposit-screen').style.display = 'none';
+            document.getElementById('account-detail-screen').style.display = 'none';
+            document.getElementById('game-screen').style.display = 'none';
+
+            // Show the target screen
+            document.getElementById(screenId).style.display = 'block';
+
+            // Update active state in bottom nav
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            const activeItem = document.querySelector(`.bottom-nav .nav-item[data-screen="${screenId}"]`);
+            if (activeItem) {
+                activeItem.classList.add('active');
+            }
+            
+            // Reset deposit input and hide payment section on navigation
+            if (screenId !== 'security-deposit-screen') {
+                const depositAmountInput = document.getElementById('deposit_amount');
+                if(depositAmountInput) depositAmountInput.value = '';
+                const paymentSection = document.getElementById('payment-section');
+                if(paymentSection) paymentSection.style.display = 'none';
+                document.getElementById('deposit-pending-section').style.display = 'none';
+            }
+            
+            if (screenId === 'account-detail-screen') {
+                updateAccountDetails();
             }
         }
         
-        function startAutoSlide() {
-            if (slideInterval) clearInterval(slideInterval); 
-            slideInterval = setInterval(moveSlider, 3000); 
+        function showSecurityDeposit(event) {
+            showScreen(event, 'security-deposit-screen');
         }
 
-        // --- LIMBO GAME LOGIC (Kept Same) ---
-        function updateLimboRealBalance() {
-            if (limboRealBalanceDisplay) {
-                limboRealBalanceDisplay.textContent = `₹${USER_DATA.currentBalance.toFixed(2)}`;
-            }
+        // --- POPUP HANDLERS ---
+        function closeBonusPopup() {
+            document.getElementById('bonusPopup').style.display = 'none';
         }
 
-        function getLimboCrashPoint() {
-            const random = Math.random();
-            const multiplier = 1 / (1 - random); 
-            return parseFloat(Math.min(50, Math.max(1.01, multiplier)).toFixed(2));
+        function handleWithdrawal(event) {
+            event.preventDefault();
+            // User requested to always show the security deposit popup/redirect, irrespective of deposit status.
+            document.getElementById('withdrawPopup').style.display = 'flex';
+        }
+
+        function closePopupAndRedirect() {
+            document.getElementById('withdrawPopup').style.display = 'none';
+            showScreen(null, 'security-deposit-screen');
+        }
+
+        function showLogoutConfirmPopup() {
+            document.getElementById('logoutConfirmPopup').style.display = 'flex';
+        }
+        function closeLogoutConfirmPopup() {
+            document.getElementById('logoutConfirmPopup').style.display = 'none';
+        }
+        function performLogout() {
+            localStorage.removeItem(userKey);
+            window.location.reload();
         }
         
-        function resetLimboUI() {
-            clearInterval(limboGameInterval);
-            isLimboPlaying = false;
-            limboPlayBtn.disabled = false;
-            limboBetInput.disabled = false;
-            limboTargetInput.disabled = false;
-            limboPlayBtn.textContent = 'START RISER';
-            limboMultiplierDisplay.textContent = '1.00x';
-            limboMultiplierDisplay.classList.remove('win-text', 'loss-text');
-            limboLine.style.clipPath = 'polygon(0% 100%, 0% 100%, 100% 100%, 100% 100%)';
+        function updateAccountDetails() {
+            const phone = getLoggedInUser();
+            const users = getAllUsers();
+            const user = users[phone];
+            if (user) {
+                document.getElementById('ad-username').textContent = user.username || 'N/A';
+                document.getElementById('ad-phone').textContent = phone;
+                document.getElementById('ad-invite-code').textContent = user.inviteCode;
+                document.getElementById('ad-total-earnings').textContent = '₹' + (getBalance(phone)).toFixed(2);
+            }
         }
 
-        function startLimboGame() {
-            if (isLimboPlaying) return;
-            
-            const betAmount = parseFloat(limboBetInput.value);
-            const targetMultiplier = parseFloat(limboTargetInput.value);
+        // --- REGISTRATION/LOGIN LOGIC ---
+        function toggleAuthMode(event) {
+            event.preventDefault();
+            const regForm = document.getElementById('registration-form');
+            const loginForm = document.getElementById('login-form');
+            const authTitle = document.getElementById('auth-title');
+            const toggleAuthText = document.getElementById('toggle-auth-text');
+            const toggleAuthLink = document.getElementById('toggle-auth-link');
 
-            // 1. Validation
-            if (betAmount <= 1.00 || isNaN(betAmount) || targetMultiplier <= 1.01 || isNaN(targetMultiplier)) {
-                limboResultMessage.textContent = "Invalid Bet or Target! Min Bet ₹1.00, Min Target 1.01x";
+            if (regForm.style.display !== 'none') {
+                // Switch to Login
+                regForm.style.display = 'none';
+                loginForm.style.display = 'block';
+                authTitle.textContent = 'Login to Your Account';
+                toggleAuthText.textContent = 'Need an account? ';
+                toggleAuthLink.textContent = 'Register';
+            } else {
+                // Switch to Register
+                regForm.style.display = 'block';
+                loginForm.style.display = 'none';
+                authTitle.textContent = 'Register Your Account';
+                toggleAuthText.textContent = 'Already have an account? ';
+                toggleAuthLink.textContent = 'Login';
+            }
+        }
+
+        document.getElementById('registration-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('reg-username').value.trim();
+            const phone = document.getElementById('reg-phone').value;
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+            const inviteCode = document.getElementById('reg-invite-code').value || 'NA';
+            
+            if (password !== confirmPassword) {
+                showToast('Passwords do not match.', 'error');
                 return;
             }
-
-            if (betAmount > USER_DATA.currentBalance) {
-                limboResultMessage.textContent = "Aapke paas itna Balance nahi hai!";
-                return;
-            }
-            
-            if (USER_DATA.currentBalance < 1000) { 
-                 limboResultMessage.textContent = "Balance must be at least ₹1000 to play (Demo condition).";
+            if (username.length < 3) {
+                 showToast('Username must be at least 3 characters long.', 'error');
                  return;
             }
 
-            // 2. Setup Game State
-            USER_DATA.currentBalance = parseFloat((USER_DATA.currentBalance - betAmount).toFixed(2));
-            saveUserData(); // Save new balance
-            updateAllInfo(); // Update all balance displays
-            
-            isLimboPlaying = true;
-            limboPlayBtn.disabled = true;
-            limboBetInput.disabled = true;
-            limboTargetInput.disabled = true;
-            limboPlayBtn.textContent = 'RISING...';
-            limboResultMessage.textContent = 'Rocket is taking off!';
-            
-            const crashPoint = getLimboCrashPoint();
-            let currentMultiplier = 1.00;
-            const intervalTime = 100;
+            let users = getAllUsers();
+            // Check for existing phone number
+            if (users[phone]) {
+                showToast('User with this phone number already exists. Please login.', 'error');
+                return;
+            }
+            // Check for existing username (optional but good practice)
+            const usernameExists = Object.values(users).some(user => user.username && user.username.toLowerCase() === username.toLowerCase());
+            if (usernameExists) {
+                showToast('This username is already taken. Please choose another.', 'error');
+                return;
+            }
 
-            // 3. Game Animation/Logic Loop
-            limboGameInterval = setInterval(() => {
-                
-                if (Math.random() < 0.05 && currentMultiplier < 1.50) {
-                     clearInterval(limboGameInterval);
-                     finishLimboGame(betAmount, targetMultiplier, currentMultiplier);
-                     return;
-                }
 
-                const speedFactor = Math.log(currentMultiplier * 10) / 10 + 0.05; 
-                currentMultiplier += speedFactor * (intervalTime / 1000); 
-                
-                if (currentMultiplier >= crashPoint) {
-                    currentMultiplier = crashPoint;
-                    clearInterval(limboGameInterval);
-                    finishLimboGame(betAmount, targetMultiplier, currentMultiplier);
-                    return;
-                }
-                
-                limboMultiplierDisplay.textContent = currentMultiplier.toFixed(2) + 'x';
-                
-                const visualMax = 10; 
-                const percentageX = Math.min(100, (currentMultiplier / visualMax) * 100);
-                
-                limboLine.style.clipPath = `polygon(0% 100%, ${percentageX}% 100%, ${percentageX}% 0%, 0% 0%)`;
-
-            }, intervalTime);
-        }
-
-        function finishLimboGame(betAmount, targetMultiplier, finalMultiplier) {
+            // Register user
+            users[phone] = { username: username, password: password, inviteCode: inviteCode, balance: 1200.00 }; // Initialize with bonus
+            saveAllUsers(users);
             
-            let winnings = 0;
-            let resultMessage = "";
-            let newColorClass = "";
+            // Log in the new user automatically
+            localStorage.setItem(userKey, phone);
+            saveBalance(phone, 1200.00); // Set initial balance
+            markUserBonus(phone); // Mark bonus received
             
-            if (finalMultiplier >= targetMultiplier) {
-                winnings = parseFloat((betAmount * targetMultiplier).toFixed(2)); 
-                const profit = parseFloat((winnings - betAmount).toFixed(2));
-                
-                USER_DATA.currentBalance = parseFloat((USER_DATA.currentBalance + winnings).toFixed(2));
-                
-                resultMessage = `JEET GAYE! Payout ${targetMultiplier.toFixed(2)}x. Won +₹${profit.toFixed(2)}.`;
-                newColorClass = 'win-text';
-                
+            showToast('Registration Successful! Logging in...', 'success');
+            loadUserDataAndShowDashboard(phone);
+            document.getElementById('bonusPopup').style.display = 'flex';
+        });
+
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const phone = document.getElementById('login-phone').value;
+            const password = document.getElementById('login-password').value;
+
+            const users = getAllUsers();
+            const user = users[phone];
+
+            if (user && user.password === password) {
+                localStorage.setItem(userKey, phone);
+                showToast('Login Successful!', 'success');
+                loadUserDataAndShowDashboard(phone);
             } else {
-                resultMessage = `Afsos! Rocket ${finalMultiplier.toFixed(2)}x par phat gaya. Lost -₹${betAmount.toFixed(2)}.`;
-                newColorClass = 'loss-text';
+                showToast('Invalid Phone or Password.', 'error');
+            }
+        });
+
+        function loadUserDataAndShowDashboard(phone) {
+            const users = getAllUsers();
+            const user = users[phone];
+            if (!user) {
+                // If user somehow logs in but data is corrupt, log them out
+                performLogout(); 
+                return;
             }
             
-            saveUserData(); // Save final balance
-            limboMultiplierDisplay.textContent = finalMultiplier.toFixed(2) + 'x';
-            limboMultiplierDisplay.classList.add(newColorClass);
-            limboResultMessage.textContent = resultMessage;
-            updateAllInfo(); 
-
-            setTimeout(resetLimboUI, 3000); 
+            document.getElementById('registration-screen').style.display = 'none';
+            document.getElementById('dashboard-container').style.display = 'block';
+            
+            // Set dynamic text - Use USERNAME for Welcome
+            document.getElementById('dashboard-username-welcome').textContent = 'Welcome, ' + (user.username || phone.slice(0, 5) + '...!');
+            document.getElementById('dashboard-invitecode-welcome').textContent = user.inviteCode;
+            document.getElementById('ad-phone').textContent = phone;
+            document.getElementById('ad-invite-code').textContent = user.inviteCode;
+            document.getElementById('ad-username').textContent = user.username || 'N/A';
+            
+            updateDashboardBalance();
+            showScreen(null, 'dashboard-screen');
         }
 
-        // --- END LIMBO GAME LOGIC ---
+        // --- DEPOSIT LOGIC ---
 
-        // --- INVITE FRIEND LOGIC (Kept Same) ---
-        const INVITE_LINK = `https://jobhubhub-ctrl.github.io/Jobhub-/?invite=${USER_DATA.inviteCode}`;
-        const INVITE_TEXT = `Join me on JOBHU and earn ₹300! My invitation code is ${USER_DATA.inviteCode}. Register here: ${INVITE_LINK}`;
-
-        function generateSocialShareURL(platform, text) {
-            const encodedText = encodeURIComponent(text);
-            switch (platform) {
-                case 'whatsapp': return `https://wa.me/?text=${encodedText}`;
-                case 'facebook': return `https://www.facebook.com/sharer/sharer.php?quote=${encodedText}`;
-                case 'telegram': return `https://t.me/share/url?url=&text=${encodedText}`;
-                case 'twitter': return `https://twitter.com/intent/tweet?text=${encodedText}`;
-                default: return '#';
-            }
-        }
-
-        function setupSocialShareButtons() {
-            if (!socialShareButtonsContainer) return;
-            socialShareButtonsContainer.innerHTML = ''; 
-
-            const socialPlatforms = [
-                { id: 'whatsapp', icon: 'fab fa-whatsapp', colorClass: 'whatsapp' },
-                { id: 'facebook', icon: 'fab fa-facebook-f', colorClass: 'facebook' },
-                { id: 'telegram', icon: 'fab fa-telegram-plane', colorClass: 'telegram' },
-                { id: 'twitter', icon: 'fab fa-twitter', colorClass: 'twitter' }
-            ];
-
-            socialPlatforms.forEach(platform => {
-                const url = generateSocialShareURL(platform.id, INVITE_TEXT.replace(USER_DATA.inviteCode, document.getElementById('dashboard-invitecode').textContent.slice(0, 6))); // Use live code
-                const button = document.createElement('button');
-                button.className = `social-btn ${platform.colorClass}`;
-                button.innerHTML = `<i class="${platform.icon}"></i>`;
-                button.onclick = () => window.open(url, '_blank');
-                socialShareButtonsContainer.appendChild(button);
-            });
-        }
-
-        async function shareInviteLink() {
-            const finalInviteText = `Join me on JOBHU and earn ₹300! My invitation code is ${USER_DATA.inviteCode}. Register here: ${INVITE_LINK.replace('246915', USER_DATA.inviteCode)}`;
-            if (navigator.share) {
-                try {
-                    await navigator.share({
-                        title: 'JOBHUb Invitation',
-                        text: finalInviteText,
-                        url: INVITE_LINK.replace('246915', USER_DATA.inviteCode)
-                    });
-                } catch (error) {
-                    copyLinkToClipboard(finalInviteText);
-                }
-            } else {
-                copyLinkToClipboard(finalInviteText);
-            }
-        }
-        
-        function copyLinkToClipboard(link) {
-            const tempInput = document.createElement('textarea');
-            tempInput.value = link;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
-            alert('Invite link and message copied to clipboard! You can share it now.');
-        }
-
-        // --- PAYMENT PAGE LOGIC (Kept Same) ---
-        quickSelectButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                quickSelectButtons.forEach(btn => btn.classList.remove('active'));
-                const amount = button.getAttribute('data-amount');
-                amountInput.value = amount;
-                button.classList.add('active');
-                paymentSection.style.display = 'none';
-                clearInterval(countdownInterval);
-                timerDisplay.textContent = '11:00';
+        // Attach event listeners to quick select buttons
+        document.querySelectorAll('.quick-select-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const amount = this.getAttribute('data-amount');
+                document.getElementById('deposit_amount').value = amount;
+                confirmDeposit(); // Auto-confirm on quick select
             });
         });
 
-        function setupForceRedirect(buttonId, link) {
-            const button = document.getElementById(buttonId);
-            if (button) {
-                button.href = "#"; 
-                button.onclick = function(e) {
-                    e.preventDefault(); 
-                    window.location.href = link; 
-                };
+        // --- UPI QR CODE GENERATION LOGIC ---
+
+        // Simple utility to create a fake transaction ID
+        function generateTxnId() {
+            return 'T' + Date.now() + Math.floor(Math.random() * 999999).toString().padStart(6, '0');
+        }
+
+        // Function to generate and display the QR Code
+        function generateQRCode(amount) {
+            const container = document.getElementById('qrcode-container');
+            
+            // Clear any previous content/QR Code
+            container.innerHTML = ''; 
+
+            // Hardcoded UPI Details: ***UPDATED VPA***
+            const VPA = 'okayd@ybl'; 
+            const MERCHANT_NAME = 'JOB HUB';
+            
+            // Construct the UPI Deep Link/URL (mandatory parameters: pa, pn, am, cu)
+            const transactionId = generateTxnId();
+            const upiUrl = `upi://pay?pa=${VPA}&pn=${MERCHANT_NAME}&mc=0000&tid=${transactionId}&tr=${transactionId}&am=${amount.toFixed(2)}&cu=INR`;
+
+            // Use the qrcode.js library to generate the QR code
+            new QRCode(container, {
+                text: upiUrl,
+                width: 180,
+                height: 180,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+
+            showToast('QR Code generated. Scan to pay ₹' + amount.toFixed(2), 'success', 5000);
+        }
+
+        // --- END UPI QR CODE GENERATION LOGIC ---
+
+        // *** REPLACEMENT for confirmDeposit() ***
+        function confirmDeposit() {
+            const depositAmountInput = document.getElementById('deposit_amount');
+            const paymentSection = document.getElementById('payment-section');
+            const pendingSection = document.getElementById('deposit-pending-section');
+            const utrSection = document.getElementById('utr-submission-section');
+            const amount = parseFloat(depositAmountInput.value);
+
+            // Hide pending section and ensure UTR form is visible
+            pendingSection.style.display = 'none';
+            utrSection.style.display = 'block';
+
+            if (isNaN(amount) || amount < 200.00) {
+                showToast('Please enter a minimum deposit amount of ₹200.00', 'error', 4000);
+                paymentSection.style.display = 'none';
+                return;
+            }
+
+            // Store the confirmed amount locally for UTR submission later
+            localStorage.setItem('pending_deposit_amount', amount.toFixed(2));
+
+            // Display the amount and show the payment section
+            document.getElementById('payment_display_amount').textContent = '₹' + amount.toFixed(2);
+            paymentSection.style.display = 'block';
+            
+            // Generate the UPI QR Code
+            generateQRCode(amount);
+            
+            // Scroll to payment section
+            paymentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+
+        // *** NEW: UTR Form Submission Logic ***
+        document.getElementById('utr-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const utrNumber = document.getElementById('utr-number').value;
+            const screenshotFile = document.getElementById('payment-screenshot').files;
+            const pendingAmount = localStorage.getItem('pending_deposit_amount');
+            
+            if (utrNumber.length !== 12 || !/^\d+$/.test(utrNumber)) {
+                showToast('UTR/Ref ID must be exactly 12 digits.', 'error');
+                return;
+            }
+
+            if (screenshotFile.length === 0) {
+                showToast('Please upload a payment screenshot.', 'error');
+                return;
+            }
+            
+            // Hide UTR form and show pending message
+            document.getElementById('utr-submission-section').style.display = 'none';
+            document.getElementById('deposit-pending-section').style.display = 'block';
+            document.getElementById('pending-display-amount').textContent = '₹' + pendingAmount;
+            
+            // Show Toast Message with 12h time
+            showToast(`Proof submitted! Deposit of ₹${pendingAmount} will be credited within 12 hours.`, 'info', 8000);
+            
+            // Clear form and temporary storage
+            document.getElementById('utr-form').reset();
+            
+            // --- DEMO: SIMULATE 12 SECOND CREDIT ---
+            const phone = getLoggedInUser();
+            const amount = parseFloat(pendingAmount);
+
+            setTimeout(() => {
+                if (phone) {
+                    markSecurityDeposit(phone);
+                    let currentBalance = getBalance(phone);
+                    saveBalance(phone, currentBalance + amount);
+                    showToast(`Deposit of ₹${amount.toFixed(2)} verified and credited!`, 'success', 7000);
+                    
+                    // Revert back to deposit screen state after credit
+                    document.getElementById('deposit-pending-section').style.display = 'none';
+                    document.getElementById('payment-section').style.display = 'none';
+                    document.getElementById('deposit_amount').value = '';
+                    localStorage.removeItem('pending_deposit_amount');
+                }
+            }, 12000); // 12 seconds simulation (instead of 12 hours)
+
+        });
+        
+        // --- INVITE LOGIC (MODIFIED WITH SOCIAL SHARE) ---
+        
+        function getShareText() {
+            const phone = getLoggedInUser();
+            const users = getAllUsers();
+            const user = users[phone];
+            const inviteCode = user ? user.inviteCode : '000000';
+            const shareLink = window.location.href; // Use current URL for simplicity
+            return `Join JOBHUB and earn easily! Get ₹1200 Bonus. Use my exclusive invitation code: ${inviteCode}. Register here: ${shareLink}`;
+        }
+
+        function shareOnSocial(platform, event) {
+            if (event) event.preventDefault();
+            const shareText = encodeURIComponent(getShareText());
+            const rawShareText = getShareText();
+            let url = '';
+
+            switch (platform) {
+                case 'whatsapp':
+                    url = `https://wa.me/?text=${shareText}`;
+                    break;
+                case 'telegram':
+                    // Telegram uses url and text parameters
+                    url = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${shareText}`;
+                    break;
+                case 'facebook':
+                    // Facebook uses u for URL and quote for text
+                    url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${shareText}`;
+                    break;
+                case 'twitter':
+                    // Twitter uses text for the tweet content
+                    url = `https://twitter.com/intent/tweet?text=${shareText}`;
+                    break;
+                case 'instagram':
+                    // Instagram does not support direct sharing via URL. Use copy-to-clipboard fallback.
+                    navigator.clipboard.writeText(rawShareText)
+                        .then(() => {
+                            showToast('Link and code copied for Instagram! Paste it in your story or bio.', 'info', 6000);
+                        })
+                        .catch(err => {
+                            showToast('Failed to copy. Please copy manually.', 'error');
+                        });
+                    return;
+                default:
+                    return;
+            }
+
+            window.open(url, '_blank', 'width=600,height=400');
+        }
+        
+        function shareInviteLink() {
+            const shareText = getShareText();
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Join JOBHUB',
+                    text: shareText,
+                    url: window.location.href, // Use current URL for simplicity
+                }).then(() => {
+                    showToast('Invite link shared successfully!', 'success');
+                }).catch((error) => {
+                    // Sharing might be cancelled or failed.
+                    if (error.name !== 'AbortError') {
+                         showToast('Sharing failed: ' + error.message, 'error');
+                    }
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                navigator.clipboard.writeText(shareText)
+                    .then(() => {
+                        showToast('Invite link and code copied to clipboard! Share it with friends.', 'success', 6000);
+                    })
+                    .catch(err => {
+                        showToast('Failed to copy. Please copy manually.', 'error');
+                    });
             }
         }
         
-        function startTimer() {
-            let timeLeft = TIMER_DURATION_SECONDS;
-            clearInterval(countdownInterval); 
+        // --- ROCKET RISER GAME (LIMBO) LOGIC ---
+        let isPlaying = false;
+        let gameInterval = null;
+        let currentMultiplier = 1.00;
+        let crashPoint = 0;
+        let betAmount = 0;
+        let targetMultiplier = 0;
 
-            countdownInterval = setInterval(() => {
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                
-                timerDisplay.textContent = 
-                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
-                if (timeLeft <= 0) {
-                    clearInterval(countdownInterval);
-                    timerDisplay.textContent = 'EXPIRED';
-                    paymentSection.style.display = 'none';
-                    alert('Payment session expired. Please confirm the amount again to generate a new session.');
-                }
-                
-                timeLeft -= 1;
-            }, 1000);
+        function resetLimboUI() {
+            currentMultiplier = 1.00;
+            isPlaying = false;
+            clearInterval(gameInterval);
+            document.getElementById('limbo-multiplier-display').textContent = '1.00x';
+            document.getElementById('limbo-multiplier-display').className = '';
+            document.getElementById('limbo-play-btn').textContent = 'START RISER';
+            document.getElementById('limbo-play-btn').style.backgroundColor = '#2ecc71';
+            document.getElementById('limbo-cashout-btn').style.display = 'none';
+            document.getElementById('limbo-result-message').textContent = 'Ready to launch!';
+            document.getElementById('limbo-result-message').style.color = '#ecf0f1';
+            document.getElementById('limbo-bet').disabled = false;
+            document.getElementById('limbo-target').disabled = false;
+            
+            // Reset rocket visual
+            const rocket = document.getElementById('limbo-rocket');
+            rocket.style.transform = `translateX(-10px) translateY(0px)`;
+            rocket.style.color = 'white';
         }
 
-        function generateAndShowPayment(amount) {
-            clearInterval(countdownInterval);
-            timerDisplay.textContent = '11:00'; 
-            startTimer();
-
-            const TRANSACTION_ID = 'T' + Date.now(); 
-            const formattedAmount = parseFloat(amount).toFixed(2);
-
-            const gpayLink = `gpay://pay?pa=${YOUR_UPI_ID}&pn=${MERCHANT_NAME}&am=${formattedAmount}&cu=INR&tid=${TRANSACTION_ID}`;
-            const phonepeLink = `phonepe://pay?pa=${YOUR_UPI_ID}&pn=${MERCHANT_NAME}&am=${formattedAmount}&cu=INR&tid=${TRANSACTION_ID}`;
-            const paytmLink = `paytmmp://pay?pa=${YOUR_UPI_ID}&pn=${MERCHANT_NAME}&am=${formattedAmount}&cu=INR&tid=${TRANSACTION_ID}`;
-
-            document.getElementById('display-pay-amount').textContent = `₹${formattedAmount}`;
-            paymentSection.style.display = 'block';
-
-            setupForceRedirect('gpay-btn', gpayLink);
-            setupForceRedirect('phonepe-btn', phonepeLink);
-            setupForceRedirect('paytm-btn', paytmLink);
-            
-            if (paymentSection) paymentSection.scrollIntoView({ behavior: 'smooth' });
+        function generateCrashPoint() {
+            // Generates a realistic crash point, heavily weighted towards lower numbers
+            // Formula: 1 / (1 - Math.random()^2)
+            let result = 1 / (1 - Math.pow(Math.random(), 2)); 
+            if (result < 1.05) result = 1.05; // Minimum crash point
+            return parseFloat(result.toFixed(2));
         }
-
-        function confirmDeposit() {
-            const amount = amountInput.value;
-            const parsedAmount = parseFloat(amount);
-            
-            if (amount && parsedAmount > 0) { 
-                if (parsedAmount < 200.00) {
-                    alert('Please note: Minimum deposit amount is ₹200.00.');
-                    return;
-                }
-                generateAndShowPayment(parsedAmount);
-
-            } else {
-                alert('Please enter a valid amount.');
+        
+        function startLimboGame() {
+            if (isPlaying) return;
+            const phone = getLoggedInUser();
+            if (!phone) {
+                 showToast('Please login to play.', 'error');
+                 return;
             }
+
+            betAmount = parseFloat(document.getElementById('limbo-bet').value);
+            targetMultiplier = parseFloat(document.getElementById('limbo-target').value);
+            let currentBalance = getBalance(phone);
+
+            if (isNaN(betAmount) || betAmount < 1.00) {
+                showToast('Min bet is ₹1.00', 'error');
+                return;
+            }
+            if (betAmount > currentBalance) {
+                showToast('Insufficient Balance.', 'error');
+                return;
+            }
+            if (isNaN(targetMultiplier) || targetMultiplier <= 1.00) {
+                showToast('Target must be > 1.00x', 'error');
+                return;
+            }
+
+            // Deduct bet immediately
+            saveBalance(phone, currentBalance - betAmount);
+            
+            // Setup game state
+            resetLimboUI();
+            isPlaying = true;
+            crashPoint = generateCrashPoint();
+            
+            document.getElementById('limbo-play-btn').textContent = 'IN PLAY';
+            document.getElementById('limbo-play-btn').style.backgroundColor = '#f39c12'; // Orange
+            document.getElementById('limbo-cashout-btn').textContent = 'CASH OUT @ 1.00x';
+            document.getElementById('limbo-cashout-btn').style.display = 'block';
+            document.getElementById('limbo-bet').disabled = true;
+            document.getElementById('limbo-target').disabled = true;
+            document.getElementById('limbo-result-message').textContent = 'Rocket launching...';
+            
+            let startTime = Date.now();
+            
+            const rocket = document.getElementById('limbo-rocket');
+            const graphContainer = document.getElementById('limbo-graph-container');
+            const graphWidth = graphContainer.clientWidth;
+            const graphHeight = graphContainer.clientHeight;
+            
+            gameInterval = setInterval(() => {
+                const elapsedTime = (Date.now() - startTime) / 1000; // Time in seconds
+                
+                // Realistic curve based on time (non-linear growth)
+                currentMultiplier = 1.00 + Math.pow(elapsedTime, 1.5) * 0.4;
+                
+                // Cap at crash point
+                if (currentMultiplier >= crashPoint) {
+                    currentMultiplier = crashPoint;
+                }
+                
+                const multiplierText = currentMultiplier.toFixed(2) + 'x';
+                document.getElementById('limbo-multiplier-display').textContent = multiplierText;
+                document.getElementById('limbo-cashout-btn').textContent = `CASH OUT @ ${currentMultiplier.toFixed(2)}x`;
+                
+                // Update rocket position (simulating flight)
+                let xPosition = Math.min(graphWidth * (currentMultiplier / 10), graphWidth - 20);
+                let yPosition = Math.min(graphHeight * (currentMultiplier / 5), graphHeight - 20);
+                
+                rocket.style.transform = `translateX(${xPosition}px) translateY(-${yPosition}px)`;
+
+                // Auto Cash Out Check
+                if (currentMultiplier >= targetMultiplier) {
+                     cashOut();
+                     return;
+                }
+                
+                // Crash check
+                if (currentMultiplier >= crashPoint) {
+                    clearInterval(gameInterval);
+                    isPlaying = false;
+                    
+                    document.getElementById('limbo-multiplier-display').classList.add('loss-text');
+                    document.getElementById('limbo-result-message').textContent = `CRASHED @ ${crashPoint.toFixed(2)}x. Lost ₹${betAmount.toFixed(2)}`;
+                    document.getElementById('limbo-result-message').style.color = '#e74c3c';
+                    document.getElementById('limbo-play-btn').textContent = 'PLAY AGAIN';
+                    document.getElementById('limbo-play-btn').style.backgroundColor = '#EF4444'; // Red
+                    document.getElementById('limbo-cashout-btn').style.display = 'none';
+
+                    addHistoryDot(crashPoint, 'loss');
+                    updateDashboardBalance();
+                }
+            }, 100); // Update every 100ms
         }
 
-        // --- UI DATA UPDATE ---
-        function updateAllInfo() {
-            const freezeAmount = USER_DATA.freeze.toFixed(2); 
-            const totalBalance = USER_DATA.currentBalance.toFixed(2);
-            const todayIncome = USER_DATA.todayIncome.toFixed(2);
+        function cashOut() {
+            if (!isPlaying) return;
             
-            // DASHBOARD UPDATES
-            if(document.getElementById('dashboard-username')) document.getElementById('dashboard-username').textContent = USER_DATA.username;
-            if(document.getElementById('dashboard-invitecode')) document.getElementById('dashboard-invitecode').innerHTML = `${USER_DATA.inviteCode}<i class="far fa-copy"></i>`;
-            if(document.getElementById('dashboard-main-balance')) document.getElementById('dashboard-main-balance').textContent = `₹${totalBalance}`;
-            if(document.getElementById('dashboard-total-balance')) document.getElementById('dashboard-total-balance').textContent = `Total ₹${totalBalance}`;
-            if(document.getElementById('dashboard-freeze-info')) document.getElementById('dashboard-freeze-info').textContent = `Freeze: ₹${freezeAmount} | Yesterday's withdrawal: ₹0.00`;
+            clearInterval(gameInterval);
+            isPlaying = false;
             
-            // GAME SCREEN UPDATES (Limbo balance)
-            updateLimboRealBalance(); 
+            const phone = getLoggedInUser();
+            const winnings = betAmount * currentMultiplier;
+            let currentBalance = getBalance(phone);
+            
+            // Add winnings to balance
+            saveBalance(phone, currentBalance + winnings);
 
-            // SECURITY DEPOSIT UPDATES
-            if(document.getElementById('sd-balance-amount')) document.getElementById('sd-balance-amount').textContent = `₹${totalBalance}`;
-            
-            // ACCOUNT DETAIL UPDATES
-            if(document.getElementById('displayUserName')) document.getElementById('displayUserName').textContent = USER_DATA.username;
-            if(document.getElementById('displayInviteCode')) document.getElementById('displayInviteCode').textContent = `Invitation code: ${USER_DATA.inviteCode}`;
-            if(document.getElementById('ad-main-balance')) document.getElementById('ad-main-balance').textContent = `₹${totalBalance}`;
-            if(document.getElementById('ad-total-balance')) document.getElementById('ad-total-balance').textContent = `₹${totalBalance}`;
-            if(document.getElementById('ad-freeze-balance')) document.getElementById('ad-freeze-balance').textContent = `₹${freezeAmount}`;
-            
-            setupSocialShareButtons(); // Update invite code in share buttons
+            document.getElementById('limbo-multiplier-display').classList.add('win-text');
+            document.getElementById('limbo-result-message').textContent = `CASHED OUT @ ${currentMultiplier.toFixed(2)}x. Won ₹${winnings.toFixed(2)}`;
+            document.getElementById('limbo-result-message').style.color = '#2ecc71';
+            document.getElementById('limbo-play-btn').textContent = 'PLAY AGAIN';
+            document.getElementById('limbo-play-btn').style.backgroundColor = '#2ecc71';
+            document.getElementById('limbo-cashout-btn').style.display = 'none';
+            document.getElementById('limbo-bet').disabled = false;
+            document.getElementById('limbo-target').disabled = false;
+
+            addHistoryDot(currentMultiplier, 'win');
+            updateDashboardBalance();
         }
+        
+        function addHistoryDot(multiplier, type) {
+            const historyDots = document.getElementById('history-dots');
+            const dot = document.createElement('span');
+            dot.textContent = multiplier.toFixed(2);
+            dot.style.fontSize = '12px';
+            dot.style.fontWeight = '700';
+            dot.style.color = 'white';
+            dot.style.padding = '5px';
+            dot.style.borderRadius = '5px';
+            dot.style.minWidth = '45px';
+            dot.style.textAlign = 'center';
+
+
+            if (type === 'win' || multiplier >= 2.00) {
+                 dot.style.backgroundColor = '#2ecc71'; // Green for high or cashout
+            } else {
+                 dot.style.backgroundColor = '#e74c3c'; // Red for low crash
+            }
+            
+            // Add to the front of the history
+            if (historyDots.children.length >= 10) {
+                historyDots.removeChild(historyDots.lastChild); // Remove oldest
+            }
+            historyDots.prepend(dot);
+        }
+
+        // --- END ROCKET RISER GAME (LIMBO) LOGIC ---
 
         // --- INITIALIZATION ---
         window.onload = () => {
-             const loggedInUser = localStorage.getItem('currentUser');
+             const registrationScreen = document.getElementById('registration-screen');
+             const dashboardContainer = document.getElementById('dashboard-container');
+             const authTitle = document.getElementById('auth-title');
+             const toggleAuthText = document.getElementById('toggle-auth-text');
+             const toggleAuthLink = document.getElementById('toggle-auth-link');
              
-             if (loggedInUser) {
-                 loadUserData(loggedInUser);
-                 showScreen(dashboardContainer);
-             } else {
-                 // Show registration first if no one is logged in
-                 showScreen(registrationScreen);
-             }
-             
-             updateSlider(); 
              resetLimboUI();
+             
+             const user = getLoggedInUser();
+             if (user) {
+                 loadUserDataAndShowDashboard(user);
+             } else {
+                 registrationScreen.style.display = 'flex'; // Use flex for alignment
+                 dashboardContainer.style.display = 'none';
+                 // Ensure login is shown first
+                 document.getElementById('login-form').style.display = 'block';
+                 document.getElementById('registration-form').style.display = 'none';
+                 authTitle.textContent = 'Login to Your Account';
+                 toggleAuthText.textContent = 'Need an account? ';
+                 toggleAuthLink.textContent = 'Register';
+             }
         }
     </script>
     
