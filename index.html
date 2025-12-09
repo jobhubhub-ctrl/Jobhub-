@@ -674,10 +674,193 @@
             color: #e74c3c !important; /* Red */
         }
 
+
+
+        /* --- CHATBOT STYLES (New) --- */
+        #chatbot-float-btn {
+            position: fixed;
+            bottom: 80px; /* Above the bottom nav */
+            right: 20px;
+            width: 55px;
+            height: 55px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 2000;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        #chatbot-float-btn:hover {
+            background-color: #2563EB;
+            transform: scale(1.05);
+        }
+
+        #new-message-dot {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #EF4444; /* Red for new messages */
+            color: white;
+            border-radius: 50%;
+            padding: 3px 7px;
+            font-size: 12px;
+            font-weight: 700;
+            display: none; /* Hidden by default */
+        }
+
+        #chatbot-container {
+            position: fixed;
+            bottom: 80px; /* Above the float button / bottom nav */
+            right: 20px;
+            width: 90%;
+            max-width: 350px;
+            height: 400px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.25);
+            display: flex;
+            flex-direction: column;
+            z-index: 2000;
+            overflow: hidden;
+            transform: scale(0.8) translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+            pointer-events: none; /* Initially disabled */
+        }
+        
+        #chatbot-container.active {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #chat-header {
+            background: var(--gradient-auth);
+            color: white;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        #chat-header i { margin-right: 8px; }
+        #chat-toggle { margin-right: 0; font-size: 20px; transition: transform 0.2s; }
+        #chat-toggle:hover { transform: rotate(90deg); }
+
+        #chat-body {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #F7F7F7;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.4;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .message.bot {
+            background-color: #E6E6FA; /* Light Lavender */
+            color: var(--text-dark);
+            align-self: flex-start;
+            border-top-left-radius: 0;
+        }
+
+        .message.user {
+            background-color: var(--secondary-color);
+            color: white;
+            align-self: flex-end;
+            border-top-right-radius: 0;
+        }
+
+        #chat-footer {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #E5E7EB;
+        }
+
+        #user-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            margin-right: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        #user-input:focus {
+            border-color: var(--primary-color);
+        }
+        
+        #send-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+        #send-btn:hover:not(:disabled) {
+            background-color: #2563EB;
+        }
+        #send-btn:disabled {
+            background-color: var(--text-muted);
+            cursor: not-allowed;
+        }
+
+
+
+
+
+
+
+        
     </style>
     <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script> 
 </head>
 <body>
+
+    
+    <div id="chatbot-container">
+        <div id="chat-header">
+            <i class="fas fa-headset"></i> JOBHUB Support <i id="chat-toggle" class="fas fa-times"></i>
+        </div>
+        <div id="chat-body">
+            <div class="message bot">
+                Hi there! I'm your JOBHUB AI Assistant. How can I help you today?
+            </div>
+            </div>
+        <div id="chat-footer">
+            <input type="text" id="user-input" placeholder="Type your question..." disabled>
+            <button id="send-btn" disabled><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    
+    <div id="chatbot-float-btn">
+        <i class="fas fa-headset"></i>
+        <span id="new-message-dot">1</span>
+    </div>
+    
+
+
     
     <div id="bonusPopup" class="custom-popup" style="display: none; z-index: 3000;">
         <div class="popup-box bonus-box">
@@ -1092,10 +1275,11 @@
                         <span>Transaction History</span>
                         <i class="fas fa-chevron-right"></i>
                     </div>
-                    <div class="menu-item" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; cursor: pointer;">
-                        <span>Customer Support</span>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
+                    <div class="menu-item" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; cursor: pointer;" onclick="toggleChat()">
+    <span>Customer Support</span>
+    <i class="fas fa-chevron-right"></i>
+</div>
+
                 </div>
 
                 <div class="card" style="text-align: center;">
@@ -1837,6 +2021,118 @@
                  toggleAuthLink.textContent = 'Register';
              }
         }
+
+                    // --- CHATBOT LOGIC (New Section) ---
+        const chatbotContainer = document.getElementById('chatbot-container');
+        const chatbotFloatBtn = document.getElementById('chatbot-float-btn');
+        const chatToggle = document.getElementById('chat-toggle');
+        const chatBody = document.getElementById('chat-body');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const newMessageDot = document.getElementById('new-message-dot');
+        
+        let isChatOpen = false;
+        
+        // Disable input/button initially until chat is open
+        userInput.disabled = true;
+        sendBtn.disabled = true;
+
+        // Toggle Chat UI
+        function toggleChat() {
+            isChatOpen = !isChatOpen;
+            if (isChatOpen) {
+                chatbotContainer.classList.add('active');
+                chatToggle.classList.remove('fa-times');
+                chatToggle.classList.add('fa-chevron-down');
+                chatbotFloatBtn.style.display = 'none';
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+                newMessageDot.style.display = 'none'; // Hide dot when opened
+                chatBody.scrollTop = chatBody.scrollHeight; // Scroll to bottom
+            } else {
+                chatbotContainer.classList.remove('active');
+                chatToggle.classList.remove('fa-chevron-down');
+                chatToggle.classList.add('fa-times');
+                chatbotFloatBtn.style.display = 'flex';
+                userInput.disabled = true;
+                sendBtn.disabled = true;
+            }
+        }
+
+        // Add a message to the chat body
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.textContent = text;
+            chatBody.appendChild(messageDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        // Rule-Based AI Response Function
+        function getBotResponse(userMessage) {
+            const msg = userMessage.toLowerCase().trim();
+
+            if (msg.includes('hi') || msg.includes('hello') || msg.includes('hey')) {
+                return "Hello! I can help you with common questions like 'Withdrawal', 'Deposit', 'Bonus', or 'Invite'.";
+            } else if (msg.includes('withdrawal') || msg.includes('withdraw')) {
+                return "Minimum withdrawal is ₹500. You need a **₹200 security deposit** before your first withdrawal. You can find the option in the **Action Grid** on the home screen.";
+            } else if (msg.includes('deposit') || msg.includes('security deposit')) {
+                return "You can make a deposit from the **Deposit** tab in the bottom navigation. Minimum deposit is ₹200. Follow the UPI QR code instructions carefully.";
+            } else if (msg.includes('bonus') || msg.includes('sign up bonus')) {
+                return "New users get a **₹1200 sign-up bonus** credited instantly. You can earn more through **Exclusive Missions** and **Inviting Friends**.";
+            } else if (msg.includes('invite') || msg.includes('referral') || msg.includes('friend')) {
+                return "You can earn **₹300 for every successful referral**. Share your unique invite code from the **Invite Friend** card on the home screen.";
+            } else if (msg.includes('game') || msg.includes('rocket riser')) {
+                return "The Rocket Riser Game (Limbo) is under the **Game** tab. Bet responsibly! Remember, our minimum crash point is **5.01x** in this demo.";
+            } else if (msg.includes('thank') || msg.includes('bye')) {
+                return "You're welcome! Feel free to ask if you have any other questions. Have a great day!";
+            } else {
+                return "I'm sorry, I couldn't understand that. I'm a simple AI bot. Please rephrase or ask about 'Withdrawal', 'Deposit', 'Bonus', or 'Invite'.";
+            }
+        }
+
+        // Send User Message
+        function sendMessage() {
+            const userText = userInput.value.trim();
+            if (userText === "") return;
+
+            // 1. Add user message
+            addMessage(userText, 'user');
+            userInput.value = ''; // Clear input
+
+            // 2. Simulate typing and get bot response
+            setTimeout(() => {
+                addMessage('Typing...', 'bot'); // Show typing indicator
+                
+                setTimeout(() => {
+                    chatBody.removeChild(chatBody.lastChild); // Remove typing indicator
+                    const botResponse = getBotResponse(userText);
+                    addMessage(botResponse, 'bot');
+                }, 1000); // 1 second delay for bot response
+            }, 500); // 0.5 second delay before bot starts typing
+        }
+
+        // Event Listeners
+        chatbotFloatBtn.addEventListener('click', toggleChat);
+        chatToggle.addEventListener('click', toggleChat);
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // Initial bot message dot on load
+        setTimeout(() => {
+            if (!isChatOpen) {
+                newMessageDot.style.display = 'flex';
+                newMessageDot.textContent = '1';
+            }
+        }, 1000);
+
+
+
+        
     </script>
     
 </body>
