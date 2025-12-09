@@ -2187,67 +2187,6 @@
         }, 1000);
 
 
-        // --- TRANSACTION HISTORY LOGIC ---
-
-        function closeHistoryPopup() {
-            document.getElementById('historyPopup').style.display = 'none';
-        }
-
-        function showTransactionHistory() {
-            const container = document.getElementById('transaction-list-container');
-            const phone = getLoggedInUser();
-            let htmlContent = '';
-            
-            if (!phone) {
-                container.innerHTML = '<p style="text-align: center; color: #EF4444; font-weight: 600;">Please log in to view history.</p>';
-            } else {
-                // --- DEMO DATA GENERATION (Simulating Backend Data) ---
-                const balance = getBalance(phone);
-                const isDeposited = hasSecurityDeposit(phone);
-
-                let records = [
-                    { type: 'Bonus', amount: 1200.00, status: 'credit', date: '2025-12-01 10:00' },
-                    { type: 'Bet Loss', amount: 10.00, status: 'debit', date: '2025-12-09 13:00' },
-                    { type: 'Game Win', amount: 35.00, status: 'credit', date: '2025-12-09 13:05' }
-                ];
-
-                // Add Deposit record if applicable
-                if (isDeposited) {
-                    records.push({ type: 'Security Deposit', amount: 200.00, status: 'credit', date: '2025-12-05 11:30' });
-                }
-                
-                // Add a dummy Withdrawal Request if balance is low
-                if (balance > 0 && balance < 1000) {
-                     records.push({ type: 'Withdrawal Request', amount: 500.00, status: 'debit', date: '2025-12-09 14:00' });
-                }
-                
-                // Sort by date (newest first - simple sorting for demo)
-                records.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-                if (records.length === 0) {
-                    htmlContent = '<p style="text-align: center; color: var(--text-muted); font-style: italic;">No transactions found yet.</p>';
-                } else {
-                    records.forEach(txn => {
-                        const sign = txn.status === 'credit' ? '+' : '-';
-                        const colorClass = txn.status === 'credit' ? 'txn-credit' : 'txn-debit';
-                        
-                        htmlContent += `
-                            <div class="transaction-item">
-                                <div class="txn-details">
-                                    <span class="txn-type">${txn.type}</span>
-                                    <span class="txn-date">${txn.date}</span>
-                                </div>
-                                <span class="txn-amount ${colorClass}">${sign}₹${txn.amount.toFixed(2)}</span>
-                            </div>
-                        `;
-                    });
-                }
-                // --- END DEMO DATA GENERATION ---
-            }
-
-            container.innerHTML = htmlContent;
-            document.getElementById('historyPopup').style.display = 'flex';
-        }
         
         
         
