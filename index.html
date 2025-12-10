@@ -946,6 +946,26 @@
             </div>
         </div>
     </div>
+    
+    <div id="forgotPasswordPopup" class="custom-popup" style="display: none; z-index: 3000;">
+        <div class="popup-box">
+            <div class="icon"><i class="fas fa-key" style="color: var(--primary-color);"></i></div>
+            <h3>Forgot Password?</h3>
+            <p>Enter your registered phone number to retrieve your password.</p>
+            
+            <form id="forgot-password-form">
+                <div class="auth-form-group">
+                    <div class="auth-input-wrapper">
+                        <i class="fas fa-phone auth-input-icon"></i>
+                        <input type="text" id="fp-phone" placeholder="Registered Phone Number" required>
+                    </div>
+                </div>
+                <button type="submit" class="popup-btn" style="background: var(--primary-color); width: 100%; margin-top: 10px;">Retrieve Password</button>
+            </form>
+            
+            <button class="popup-btn" onclick="closeForgotPasswordPopup()" style="background-color: var(--text-muted); width: 100%; margin-top: 10px;">Cancel</button>
+        </div>
+    </div>
     <div id="toast-container"></div>
     
     <div id="registration-screen">
@@ -1511,6 +1531,17 @@
         function showSecurityDeposit(event) {
             showScreen(event, 'security-deposit-screen');
         }
+        
+        // *** NEW FORGOT PASSWORD POPUP HANDLERS ***
+        function handleForgotPassword(event) {
+            if (event) event.preventDefault();
+            document.getElementById('forgotPasswordPopup').style.display = 'flex';
+        }
+
+        function closeForgotPasswordPopup() {
+            document.getElementById('forgotPasswordPopup').style.display = 'none';
+            document.getElementById('forgot-password-form').reset(); 
+        }
 
         // --- POPUP HANDLERS ---
         function closeBonusPopup() {
@@ -1638,6 +1669,26 @@
                 showToast('Invalid Phone or Password.', 'error');
             }
         });
+        
+        // *** NEW: FORGOT PASSWORD SUBMISSION LOGIC ***
+        document.getElementById('forgot-password-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const phone = document.getElementById('fp-phone').value;
+            const users = getAllUsers();
+            const user = users[phone];
+
+            if (user) {
+                const password = user.password;
+                // Display a success toast with the retrieved password
+                showToast(`Your password for ${phone} is: **${password}**`, 'success', 10000);
+                closeForgotPasswordPopup();
+            } else {
+                // Show an error toast if the phone number is not registered
+                showToast('Error: This phone number is not registered.', 'error', 4000);
+            }
+        });
+        // *** END NEW: FORGOT PASSWORD SUBMISSION LOGIC ***
+
 
         function loadUserDataAndShowDashboard(phone) {
             const users = getAllUsers();
@@ -1900,7 +1951,7 @@
 
         function generateCrashPoint() {
             // Generates a realistic crash point, heavily weighted towards lower numbers
-            // Formula: 1 / (1 - Math.random()^2)
+            // Formula: 1 / (1 - Math.pow(Math.random(), 2))
             let result = 1 / (1 - Math.pow(Math.random(), 2)); 
             if (result < 1.05) result = 1.05; // Minimum crash point
             return parseFloat(result.toFixed(2));
